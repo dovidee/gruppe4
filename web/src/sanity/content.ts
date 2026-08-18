@@ -19,7 +19,12 @@ import type {
   SITE_SETTINGS_QUERY_RESULT,
 } from "../../sanity.types";
 
-const options = { next: { revalidate: 60 } };
+export const SANITY_TAG = "sanity";
+
+// 60s time-based revalidation is a safety net; the /api/revalidate webhook
+// busts the "sanity" tag instantly on publish, so content usually updates
+// within seconds rather than waiting for the fallback window.
+const options = { next: { revalidate: 60, tags: [SANITY_TAG] } };
 
 type SanityImage = { asset?: unknown } | null | undefined;
 
