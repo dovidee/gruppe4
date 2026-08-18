@@ -5,7 +5,7 @@ export const runtime = "nodejs";
 
 export async function GET(request: Request) {
   let url = new URL(request.url);
-  let title = url.searchParams.get("title") || "Portfolio";
+  let title = url.searchParams.get("title") || "Portefølje";
   const { person } = await getSiteSettings();
 
   async function loadGoogleFont(font: string) {
