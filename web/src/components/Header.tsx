@@ -101,7 +101,7 @@ export const Header = ({ person }: HeaderProps) => {
                     <ToggleButton
                       prefixIcon="person"
                       href="/about"
-                      label="About"
+                      label="Om oss"
                       selected={pathname === "/about"}
                     />
                   </Row>
@@ -120,7 +120,7 @@ export const Header = ({ person }: HeaderProps) => {
                     <ToggleButton
                       prefixIcon="grid"
                       href="/work"
-                      label="Work"
+                      label="Prosjekter"
                       selected={pathname.startsWith("/work")}
                     />
                   </Row>
@@ -139,7 +139,7 @@ export const Header = ({ person }: HeaderProps) => {
                     <ToggleButton
                       prefixIcon="book"
                       href="/blog"
-                      label="Blog"
+                      label="Blogg"
                       selected={pathname.startsWith("/blog")}
                     />
                   </Row>
@@ -158,7 +158,7 @@ export const Header = ({ person }: HeaderProps) => {
                     <ToggleButton
                       prefixIcon="gallery"
                       href="/gallery"
-                      label="Gallery"
+                      label="Galleri"
                       selected={pathname.startsWith("/gallery")}
                     />
                   </Row>

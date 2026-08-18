@@ -140,7 +140,7 @@ export const Mailchimp: React.FC<MailchimpProps> = ({ newsletter, ...flex }) => 
             id="mce-EMAIL"
             name="EMAIL"
             type="email"
-            placeholder="Email"
+            placeholder="E-post"
             required
             onChange={(e) => {
               if (error) {
@@ -177,8 +177,8 @@ export const Mailchimp: React.FC<MailchimpProps> = ({ newsletter, ...flex }) => 
           </div>
           <div className="clear">
             <Row height="48" vertical="center">
-              <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
-                Subscribe
+              <Button id="mc-embedded-subscribe" value="Meld deg på" size="m" fillWidth>
+                Meld deg på
               </Button>
             </Row>
           </div>

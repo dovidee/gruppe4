@@ -142,7 +142,7 @@ export default async function About() {
                 }}
               >
                 <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Row paddingX="8">Schedule a call</Row>
+                <Row paddingX="8">Book et møte</Row>
                 <IconButton
                   href={about.calendarLink}
                   data-border="rounded"

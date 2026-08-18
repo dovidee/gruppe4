@@ -35,7 +35,7 @@ export default function Post({ post, person, thumbnail, direction }: PostProps) 
           cursor="interactive"
           radius="l"
           src={post.metadata.image}
-          alt={"Thumbnail of " + post.metadata.title}
+          alt={"Miniatyrbilde av " + post.metadata.title}
           aspectRatio="16 / 9"
         />
       )}
