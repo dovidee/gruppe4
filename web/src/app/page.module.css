@@ -1,0 +1,48 @@
+.columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 28px;
+  margin-top: 8px;
+}
+
+.column h3 {
+  margin-bottom: 12px;
+}
+
+.bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.bullets li {
+  padding-left: 16px;
+  position: relative;
+}
+
+.bullets li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--olive);
+}
+
+.contactButton {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 32px;
+  padding: 12px 22px;
+  background: var(--ink);
+  color: var(--white);
+  text-decoration: none;
+  font-size: 14px;
+  border-radius: 2px;
+  width: fit-content;
+}

@@ -1,15 +1,11 @@
-import { Column, Heading, Text } from "@once-ui-system/core";
-
 export default function NotFound() {
   return (
-    <Column as="section" fill center paddingBottom="160">
-      <Text marginBottom="s" variant="display-strong-xl">
-        404
-      </Text>
-      <Heading marginBottom="l" variant="display-default-xs">
+    <div className="section container" style={{ textAlign: "center", padding: "120px 34px" }}>
+      <p className="eyebrow">404</p>
+      <h1 className="h1" style={{ margin: "12px 0" }}>
         Siden ble ikke funnet
-      </Heading>
-      <Text onBackground="neutral-weak">Siden du leter etter finnes ikke.</Text>
-    </Column>
+      </h1>
+      <p style={{ color: "var(--muted)" }}>Siden du leter etter finnes ikke.</p>
+    </div>
   );
 }
