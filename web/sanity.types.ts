@@ -22,118 +22,25 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
-export type GalleryImage = {
-  _type: "galleryImage";
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  alt?: string;
-  orientation?: "horizontal" | "vertical";
-};
-
-export type TechnicalSkill = {
-  _type: "technicalSkill";
-  title?: string;
-  description?: string;
-  tags?: Array<{
-    name?: string;
-    icon?: string;
-    _type: "technicalSkillTag";
-    _key: string;
-  }>;
-  images?: Array<
-    {
-      _key: string;
-    } & RatioImage
-  >;
-};
-
-export type StudyInstitution = {
-  _type: "studyInstitution";
-  name?: string;
-  description?: string;
-};
-
-export type WorkExperience = {
-  _type: "workExperience";
-  company?: string;
-  timeframe?: string;
-  role?: string;
-  achievements?: Array<string>;
-  images?: Array<
-    {
-      _key: string;
-    } & RatioImage
-  >;
-};
-
-export type RatioImage = {
-  _type: "ratioImage";
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    _type: "image";
-  };
-  alt?: string;
-  width?: number;
-  height?: number;
-};
-
-export type TeamMember = {
-  _type: "teamMember";
-  name?: string;
-  role?: string;
-  avatar?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  linkedIn?: string;
-};
-
-export type SocialLink = {
-  _type: "socialLink";
-  name?: string;
-  icon?: string;
-  link?: string;
-  essential?: boolean;
-};
-
-export type Project = {
+export type Post = {
   _id: string;
-  _type: "project";
+  _type: "post";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title?: string;
   slug?: Slug;
   publishedAt?: string;
-  summary?: string;
-  images?: Array<{
+  tag?: string;
+  excerpt?: string;
+  cover?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
     crop?: SanityImageCrop;
     alt?: string;
     _type: "image";
-    _key: string;
-  }>;
-  tag?: string;
-  team?: Array<
-    {
-      _key: string;
-    } & TeamMember
-  >;
-  link?: string;
+  };
   body?: Array<
     | {
         children?: Array<{
@@ -193,18 +100,36 @@ export type Slug = {
   source?: string;
 };
 
-export type Post = {
+export type ForCompanies = {
   _id: string;
-  _type: "post";
+  _type: "forCompanies";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  heading?: string;
+  lede?: string;
+  columns?: Array<{
+    title?: string;
+    bullets?: Array<string>;
+    _type: "column";
+    _key: string;
+  }>;
+  ctaLabel?: string;
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
   title?: string;
-  subtitle?: string;
   slug?: Slug;
-  publishedAt?: string;
-  summary?: string;
-  image?: {
+  order?: number;
+  meta?: string;
+  categories?: Array<string>;
+  cover?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
     hotspot?: SanityImageHotspot;
@@ -212,13 +137,85 @@ export type Post = {
     alt?: string;
     _type: "image";
   };
-  tag?: string;
-  team?: Array<
-    {
-      _key: string;
-    } & TeamMember
-  >;
-  link?: string;
+  summary?: string;
+  stack?: Array<string>;
+  githubUrl?: string;
+  roleNote?: string;
+  sections?: Array<{
+    heading?: string;
+    body?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }
+      | {
+          code?: string;
+          language?: string;
+          _type: "codeBlock";
+          _key: string;
+        }
+    >;
+    _type: "projectSection";
+    _key: string;
+  }>;
+};
+
+export type Member = {
+  _id: string;
+  _type: "member";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  order?: number;
+  role?: string;
+  portrait?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  bio?: string;
+  skills?: Array<string>;
+  learning?: Array<string>;
+  linkedin?: string;
+  github?: string;
+  email?: string;
+};
+
+export type About = {
+  _id: string;
+  _type: "about";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  eyebrow?: string;
+  heading?: string;
   body?: Array<
     | {
         children?: Array<{
@@ -254,78 +251,46 @@ export type Post = {
         _key: string;
       }
   >;
+  membersHeading?: string;
 };
 
-export type SiteSettings = {
+export type Home = {
   _id: string;
-  _type: "siteSettings";
+  _type: "home";
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  person?: {
-    firstName?: string;
-    lastName?: string;
-    name?: string;
-    role?: string;
-    avatar?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-    email?: string;
-    location?: string;
-    languages?: Array<string>;
-    locale?: string;
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
   };
-  social?: Array<
-    {
-      _key: string;
-    } & SocialLink
-  >;
-  newsletter?: {
-    display?: boolean;
-    title?: string;
-    description?: string;
+  heroCaption?: string;
+  eyebrow?: string;
+  headline?: string;
+  subline?: string;
+  ctaPrimary?: {
+    label?: string;
+    href?: string;
   };
-  home?: {
-    headline?: string;
-    subline?: string;
-    featuredDisplay?: boolean;
-    featuredTitle?: string;
-    featuredHref?: string;
-    title?: string;
-    description?: string;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
+  ctaSecondary?: {
+    label?: string;
+    href?: string;
   };
-  about?: {
-    title?: string;
-    description?: string;
-    tocDisplay?: boolean;
-    tocSubItems?: boolean;
-    avatarDisplay?: boolean;
-    calendarDisplay?: boolean;
-    calendarLink?: string;
-    intro?: {
-      display?: boolean;
-      title?: string;
-      description?: Array<{
+  introEyebrow?: string;
+  introHeading?: string;
+  introBody?: Array<
+    | {
         children?: Array<{
           marks?: Array<string>;
           text?: string;
           _type: "span";
           _key: string;
         }>;
-        style?:
-          "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+        style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
         listItem?: "bullet" | "number";
         markDefs?: Array<{
           href?: string;
@@ -335,53 +300,42 @@ export type SiteSettings = {
         level?: number;
         _type: "block";
         _key: string;
-      }>;
-    };
-    work?: {
-      display?: boolean;
-      title?: string;
-      experiences?: Array<
-        {
-          _key: string;
-        } & WorkExperience
-      >;
-    };
-    studies?: {
-      display?: boolean;
-      title?: string;
-      institutions?: Array<
-        {
-          _key: string;
-        } & StudyInstitution
-      >;
-    };
-    technical?: {
-      display?: boolean;
-      title?: string;
-      skills?: Array<
-        {
-          _key: string;
-        } & TechnicalSkill
-      >;
-    };
-  };
-  blog?: {
-    title?: string;
-    description?: string;
-  };
-  work?: {
-    title?: string;
-    description?: string;
-  };
-  gallery?: {
-    title?: string;
-    description?: string;
-    images?: Array<
-      {
+      }
+    | {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
         _key: string;
-      } & GalleryImage
-    >;
-  };
+      }
+    | {
+        code?: string;
+        language?: string;
+        _type: "codeBlock";
+        _key: string;
+      }
+  >;
+  membersHeading?: string;
+  membersLede?: string;
+};
+
+export type SiteSettings = {
+  _id: string;
+  _type: "siteSettings";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  groupName?: string;
+  contactEmail?: string;
+  responsePromise?: string;
+  nav?: Array<{
+    label?: string;
+    href?: string;
+    _type: "navItem";
+    _key: string;
+  }>;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -483,18 +437,15 @@ export type Geopoint = {
 
 export type AllSanitySchemaTypes =
   | SanityImageAssetReference
-  | GalleryImage
-  | TechnicalSkill
-  | StudyInstitution
-  | WorkExperience
-  | RatioImage
-  | TeamMember
-  | SocialLink
-  | Project
+  | Post
   | SanityImageCrop
   | SanityImageHotspot
   | Slug
-  | Post
+  | ForCompanies
+  | Project
+  | Member
+  | About
+  | Home
   | SiteSettings
   | SanityImagePaletteSwatch
   | SanityImagePalette
@@ -507,402 +458,252 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, contactEmail, responsePromise, nav[]{label, href} }
 export type SITE_SETTINGS_QUERY_RESULT = {
-  _id: "siteSettings";
-  _type: "siteSettings";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  person?: {
-    firstName?: string;
-    lastName?: string;
-    name?: string;
-    role?: string;
-    avatar?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      alt?: string;
-      _type: "image";
-    };
-    email?: string;
-    location?: string;
-    languages?: Array<string>;
-    locale?: string;
-  };
-  social?: Array<
-    {
-      _key: string;
-    } & SocialLink
-  >;
-  newsletter?: {
-    display?: boolean;
-    title?: string;
-    description?: string;
-  };
-  home?: {
-    headline?: string;
-    subline?: string;
-    featuredDisplay?: boolean;
-    featuredTitle?: string;
-    featuredHref?: string;
-    title?: string;
-    description?: string;
-    image?: {
-      asset?: SanityImageAssetReference;
-      media?: unknown;
-      hotspot?: SanityImageHotspot;
-      crop?: SanityImageCrop;
-      _type: "image";
-    };
-  };
-  about?: {
-    title?: string;
-    description?: string;
-    tocDisplay?: boolean;
-    tocSubItems?: boolean;
-    avatarDisplay?: boolean;
-    calendarDisplay?: boolean;
-    calendarLink?: string;
-    intro?: {
-      display?: boolean;
-      title?: string;
-      description?: Array<{
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?:
-          "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }>;
-    };
-    work?: {
-      display?: boolean;
-      title?: string;
-      experiences?: Array<
-        {
-          _key: string;
-        } & WorkExperience
-      >;
-    };
-    studies?: {
-      display?: boolean;
-      title?: string;
-      institutions?: Array<
-        {
-          _key: string;
-        } & StudyInstitution
-      >;
-    };
-    technical?: {
-      display?: boolean;
-      title?: string;
-      skills?: Array<
-        {
-          _key: string;
-        } & TechnicalSkill
-      >;
-    };
-  };
-  blog?: {
-    title?: string;
-    description?: string;
-  };
-  work?: {
-    title?: string;
-    description?: string;
-  };
-  gallery?: {
-    title?: string;
-    description?: string;
-    images?: Array<
-      {
-        _key: string;
-      } & GalleryImage
-    >;
-  };
+  groupName: string | null;
+  contactEmail: string | null;
+  responsePromise: string | null;
+  nav: Array<{
+    label: string | null;
+    href: string | null;
+  }> | null;
 } | null;
 
 // Source: ../web/src/sanity/queries.ts
-// Variable: POSTS_QUERY
-// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc)
-export type POSTS_QUERY_RESULT = Array<{
-  _id: string;
-  _type: "post";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  subtitle?: string;
-  slug?: Slug;
-  publishedAt?: string;
-  summary?: string;
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  tag?: string;
-  team?: Array<
-    {
-      _key: string;
-    } & TeamMember
-  >;
-  link?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
+// Variable: HOME_QUERY
+// Query: {  "home": *[_type == "home" && _id == "home"][0]{    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    heroCaption,    eyebrow,    headline,    subline,    ctaPrimary,    ctaSecondary,    introEyebrow,    introHeading,    introBody,    membersHeading,    membersLede  },  "members": *[_type == "member"] | order(order asc){    _id,    name,    order,    role,    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    bio,    skills,    learning,    linkedin,    github,    email  },  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel  }}
+export type HOME_QUERY_RESULT = {
+  home: {
+    heroImage: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      alt: string | null;
+      lqip: string | null;
+    } | null;
+    heroCaption: string | null;
+    eyebrow: string | null;
+    headline: string | null;
+    subline: string | null;
+    ctaPrimary: {
+      label?: string;
+      href?: string;
+    } | null;
+    ctaSecondary: {
+      label?: string;
+      href?: string;
+    } | null;
+    introEyebrow: string | null;
+    introHeading: string | null;
+    introBody: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
           _key: string;
-        }>;
-        style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
+        }
+      | {
+          code?: string;
+          language?: string;
+          _type: "codeBlock";
           _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        code?: string;
-        language?: string;
-        _type: "codeBlock";
-        _key: string;
-      }
-    | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
-}>;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }
+    > | null;
+    membersHeading: string | null;
+    membersLede: string | null;
+  } | null;
+  members: Array<{
+    _id: string;
+    name: string | null;
+    order: number | null;
+    role: string | null;
+    portrait: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      alt: string | null;
+      lqip: string | null;
+    } | null;
+    bio: string | null;
+    skills: Array<string> | null;
+    learning: Array<string> | null;
+    linkedin: string | null;
+    github: string | null;
+    email: string | null;
+  }>;
+  forCompanies: {
+    eyebrow: string | null;
+    heading: string | null;
+    lede: string | null;
+    columns: Array<{
+      title: string | null;
+      bullets: Array<string> | null;
+    }> | null;
+    ctaLabel: string | null;
+  } | null;
+};
 
 // Source: ../web/src/sanity/queries.ts
-// Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]
-export type POST_QUERY_RESULT = {
-  _id: string;
-  _type: "post";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  subtitle?: string;
-  slug?: Slug;
-  publishedAt?: string;
-  summary?: string;
-  image?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  tag?: string;
-  team?: Array<
-    {
-      _key: string;
-    } & TeamMember
-  >;
-  link?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
+// Variable: ABOUT_QUERY
+// Query: {  "about": *[_type == "about" && _id == "about"][0]{    eyebrow, heading, body, membersHeading  },  "members": *[_type == "member"] | order(order asc){    _id,    name,    order,    role,    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    bio,    skills,    learning,    linkedin,    github,    email  }}
+export type ABOUT_QUERY_RESULT = {
+  about: {
+    eyebrow: string | null;
+    heading: string | null;
+    body: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
           _key: string;
-        }>;
-        style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
+        }
+      | {
+          code?: string;
+          language?: string;
+          _type: "codeBlock";
           _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        code?: string;
-        language?: string;
-        _type: "codeBlock";
-        _key: string;
-      }
-    | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
-} | null;
-
-// Source: ../web/src/sanity/queries.ts
-// Variable: POST_SLUGS_QUERY
-// Query: *[_type == "post" && defined(slug.current)].slug.current
-export type POST_SLUGS_QUERY_RESULT = Array<string | null>;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }
+    > | null;
+    membersHeading: string | null;
+  } | null;
+  members: Array<{
+    _id: string;
+    name: string | null;
+    order: number | null;
+    role: string | null;
+    portrait: {
+      asset: SanityImageAssetReference | null;
+      hotspot: SanityImageHotspot | null;
+      alt: string | null;
+      lqip: string | null;
+    } | null;
+    bio: string | null;
+    skills: Array<string> | null;
+    learning: Array<string> | null;
+    linkedin: string | null;
+    github: string | null;
+    email: string | null;
+  }>;
+};
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECTS_QUERY
-// Query: *[_type == "project" && defined(slug.current)] | order(publishedAt desc)
+// Query: *[_type == "project" && defined(slug.current)] | order(order asc){    _id, title, slug, order, meta, categories, stack, githubUrl,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    summary  }
 export type PROJECTS_QUERY_RESULT = Array<{
   _id: string;
-  _type: "project";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  publishedAt?: string;
-  summary?: string;
-  images?: Array<{
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-  }>;
-  tag?: string;
-  team?: Array<
-    {
-      _key: string;
-    } & TeamMember
-  >;
-  link?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
-          _key: string;
-        }>;
-        style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
-          _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        code?: string;
-        language?: string;
-        _type: "codeBlock";
-        _key: string;
-      }
-    | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
+  title: string | null;
+  slug: Slug | null;
+  order: number | null;
+  meta: string | null;
+  categories: Array<string> | null;
+  stack: Array<string> | null;
+  githubUrl: string | null;
+  cover: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    alt: string | null;
+    lqip: string | null;
+  } | null;
+  summary: string | null;
 }>;
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project" && slug.current == $slug][0]
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id, title, slug, meta, categories, stack, githubUrl, roleNote,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    summary,    sections[]{heading, body}  }
 export type PROJECT_QUERY_RESULT = {
   _id: string;
-  _type: "project";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  title?: string;
-  slug?: Slug;
-  publishedAt?: string;
-  summary?: string;
-  images?: Array<{
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-  }>;
-  tag?: string;
-  team?: Array<
-    {
-      _key: string;
-    } & TeamMember
-  >;
-  link?: string;
-  body?: Array<
-    | {
-        children?: Array<{
-          marks?: Array<string>;
-          text?: string;
-          _type: "span";
+  title: string | null;
+  slug: Slug | null;
+  meta: string | null;
+  categories: Array<string> | null;
+  stack: Array<string> | null;
+  githubUrl: string | null;
+  roleNote: string | null;
+  cover: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    alt: string | null;
+    lqip: string | null;
+  } | null;
+  summary: string | null;
+  sections: Array<{
+    heading: string | null;
+    body: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
           _key: string;
-        }>;
-        style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
-        listItem?: "bullet" | "number";
-        markDefs?: Array<{
-          href?: string;
-          _type: "link";
+        }
+      | {
+          code?: string;
+          language?: string;
+          _type: "codeBlock";
           _key: string;
-        }>;
-        level?: number;
-        _type: "block";
-        _key: string;
-      }
-    | {
-        code?: string;
-        language?: string;
-        _type: "codeBlock";
-        _key: string;
-      }
-    | {
-        asset?: SanityImageAssetReference;
-        media?: unknown;
-        hotspot?: SanityImageHotspot;
-        crop?: SanityImageCrop;
-        alt?: string;
-        _type: "image";
-        _key: string;
-      }
-  >;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }
+    > | null;
+  }> | null;
 } | null;
 
 // Source: ../web/src/sanity/queries.ts
@@ -910,16 +711,88 @@ export type PROJECT_QUERY_RESULT = {
 // Query: *[_type == "project" && defined(slug.current)].slug.current
 export type PROJECT_SLUGS_QUERY_RESULT = Array<string | null>;
 
+// Source: ../web/src/sanity/queries.ts
+// Variable: POSTS_QUERY
+// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){    _id, title, slug, publishedAt, tag, excerpt  }
+export type POSTS_QUERY_RESULT = Array<{
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  publishedAt: string | null;
+  tag: string | null;
+  excerpt: string | null;
+}>;
+
+// Source: ../web/src/sanity/queries.ts
+// Variable: POST_QUERY
+// Query: *[_type == "post" && slug.current == $slug][0]{    _id, title, slug, publishedAt, tag, excerpt, body,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip }  }
+export type POST_QUERY_RESULT = {
+  _id: string;
+  title: string | null;
+  slug: Slug | null;
+  publishedAt: string | null;
+  tag: string | null;
+  excerpt: string | null;
+  body: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        code?: string;
+        language?: string;
+        _type: "codeBlock";
+        _key: string;
+      }
+    | {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }
+  > | null;
+  cover: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    alt: string | null;
+    lqip: string | null;
+  } | null;
+} | null;
+
+// Source: ../web/src/sanity/queries.ts
+// Variable: POST_SLUGS_QUERY
+// Query: *[_type == "post" && defined(slug.current)].slug.current
+export type POST_SLUGS_QUERY_RESULT = Array<string | null>;
+
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    '*[_type == "siteSettings" && _id == "siteSettings"][0]': SITE_SETTINGS_QUERY_RESULT;
-    '*[_type == "post" && defined(slug.current)] | order(publishedAt desc)': POSTS_QUERY_RESULT;
-    '*[_type == "post" && slug.current == $slug][0]': POST_QUERY_RESULT;
-    '*[_type == "post" && defined(slug.current)].slug.current': POST_SLUGS_QUERY_RESULT;
-    '*[_type == "project" && defined(slug.current)] | order(publishedAt desc)': PROJECTS_QUERY_RESULT;
-    '*[_type == "project" && slug.current == $slug][0]': PROJECT_QUERY_RESULT;
+    '*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, contactEmail, responsePromise, nav[]{label, href} }': SITE_SETTINGS_QUERY_RESULT;
+    '{\n  "home": *[_type == "home" && _id == "home"][0]{\n    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    heroCaption,\n    eyebrow,\n    headline,\n    subline,\n    ctaPrimary,\n    ctaSecondary,\n    introEyebrow,\n    introHeading,\n    introBody,\n    membersHeading,\n    membersLede\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  },\n  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{\n    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel\n  }\n}': HOME_QUERY_RESULT;
+    '{\n  "about": *[_type == "about" && _id == "about"][0]{\n    eyebrow, heading, body, membersHeading\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  }\n}': ABOUT_QUERY_RESULT;
+    '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, meta, categories, stack, githubUrl,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    summary\n  }': PROJECTS_QUERY_RESULT;
+    '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, meta, categories, stack, githubUrl, roleNote,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    summary,\n    sections[]{heading, body}\n  }': PROJECT_QUERY_RESULT;
     '*[_type == "project" && defined(slug.current)].slug.current': PROJECT_SLUGS_QUERY_RESULT;
+    '*[_type == "post" && defined(slug.current)] | order(publishedAt desc){\n    _id, title, slug, publishedAt, tag, excerpt\n  }': POSTS_QUERY_RESULT;
+    '*[_type == "post" && slug.current == $slug][0]{\n    _id, title, slug, publishedAt, tag, excerpt, body,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip }\n  }': POST_QUERY_RESULT;
+    '*[_type == "post" && defined(slug.current)].slug.current': POST_SLUGS_QUERY_RESULT;
   }
 }
