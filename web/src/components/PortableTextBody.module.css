@@ -1,0 +1,50 @@
+.prose h2,
+.prose .h2 {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 1.4em 0 0.6em;
+}
+
+.prose h3,
+.prose .h3 {
+  font-size: 17px;
+  font-weight: 600;
+  margin: 1.2em 0 0.5em;
+}
+
+.prose h4,
+.prose .h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 1em 0 0.4em;
+}
+
+.code {
+  font-family: var(--font-utility);
+  font-size: 0.9em;
+  background: var(--olive-soft);
+  padding: 0.1em 0.35em;
+  border-radius: 3px;
+}
+
+.codeBlock {
+  font-family: var(--font-utility);
+  font-size: 13px;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin: 0 0 1em;
+}
+
+.image {
+  display: block;
+  margin: 1.2em 0;
+}
+
+.image img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}

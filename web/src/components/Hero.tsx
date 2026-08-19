@@ -1,0 +1,72 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { SanityImageData } from "@/sanity/content";
+import styles from "./Hero.module.css";
+
+type CTA = {
+  label: string;
+  href: string;
+};
+
+type HeroProps = {
+  image: SanityImageData;
+  caption?: string;
+  eyebrow?: string;
+  headline: string;
+  subline?: string;
+  ctaPrimary?: CTA;
+  ctaSecondary?: CTA;
+};
+
+export function Hero({
+  image,
+  caption,
+  eyebrow,
+  headline,
+  subline,
+  ctaPrimary,
+  ctaSecondary,
+}: HeroProps) {
+  return (
+    <div className={styles.hero}>
+      {image && (
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          priority
+          sizes="100vw"
+          placeholder={image.lqip ? "blur" : undefined}
+          blurDataURL={image.lqip}
+          style={{
+            objectFit: "cover",
+            objectPosition: image.hotspot
+              ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%`
+              : "50% 50%",
+          }}
+        />
+      )}
+      <div className={styles.scrim} />
+      <div className={styles.content}>
+        {eyebrow && <p className={`eyebrow ${styles.eyebrow}`}>{eyebrow}</p>}
+        <h1 className={`h1 ${styles.headline}`}>{headline}</h1>
+        {subline && <p className={styles.subline}>{subline}</p>}
+        {(ctaPrimary || ctaSecondary) && (
+          <div className={styles.ctas}>
+            {ctaPrimary && (
+              <Link href={ctaPrimary.href} className={styles.primary}>
+                {ctaPrimary.label}
+              </Link>
+            )}
+            {ctaSecondary && (
+              <Link href={ctaSecondary.href} className={styles.secondary}>
+                {ctaSecondary.label}
+              </Link>
+            )}
+          </div>
+        )}
+      </div>
+      {caption && <p className={styles.caption}>{caption}</p>}
+    </div>
+  );
+}

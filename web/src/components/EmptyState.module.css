@@ -1,0 +1,18 @@
+.empty {
+  border: 1px dashed var(--rule);
+  background: var(--olive-soft);
+  border-radius: 4px;
+  padding: 40px 24px;
+  text-align: center;
+}
+
+.title {
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.body {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}

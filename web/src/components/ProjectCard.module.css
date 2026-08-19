@@ -1,0 +1,75 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--white);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.cover {
+  position: relative;
+  height: 158px;
+  background: var(--olive-soft);
+}
+
+.body {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.summary {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 10px;
+}
+
+.ghostButton,
+.solidButton {
+  flex: 1;
+  text-align: center;
+  font-size: 13px;
+  padding: 9px 12px;
+  border-radius: 2px;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.ghostButton {
+  background: transparent;
+  border: 1px solid var(--rule);
+  color: var(--ink);
+}
+
+.ghostButton:disabled {
+  color: var(--muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.solidButton {
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  color: var(--white);
+}

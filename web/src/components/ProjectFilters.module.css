@@ -1,0 +1,26 @@
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.chip,
+.active {
+  font-family: var(--font-utility);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--white);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.active {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
