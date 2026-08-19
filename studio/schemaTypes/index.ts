@@ -1,23 +1,9 @@
-import {galleryImage} from './objects/galleryImage'
-import {ratioImage} from './objects/ratioImage'
-import {socialLink} from './objects/socialLink'
-import {studyInstitution} from './objects/studyInstitution'
-import {teamMember} from './objects/teamMember'
-import {technicalSkill} from './objects/technicalSkill'
-import {workExperience} from './objects/workExperience'
+import {about} from './about'
+import {forCompanies} from './forCompanies'
+import {home} from './home'
+import {member} from './member'
 import {post} from './post'
 import {project} from './project'
 import {siteSettings} from './siteSettings'
 
-export const schemaTypes = [
-  siteSettings,
-  post,
-  project,
-  socialLink,
-  teamMember,
-  ratioImage,
-  workExperience,
-  studyInstitution,
-  technicalSkill,
-  galleryImage,
-]
+export const schemaTypes = [siteSettings, home, about, member, project, forCompanies, post]

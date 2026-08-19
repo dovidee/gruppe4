@@ -1,5 +1,5 @@
 import {DocumentTextIcon} from '@sanity/icons/DocumentText'
-import {defineArrayMember, defineField, defineType} from 'sanity'
+import {defineField, defineType} from 'sanity'
 import {portableTextBody} from './objects/portableTextBody'
 
 export const post = defineType({
@@ -9,7 +9,6 @@ export const post = defineType({
   icon: DocumentTextIcon,
   fields: [
     defineField({name: 'title', title: 'Tittel', type: 'string', validation: (r) => r.required()}),
-    defineField({name: 'subtitle', title: 'Undertittel', type: 'string'}),
     defineField({
       name: 'slug',
       title: 'Slug',
@@ -23,22 +22,21 @@ export const post = defineType({
       type: 'datetime',
       validation: (r) => r.required(),
     }),
-    defineField({name: 'summary', title: 'Sammendrag', type: 'text', rows: 3}),
+    defineField({name: 'tag', title: 'Tagg', type: 'string'}),
     defineField({
-      name: 'image',
+      name: 'excerpt',
+      title: 'Utdrag',
+      type: 'text',
+      rows: 2,
+      validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'cover',
       title: 'Bilde',
       type: 'image',
       options: {hotspot: true},
-      fields: [defineField({name: 'alt', title: 'Alternativ tekst', type: 'string', validation: (r) => r.required()})],
+      fields: [defineField({name: 'alt', title: 'Alt-tekst', type: 'string'})],
     }),
-    defineField({name: 'tag', title: 'Tagg', type: 'string'}),
-    defineField({
-      name: 'team',
-      title: 'Team',
-      type: 'array',
-      of: [defineArrayMember({type: 'teamMember'})],
-    }),
-    defineField({name: 'link', title: 'Ekstern lenke', type: 'url'}),
     defineField({
       name: 'body',
       title: 'Innhold',
@@ -46,7 +44,10 @@ export const post = defineType({
       of: portableTextBody,
     }),
   ],
+  orderings: [
+    {title: 'Publiseringsdato, nyest', name: 'publishedAtDesc', by: [{field: 'publishedAt', direction: 'desc'}]},
+  ],
   preview: {
-    select: {title: 'title', subtitle: 'summary', media: 'image'},
+    select: {title: 'title', subtitle: 'excerpt', media: 'cover'},
   },
 })
