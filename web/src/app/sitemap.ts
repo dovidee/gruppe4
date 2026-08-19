@@ -1,27 +1,22 @@
-import { baseURL, routes as routesConfig } from "@/resources";
+import { baseURL, paths } from "@/resources";
 import { getPosts, getProjects } from "@/sanity/content";
 
 export default async function sitemap() {
   const [posts, projects] = await Promise.all([getPosts(), getProjects()]);
 
-  const blogs = posts.map((post) => ({
-    url: `${baseURL}/blog/${post.slug}`,
-    lastModified: post.metadata.publishedAt,
-  }));
-
-  const works = projects.map((post) => ({
-    url: `${baseURL}/work/${post.slug}`,
-    lastModified: post.metadata.publishedAt,
-  }));
-
-  const activeRoutes = Object.keys(routesConfig).filter(
-    (route) => routesConfig[route as keyof typeof routesConfig],
-  );
-
-  const routes = activeRoutes.map((route) => ({
-    url: `${baseURL}${route !== "/" ? route : ""}`,
+  const routes = Object.values(paths).map((path) => ({
+    url: `${baseURL}${path}`,
     lastModified: new Date().toISOString().split("T")[0],
   }));
 
-  return [...routes, ...blogs, ...works];
+  const blogRoutes = posts.map((post) => ({
+    url: `${baseURL}/blogg/${post.slug}`,
+    lastModified: post.publishedAt || undefined,
+  }));
+
+  const projectRoutes = projects.map((project) => ({
+    url: `${baseURL}/prosjekter/${project.slug}`,
+  }));
+
+  return [...routes, ...blogRoutes, ...projectRoutes];
 }
