@@ -1,0 +1,17 @@
+.head {
+  margin-bottom: 28px;
+}
+
+.head .eyebrow,
+.head p.eyebrow {
+  margin-bottom: 8px;
+}
+
+.head h1,
+.head h2 {
+  margin-bottom: 10px;
+}
+
+.lede {
+  margin-top: 10px;
+}
