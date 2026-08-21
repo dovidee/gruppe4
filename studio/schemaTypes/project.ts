@@ -60,6 +60,13 @@ export const project = defineType({
     }),
     defineField({name: 'githubUrl', title: 'GitHub-lenke', type: 'url'}),
     defineField({
+      name: 'authors',
+      title: 'Laget av',
+      type: 'string',
+      description:
+        'Ren tekst, ikke tagger. F.eks. «Paulius Dovidonis og Ola Nordmann». Brukes til å skille prosjekter fra andre grupper.',
+    }),
+    defineField({
       name: 'roleNote',
       title: 'Merknad om gruppe',
       type: 'text',
