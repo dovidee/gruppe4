@@ -808,6 +808,13 @@
         },
         "optional": true
       },
+      "authors": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
       "roleNote": {
         "type": "objectAttribute",
         "value": {
