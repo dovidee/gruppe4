@@ -31,6 +31,11 @@
   font-size: 14px;
 }
 
+.authors {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;

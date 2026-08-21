@@ -218,6 +218,7 @@ export type Project = {
   summary: string;
   stack: string[];
   githubUrl?: string;
+  authors?: string;
   roleNote?: string;
   sections: { heading: string; body: PortableTextBlock[] }[];
 };
@@ -233,6 +234,7 @@ function mapProjectListItem(doc: NonNullable<PROJECTS_QUERY_RESULT[number]>): Pr
     summary: doc.summary ?? "",
     stack: (doc.stack ?? []).filter((s): s is string => Boolean(s)),
     githubUrl: doc.githubUrl ?? undefined,
+    authors: doc.authors ?? undefined,
     sections: [],
   };
 }
@@ -256,6 +258,7 @@ export async function getProject(slug: string): Promise<Project | null> {
     summary: doc.summary ?? "",
     stack: (doc.stack ?? []).filter((s): s is string => Boolean(s)),
     githubUrl: doc.githubUrl ?? undefined,
+    authors: doc.authors ?? undefined,
     roleNote: doc.roleNote ?? undefined,
     sections: (doc.sections ?? []).map((s) => ({
       heading: s?.heading ?? "",

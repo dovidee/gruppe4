@@ -60,18 +60,24 @@ export function MemberRow({
         </button>
 
         {member.skills.length > 0 && (
-          <div className={styles.chips}>
-            {member.skills.map((skill) => (
-              <Chip key={skill} label={skill} />
-            ))}
+          <div className={styles.skillGroup}>
+            <span className={styles.groupLabel}>Har lært</span>
+            <div className={styles.chips}>
+              {member.skills.map((skill) => (
+                <Chip key={skill} label={skill} />
+              ))}
+            </div>
           </div>
         )}
 
         {member.learning.length > 0 && (
-          <div className={styles.chips}>
-            {member.learning.map((skill) => (
-              <Chip key={skill} label={skill} variant="want" />
-            ))}
+          <div className={styles.skillGroup}>
+            <span className={styles.groupLabel}>Vil lære</span>
+            <div className={styles.chips}>
+              {member.learning.map((skill) => (
+                <Chip key={skill} label={skill} variant="want" />
+              ))}
+            </div>
           </div>
         )}
 
