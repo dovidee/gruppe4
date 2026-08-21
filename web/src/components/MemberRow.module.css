@@ -68,11 +68,29 @@
   color: var(--olive);
 }
 
+.skillGroup {
+  margin-top: 14px;
+}
+
+.skillGroup + .skillGroup {
+  margin-top: 10px;
+}
+
+.groupLabel {
+  display: block;
+  font-family: var(--font-utility);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--muted);
+  font-weight: 500;
+  margin-bottom: 6px;
+}
+
 .chips {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 14px;
 }
 
 .contact {

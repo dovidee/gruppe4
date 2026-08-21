@@ -22,6 +22,12 @@
   margin-bottom: 20px;
 }
 
+.authors {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
 .callout {
   border-left: 2px solid var(--marker);
   background: var(--olive-soft);
