@@ -140,6 +140,7 @@ export type Project = {
   summary?: string;
   stack?: Array<string>;
   githubUrl?: string;
+  authors?: string;
   roleNote?: string;
   sections?: Array<{
     heading?: string;
@@ -628,7 +629,7 @@ export type ABOUT_QUERY_RESULT = {
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECTS_QUERY
-// Query: *[_type == "project" && defined(slug.current)] | order(order asc){    _id, title, slug, order, meta, categories, stack, githubUrl,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    summary  }
+// Query: *[_type == "project" && defined(slug.current)] | order(order asc){    _id, title, slug, order, meta, categories, stack, githubUrl, authors,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    summary  }
 export type PROJECTS_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -638,6 +639,7 @@ export type PROJECTS_QUERY_RESULT = Array<{
   categories: Array<string> | null;
   stack: Array<string> | null;
   githubUrl: string | null;
+  authors: string | null;
   cover: {
     asset: SanityImageAssetReference | null;
     hotspot: SanityImageHotspot | null;
@@ -649,7 +651,7 @@ export type PROJECTS_QUERY_RESULT = Array<{
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project" && slug.current == $slug][0]{    _id, title, slug, meta, categories, stack, githubUrl, roleNote,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    summary,    sections[]{heading, body}  }
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },    summary,    sections[]{heading, body}  }
 export type PROJECT_QUERY_RESULT = {
   _id: string;
   title: string | null;
@@ -658,6 +660,7 @@ export type PROJECT_QUERY_RESULT = {
   categories: Array<string> | null;
   stack: Array<string> | null;
   githubUrl: string | null;
+  authors: string | null;
   roleNote: string | null;
   cover: {
     asset: SanityImageAssetReference | null;
@@ -788,8 +791,8 @@ declare module "@sanity/client" {
     '*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, contactEmail, responsePromise, nav[]{label, href} }': SITE_SETTINGS_QUERY_RESULT;
     '{\n  "home": *[_type == "home" && _id == "home"][0]{\n    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    heroCaption,\n    eyebrow,\n    headline,\n    subline,\n    ctaPrimary,\n    ctaSecondary,\n    introEyebrow,\n    introHeading,\n    introBody,\n    membersHeading,\n    membersLede\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  },\n  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{\n    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel\n  }\n}': HOME_QUERY_RESULT;
     '{\n  "about": *[_type == "about" && _id == "about"][0]{\n    eyebrow, heading, body, membersHeading\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  }\n}': ABOUT_QUERY_RESULT;
-    '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, meta, categories, stack, githubUrl,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    summary\n  }': PROJECTS_QUERY_RESULT;
-    '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, meta, categories, stack, githubUrl, roleNote,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    summary,\n    sections[]{heading, body}\n  }': PROJECT_QUERY_RESULT;
+    '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, meta, categories, stack, githubUrl, authors,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    summary\n  }': PROJECTS_QUERY_RESULT;
+    '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip },\n    summary,\n    sections[]{heading, body}\n  }': PROJECT_QUERY_RESULT;
     '*[_type == "project" && defined(slug.current)].slug.current': PROJECT_SLUGS_QUERY_RESULT;
     '*[_type == "post" && defined(slug.current)] | order(publishedAt desc){\n    _id, title, slug, publishedAt, tag, excerpt\n  }': POSTS_QUERY_RESULT;
     '*[_type == "post" && slug.current == $slug][0]{\n    _id, title, slug, publishedAt, tag, excerpt, body,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip }\n  }': POST_QUERY_RESULT;

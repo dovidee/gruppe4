@@ -57,6 +57,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
       {project.meta && <p className={`mono ${styles.meta}`}>{project.meta}</p>}
       <h1 className={`h1 ${styles.title}`}>{project.title}</h1>
       {project.summary && <p className={`lede ${styles.summary}`}>{project.summary}</p>}
+      {project.authors && <p className={styles.authors}>Laget av {project.authors}</p>}
 
       {project.roleNote && <p className={styles.callout}>{project.roleNote}</p>}
 

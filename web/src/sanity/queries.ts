@@ -60,7 +60,7 @@ export const ABOUT_QUERY = defineQuery(`{
 
 export const PROJECTS_QUERY = defineQuery(
   `*[_type == "project" && defined(slug.current)] | order(order asc){
-    _id, title, slug, order, meta, categories, stack, githubUrl,
+    _id, title, slug, order, meta, categories, stack, githubUrl, authors,
     cover${IMAGE},
     summary
   }`,
@@ -68,7 +68,7 @@ export const PROJECTS_QUERY = defineQuery(
 
 export const PROJECT_QUERY = defineQuery(
   `*[_type == "project" && slug.current == $slug][0]{
-    _id, title, slug, meta, categories, stack, githubUrl, roleNote,
+    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,
     cover${IMAGE},
     summary,
     sections[]{heading, body}
