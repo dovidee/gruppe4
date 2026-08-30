@@ -13,7 +13,7 @@ export const member = defineType({
       title: 'Rekkefølge',
       type: 'number',
       validation: (r) => r.required(),
-      description: 'Styrer rekkefølgen på forsiden. 1 til 6.',
+      description: 'Styrer rekkefølgen.',
     }),
     defineField({
       name: 'role',
