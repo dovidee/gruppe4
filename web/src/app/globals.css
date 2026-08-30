@@ -13,6 +13,7 @@
   --tint-3: #2F4A3D;
   --tint-4: #4A5B49;
   --tint-5: #37503A;
+  --tint-6: #6B7A42;
 
   --font-body: var(--font-display), system-ui, sans-serif;
   --font-utility: var(--font-mono), ui-monospace, monospace;

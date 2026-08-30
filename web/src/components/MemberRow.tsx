@@ -6,7 +6,14 @@ import type { Member } from "@/sanity/content";
 import { Chip } from "./Chip";
 import styles from "./MemberRow.module.css";
 
-const TINTS = ["var(--tint-1)", "var(--tint-2)", "var(--tint-3)", "var(--tint-4)", "var(--tint-5)"];
+const TINTS = [
+  "var(--tint-1)",
+  "var(--tint-2)",
+  "var(--tint-3)",
+  "var(--tint-4)",
+  "var(--tint-5)",
+  "var(--tint-6)",
+];
 
 export function MemberRow({
   member,
