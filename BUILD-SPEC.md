@@ -181,7 +181,7 @@ export default {
   fields: [
     { name: 'name', title: 'Navn', type: 'string', validation: R => R.required() },
     { name: 'order', title: 'Rekkefølge', type: 'number', validation: R => R.required(),
-      description: 'Styrer rekkefølgen på forsiden. 1 til 6.' },
+      description: 'Styrer rekkefølgen.' },
     { name: 'role', title: 'Rolle i gruppa', type: 'string', validation: R => R.required(),
       description: 'En ekte rolle, f.eks. «Design og UX». Ikke «Gruppemedlem».' },
     { name: 'portrait', title: 'Portrett', type: 'image',
