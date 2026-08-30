@@ -19,7 +19,7 @@ that way.
 **Every piece of text and every image on this site must come from Sanity. Nothing is hardcoded,
 and nothing lives in `/public`.**
 
-The team needs to change the group photo, swap the five portraits, fix a typo in a bio, and add a
+The team needs to change the group photo, swap the six portraits, fix a typo in a bio, and add a
 project, all from the Sanity Studio, without touching the repo, without a commit, and without a
 deploy. A webhook is already wired up, so content changes should appear on the live site on their
 own.
@@ -31,7 +31,7 @@ Concretely, this means:
 - No copy strings in `.tsx` files. Headings, button labels, the intro paragraph, the three
   "for bedrifter" columns. All of it lives in Sanity.
 - Every image field gets `options: { hotspot: true }`, and the frontend must respect the hotspot.
-  This is not optional: the group photo is a wide shot of five people, and on mobile it crops to
+  This is not optional: the group photo is a wide shot of six people, and on mobile it crops to
   a tall aspect ratio. Without hotspot support, someone gets cut out of the frame.
 - Every image field gets a required `alt` field.
 - If you find yourself hardcoding something "just for now", add it to Sanity instead.
@@ -83,7 +83,7 @@ doesn't reach. Do not scatter hex values through components.
 | `--marker` | `#D8E24B` | active nav underline, one highlight per screen |
 
 Portrait placeholder tints (used only until real photos are uploaded):
-`#3F5D2C`, `#5A6E3A`, `#2F4A3D`, `#4A5B49`, `#37503A`.
+`#3F5D2C`, `#5A6E3A`, `#2F4A3D`, `#4A5B49`, `#37503A`, `#6B7A42`.
 
 `--marker` is a signal colour. One use per screen, maximum. It marks the current nav item and
 nothing else on most pages.
@@ -181,7 +181,7 @@ export default {
   fields: [
     { name: 'name', title: 'Navn', type: 'string', validation: R => R.required() },
     { name: 'order', title: 'Rekkefølge', type: 'number', validation: R => R.required(),
-      description: 'Styrer rekkefølgen på forsiden. 1 til 5.' },
+      description: 'Styrer rekkefølgen på forsiden. 1 til 6.' },
     { name: 'role', title: 'Rolle i gruppa', type: 'string', validation: R => R.required(),
       description: 'En ekte rolle, f.eks. «Design og UX». Ikke «Gruppemedlem».' },
     { name: 'portrait', title: 'Portrett', type: 'image',
@@ -376,7 +376,7 @@ URLs can be shared and indexed. `generateStaticParams` for both `[slug]` routes.
 ### Header (replace the existing one)
 
 Delete Magic Portfolio's floating dock header and its `TimeDisplay` component. The live-clock
-timezone readout is a personal-portfolio flourish that means nothing for a five-person group.
+timezone readout is a personal-portfolio flourish that means nothing for a six-person group.
 
 The replacement is a plain, full-width, non-sticky header:
 
@@ -399,7 +399,7 @@ In order, top to bottom:
    pseudo-element, then a bottom-left content block, max-width 760px: eyebrow, `h1`, subline,
    two buttons. White text.
 2. **Intro.** Eyebrow, `h2`, `introBody` as portable text, max-width 60ch.
-3. **Medlemmer.** `membersHeading`, `membersLede`, then five `MemberRow`s.
+3. **Medlemmer.** `membersHeading`, `membersLede`, then six `MemberRow`s.
 4. **For bedrifter.** Eyebrow, heading, lede, then the three-column grid, then the contact button.
 
 ### `/om-oss`
@@ -512,7 +512,7 @@ Flag these rather than inventing answers:
    be designed first; don't derive it automatically.
 2. **Blog vs Logg.** The nav label is "Blogg" per the team's decision. It's a Sanity field, so it
    can change without a deploy.
-3. **The five portraits do not exist yet.** Until they're uploaded, `MemberRow` should fall back
+3. **The six portraits do not exist yet.** Until they're uploaded, `MemberRow` should fall back
    to a flat colour block with the member's initial, using the placeholder tints in §2, assigned
    by `order`. Make this fallback obvious enough that nobody ships it by accident.
 4. **Two of the three projects are placeholders.** Only the Kartverket project has real content.
