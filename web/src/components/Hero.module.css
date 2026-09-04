@@ -6,6 +6,11 @@
   background: var(--ink);
 }
 
+.media {
+  position: absolute;
+  inset: 0;
+}
+
 .scrim {
   position: absolute;
   inset: 0;
@@ -90,8 +95,38 @@
   }
 }
 
+/*
+ * Mobile: stop cropping the hero photo. The hero stacks (photo, then text) and
+ * the media box adopts the photo's own aspect ratio, so a wide group shot shows
+ * everyone instead of just the middle of the frame.
+ */
 @media (max-width: 700px) {
   .hero {
-    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .media {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    aspect-ratio: var(--hero-ratio, 3 / 2);
+  }
+
+  /* next/image sets object-fit inline, so this needs the override. */
+  .media img {
+    object-fit: contain !important;
+    object-position: 50% 50% !important;
+  }
+
+  .scrim {
+    background: linear-gradient(to top, rgba(8, 12, 7, 0.55), transparent 40%);
+  }
+
+  .content {
+    position: static;
+    max-width: none;
+    padding: 22px var(--section-pad-x) 34px;
   }
 }
