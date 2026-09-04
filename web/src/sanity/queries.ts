@@ -1,6 +1,6 @@
 import { defineQuery } from "next-sanity";
 
-const IMAGE = `{ asset, hotspot, alt, "lqip": asset->metadata.lqip }`;
+const IMAGE = `{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }`;
 
 export const SITE_SETTINGS_QUERY = defineQuery(
   `*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, contactEmail, responsePromise, nav[]{label, href} }`,

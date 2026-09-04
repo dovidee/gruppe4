@@ -38,6 +38,7 @@ export type SanityImageData = {
   alt: string;
   hotspot?: { x: number; y: number };
   lqip?: string;
+  aspectRatio?: number;
 } | null;
 
 type RawImage =
@@ -46,6 +47,7 @@ type RawImage =
       hotspot?: { x?: number | null; y?: number | null } | null;
       alt?: string | null;
       lqip?: string | null;
+      aspectRatio?: number | null;
     }
   | null
   | undefined;
@@ -62,6 +64,7 @@ function mapImage(image: RawImage, width: number): SanityImageData {
         ? { x: image.hotspot.x, y: image.hotspot.y }
         : undefined,
     lqip: image.lqip ?? undefined,
+    aspectRatio: typeof image.aspectRatio === "number" ? image.aspectRatio : undefined,
   };
 }
 
