@@ -1,22 +1,29 @@
 :root {
-  --paper: #F3F5EF;
+  /* solveIT brand palette */
+  --marine: #0A1D3D;
+  --royal: #305CDE;
+  --sky: #7C9BF0;
+  --mist: #F7F9FD;
   --white: #FFFFFF;
-  --ink: #14180F;
-  --muted: #6B7364;
-  --olive: #3F5D2C;
-  --olive-soft: #E7EDE0;
-  --rule: #D2D9CA;
-  --marker: #D8E24B;
 
-  --tint-1: #3F5D2C;
-  --tint-2: #5A6E3A;
-  --tint-3: #2F4A3D;
-  --tint-4: #4A5B49;
-  --tint-5: #37503A;
-  --tint-6: #6B7A42;
+  /* Semantic roles */
+  --ink: var(--marine);
+  --muted: #5B6C8C;
+  --royal-soft: #E4EAFB;
+  --rule: #D8E0F3;
 
-  --font-body: var(--font-display), system-ui, sans-serif;
-  --font-utility: var(--font-mono), ui-monospace, monospace;
+  /* Member portrait placeholders: a marine-to-royal ramp, all dark enough
+     to carry white initials. */
+  --tint-1: #0A1D3D;
+  --tint-2: #12294F;
+  --tint-3: #1B3467;
+  --tint-4: #223F84;
+  --tint-5: #2A4EB0;
+  --tint-6: #305CDE;
+
+  --font-body: var(--font-display), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-utility: var(--font-body);
+  --font-code: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
   --section-pad-y: 52px;
   --section-pad-x: 34px;
@@ -39,7 +46,7 @@ html, body {
 }
 
 html {
-  background: var(--paper);
+  background: var(--mist);
 }
 
 html[lang] {
@@ -47,7 +54,7 @@ html[lang] {
 }
 
 body {
-  background: var(--paper);
+  background: var(--mist);
   color: var(--ink);
   font-family: var(--font-body);
   font-size: 15px;
@@ -120,12 +127,8 @@ h1, h2, h3, h4, p {
   font-size: 10.5px;
   text-transform: uppercase;
   letter-spacing: 0.10em;
-  color: var(--olive);
+  color: var(--royal);
   font-weight: 500;
-}
-
-.mono {
-  font-family: var(--font-utility);
 }
 
 .prose {
@@ -141,7 +144,7 @@ h1, h2, h3, h4, p {
 }
 
 .prose a {
-  color: var(--olive);
+  color: var(--royal);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -183,7 +186,7 @@ h1, h2, h3, h4, p {
 a:focus-visible,
 button:focus-visible,
 [tabindex]:focus-visible {
-  outline: 2px solid var(--olive);
+  outline: 2px solid var(--royal);
   outline-offset: 2px;
 }
 

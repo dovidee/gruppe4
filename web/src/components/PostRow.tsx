@@ -13,7 +13,7 @@ export function PostRow({ post }: { post: Post }) {
 
   return (
     <Link href={`/blogg/${post.slug}`} className={styles.row}>
-      <time className={`mono ${styles.date}`} dateTime={post.publishedAt}>
+      <time className={styles.date} dateTime={post.publishedAt}>
         {date}
       </time>
       <div className={styles.body}>

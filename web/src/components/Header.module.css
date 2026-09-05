@@ -4,22 +4,17 @@
   justify-content: space-between;
   padding: 18px var(--section-pad-x);
   border-bottom: 1px solid var(--rule);
-  background: var(--paper);
+  background: var(--mist);
 }
 
-.wordmarkLink {
+.logoLink {
+  display: flex;
   text-decoration: none;
-  color: var(--ink);
 }
 
-.wordmark {
-  font-size: 18px;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-}
-
-.numeral {
-  color: var(--olive);
+.logo {
+  width: 85px;
+  height: auto;
 }
 
 .nav {
@@ -41,7 +36,7 @@
 
 .navItemActive {
   color: var(--ink);
-  border-bottom-color: var(--marker);
+  border-bottom-color: var(--royal);
 }
 
 @media (max-width: 700px) {

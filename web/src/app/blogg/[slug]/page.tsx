@@ -62,7 +62,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         </div>
       )}
 
-      <div className={`mono ${styles.meta}`}>
+      <div className={styles.meta}>
         {date && <time dateTime={post.publishedAt}>{date}</time>}
         {post.tag && <span className={`eyebrow ${styles.tag}`}>{post.tag}</span>}
       </div>

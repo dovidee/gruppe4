@@ -23,7 +23,7 @@ import type {
 } from "../../sanity.types";
 
 const HOME_TAGS = ["home", "member", "forCompanies", "siteSettings"];
-const ABOUT_TAGS = ["about", "member"];
+const ABOUT_TAGS = ["about"];
 const PROJECT_TAGS = ["project"];
 const POST_TAGS = ["post"];
 
@@ -72,7 +72,6 @@ function mapImage(image: RawImage, width: number): SanityImageData {
 
 export type SiteSettings = {
   groupName: string;
-  contactEmail: string;
   responsePromise: string;
   nav: { label: string; href: string }[];
 };
@@ -84,7 +83,6 @@ export async function getSiteSettings(): Promise<SiteSettings> {
 
   return {
     groupName: raw?.groupName ?? "Gruppe",
-    contactEmail: raw?.contactEmail ?? "",
     responsePromise: raw?.responsePromise ?? "",
     nav: (raw?.nav ?? []).map((item) => ({ label: item.label ?? "", href: item.href ?? "" })),
   };
@@ -193,19 +191,15 @@ export type AboutData = {
   eyebrow: string;
   heading: string;
   body: PortableTextBlock[];
-  membersHeading: string;
-  members: Member[];
 };
 
 export async function getAboutData(): Promise<AboutData> {
   const raw = await sanityFetch<ABOUT_QUERY_RESULT>(ABOUT_QUERY, {}, ABOUT_TAGS);
 
   return {
-    eyebrow: raw.about?.eyebrow ?? "",
-    heading: raw.about?.heading ?? "",
-    body: (raw.about?.body ?? []) as PortableTextBlock[],
-    membersHeading: raw.about?.membersHeading ?? "",
-    members: (raw.members ?? []).map(mapMember),
+    eyebrow: raw?.eyebrow ?? "",
+    heading: raw?.heading ?? "",
+    body: (raw?.body ?? []) as PortableTextBlock[],
   };
 }
 

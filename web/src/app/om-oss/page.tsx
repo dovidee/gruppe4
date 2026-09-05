@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { MemberRow, PortableTextBody, SectionBlock } from "@/components";
+import { ContactForm, PortableTextBody, SectionBlock } from "@/components";
 import { getAboutData } from "@/sanity/content";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -16,12 +16,12 @@ export default async function OmOssPage() {
         <PortableTextBody value={about.body} />
       </SectionBlock>
 
-      <SectionBlock heading={about.membersHeading}>
-        <div>
-          {about.members.map((member) => (
-            <MemberRow key={member.id} member={member} initiallyExpanded />
-          ))}
-        </div>
+      <SectionBlock
+        id="kontakt"
+        heading="Ta kontakt"
+        lede="Send oss en melding, så hører du fra oss."
+      >
+        <ContactForm />
       </SectionBlock>
     </>
   );

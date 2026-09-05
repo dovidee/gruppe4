@@ -4,7 +4,7 @@
   aspect-ratio: 16 / 9;
   border-radius: 4px;
   overflow: hidden;
-  background: var(--olive-soft);
+  background: var(--royal-soft);
   margin-bottom: 28px;
 }
 
@@ -29,8 +29,8 @@
 }
 
 .callout {
-  border-left: 2px solid var(--marker);
-  background: var(--olive-soft);
+  border-left: 2px solid var(--sky);
+  background: var(--royal-soft);
   padding: 14px 18px;
   margin-bottom: 20px;
   font-size: 14px;

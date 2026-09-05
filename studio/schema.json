@@ -1609,13 +1609,6 @@
           }
         },
         "optional": true
-      },
-      "membersHeading": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
       }
     }
   },
@@ -2118,13 +2111,6 @@
         }
       },
       "groupName": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "contactEmail": {
         "type": "objectAttribute",
         "value": {
           "type": "string"

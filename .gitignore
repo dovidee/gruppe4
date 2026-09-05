@@ -1,32 +1,40 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Applies repo-wide (web/, studio/, and root) — patterns are unanchored on purpose.
 
 # dependencies
-/node_modules
-/.pnp
+node_modules
+.pnp
 .pnp.js
 .yarn/install-state.gz
 
 # testing
-/coverage
+coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
-/build
+build
+
+# sanity studio
+dist
+.sanity
 
 # misc
 .DS_Store
 *.pem
 
-# debug
+# logs
+logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# local env / dotenv files
 .env*.local
+*.local
 
 # vercel
 .vercel
@@ -34,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Next.js build artifacts
+*.rootowned

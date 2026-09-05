@@ -3,7 +3,7 @@ import { defineQuery } from "next-sanity";
 const IMAGE = `{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }`;
 
 export const SITE_SETTINGS_QUERY = defineQuery(
-  `*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, contactEmail, responsePromise, nav[]{label, href} }`,
+  `*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, responsePromise, nav[]{label, href} }`,
 );
 
 export const HOME_QUERY = defineQuery(`{
@@ -39,24 +39,9 @@ export const HOME_QUERY = defineQuery(`{
   }
 }`);
 
-export const ABOUT_QUERY = defineQuery(`{
-  "about": *[_type == "about" && _id == "about"][0]{
-    eyebrow, heading, body, membersHeading
-  },
-  "members": *[_type == "member"] | order(order asc){
-    _id,
-    name,
-    order,
-    role,
-    portrait${IMAGE},
-    bio,
-    skills,
-    learning,
-    linkedin,
-    github,
-    email
-  }
-}`);
+export const ABOUT_QUERY = defineQuery(
+  `*[_type == "about" && _id == "about"][0]{ eyebrow, heading, body }`,
+);
 
 export const PROJECTS_QUERY = defineQuery(
   `*[_type == "project" && defined(slug.current)] | order(order asc){

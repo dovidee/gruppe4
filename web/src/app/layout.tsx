@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import { Footer, Header } from "@/components";
-import { archivo, jetbrainsMono } from "@/resources";
+import { texGyreHeros } from "@/resources";
 import { getSiteSettings } from "@/sanity/content";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,15 +20,11 @@ export default async function RootLayout({
   const settings = await getSiteSettings();
 
   return (
-    <html lang="no" className={`${archivo.variable} ${jetbrainsMono.variable}`}>
+    <html lang="no" className={texGyreHeros.variable}>
       <body>
-        <Header groupName={settings.groupName} nav={settings.nav} />
+        <Header nav={settings.nav} />
         <main>{children}</main>
-        <Footer
-          groupName={settings.groupName}
-          contactEmail={settings.contactEmail}
-          responsePromise={settings.responsePromise}
-        />
+        <Footer groupName={settings.groupName} responsePromise={settings.responsePromise} />
       </body>
     </html>
   );
