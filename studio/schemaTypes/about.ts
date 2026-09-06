@@ -29,7 +29,6 @@ export const about = defineType({
       of: portableTextBody,
       validation: (r) => r.required(),
     }),
-    defineField({name: 'membersHeading', title: 'Overskrift (medlemmer)', type: 'string'}),
   ],
   preview: {
     select: {title: 'heading'},
