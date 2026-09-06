@@ -1,15 +1,18 @@
-import { Archivo, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 
-export const archivo = Archivo({
+/**
+ * TeX Gyre Heros — the resonansIT brand typeface. Self-hosted; see fonts/README.md
+ * for provenance and licence. The family only ships Regular and Bold, so CSS
+ * weights 500/600 fall back to 400/700.
+ */
+export const texGyreHeros = localFont({
   variable: "--font-display",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
   display: "swap",
-});
-
-export const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
+  fallback: ["Helvetica Neue", "Helvetica", "Arial", "system-ui", "sans-serif"],
+  src: [
+    { path: "./fonts/texgyreheros-regular.woff2", weight: "400", style: "normal" },
+    { path: "./fonts/texgyreheros-italic.woff2", weight: "400", style: "italic" },
+    { path: "./fonts/texgyreheros-bold.woff2", weight: "700", style: "normal" },
+    { path: "./fonts/texgyreheros-bolditalic.woff2", weight: "700", style: "italic" },
+  ],
 });

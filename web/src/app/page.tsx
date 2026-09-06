@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Hero, MemberRow, PortableTextBody, SectionBlock } from "@/components";
-import { getHomeData, getSiteSettings } from "@/sanity/content";
+import { contactFormPath } from "@/resources";
+import { getHomeData } from "@/sanity/content";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const [home, settings] = await Promise.all([getHomeData(), getSiteSettings()]);
+  const home = await getHomeData();
 
   return (
     <>
@@ -58,10 +60,10 @@ export default async function Home() {
               </div>
             ))}
           </div>
-          {home.forCompanies.ctaLabel && settings.contactEmail && (
-            <a className={styles.contactButton} href={`mailto:${settings.contactEmail}`}>
+          {home.forCompanies.ctaLabel && (
+            <Link className={styles.contactButton} href={contactFormPath}>
               {home.forCompanies.ctaLabel}
-            </a>
+            </Link>
           )}
         </SectionBlock>
       )}

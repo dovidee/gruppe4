@@ -1,2 +1,2 @@
-export { baseURL, paths } from "./site";
-export { archivo, jetbrainsMono } from "./fonts";
+export { baseURL, contactFormPath, contactSuccessPath, paths } from "./site";
+export { texGyreHeros } from "./fonts";

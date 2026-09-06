@@ -20,18 +20,18 @@
 }
 
 .code {
-  font-family: var(--font-utility);
+  font-family: var(--font-code);
   font-size: 0.9em;
-  background: var(--olive-soft);
+  background: var(--royal-soft);
   padding: 0.1em 0.35em;
   border-radius: 3px;
 }
 
 .codeBlock {
-  font-family: var(--font-utility);
+  font-family: var(--font-code);
   font-size: 13px;
   background: var(--ink);
-  color: var(--paper);
+  color: var(--mist);
   padding: 16px;
   border-radius: 4px;
   overflow-x: auto;

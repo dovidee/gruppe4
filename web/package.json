@@ -10,7 +10,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@once-ui-system/core": "latest",
     "@sanity/image-url": "^2.1.1",
     "classnames": "^2.5.1",
     "cookie": "^1.0.2",

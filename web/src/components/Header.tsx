@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Header.module.css";
@@ -10,28 +11,10 @@ type NavItem = {
 };
 
 type HeaderProps = {
-  groupName: string;
   nav: NavItem[];
 };
 
-function Wordmark({ groupName }: { groupName: string }) {
-  const parts = groupName.split(/(\d+)/);
-  return (
-    <span className={styles.wordmark}>
-      {parts.map((part, i) =>
-        /^\d+$/.test(part) ? (
-          <span key={i} className={styles.numeral}>
-            {part}
-          </span>
-        ) : (
-          <span key={i}>{part}</span>
-        ),
-      )}
-    </span>
-  );
-}
-
-export function Header({ groupName, nav }: HeaderProps) {
+export function Header({ nav }: HeaderProps) {
   const pathname = usePathname() ?? "/";
 
   const isActive = (href: string) =>
@@ -39,8 +22,15 @@ export function Header({ groupName, nav }: HeaderProps) {
 
   return (
     <header className={styles.header}>
-      <Link href="/" className={styles.wordmarkLink} aria-label="Til forsiden">
-        <Wordmark groupName={groupName} />
+      <Link href="/" className={styles.logoLink} aria-label="resonansIT, til forsiden">
+        <Image
+          src="/resonansit-logo.svg"
+          alt=""
+          width={119}
+          height={30}
+          className={styles.logo}
+          priority
+        />
       </Link>
       <nav className={styles.nav} aria-label="Hovedmeny">
         {nav.map((item) => (

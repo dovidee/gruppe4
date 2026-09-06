@@ -25,7 +25,7 @@ export function ProjectCard({ project }: { project: Project }) {
       </div>
 
       <div className={styles.body}>
-        {project.meta && <p className={`mono ${styles.meta}`}>{project.meta}</p>}
+        {project.meta && <p className={styles.meta}>{project.meta}</p>}
         <h3 className="h3">{project.title}</h3>
         {project.summary && <p className={styles.summary}>{project.summary}</p>}
         {project.authors && <p className={styles.authors}>Laget av {project.authors}</p>}

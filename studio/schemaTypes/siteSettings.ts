@@ -14,11 +14,6 @@ export const siteSettings = defineType({
       validation: (r) => r.required(),
     }),
     defineField({
-      name: 'contactEmail',
-      title: 'E-post',
-      type: 'string',
-    }),
-    defineField({
       name: 'responsePromise',
       title: 'Svarløfte',
       type: 'string',

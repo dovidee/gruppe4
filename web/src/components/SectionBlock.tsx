@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import styles from "./SectionBlock.module.css";
 
 type SectionBlockProps = {
+  id?: string;
   eyebrow?: string;
   heading?: string;
   lede?: string;
@@ -10,6 +11,7 @@ type SectionBlockProps = {
 };
 
 export function SectionBlock({
+  id,
   eyebrow,
   heading,
   lede,
@@ -22,7 +24,7 @@ export function SectionBlock({
   const isH1 = headingAs === "h1";
 
   return (
-    <section className={`section ${styles.section}`}>
+    <section id={id} className="section">
       <div className="container">
         {(eyebrow || heading || lede || isH1) && (
           <div className={styles.head}>

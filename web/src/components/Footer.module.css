@@ -9,15 +9,6 @@
   color: var(--muted);
 }
 
-.email {
-  color: var(--olive);
-  text-decoration: none;
-}
-
-.email:hover {
-  text-decoration: underline;
-}
-
 .promise {
   margin-left: auto;
 }

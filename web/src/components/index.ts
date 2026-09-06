@@ -7,5 +7,6 @@ export { ProjectCard } from "./ProjectCard";
 export { ProjectFilters } from "./ProjectFilters";
 export { PostRow } from "./PostRow";
 export { Chip } from "./Chip";
+export { ContactForm } from "./ContactForm";
 export { EmptyState } from "./EmptyState";
 export { PortableTextBody, hasBody } from "./PortableTextBody";
