@@ -15,37 +15,6 @@ Sanity Studio, og Next.js bygger sidene. Repoet er delt i `web/` og `studio/`.
 
 [gruppe4.vercel.app](https://gruppe4.vercel.app)
 
-## Avhengigheter
-
-### `web/`
-
-| Pakke | Versjon |
-|-------|---------|
-| `next` | `^16.0.10` |
-| `react` | `^19.2.4` |
-| `react-dom` | `^19.2.3` |
-| `next-sanity` | `^13.3.3` |
-| `@sanity/image-url` | `^2.1.1` |
-| `sass` | `^1.86.3` |
-| `classnames` | `^2.5.1` |
-| `react-icons` | `^5.5.0` |
-| `cookie` | `^1.0.2` |
-| `transliteration` | `^2.3.5` |
-| `lint-staged` | `^16.1.5` |
-
-Utvikling: `typescript`, `@biomejs/biome`, `eslint`, `tzdata`.
-
-### `studio/`
-
-| Pakke | Versjon |
-|-------|---------|
-| `sanity` | `^6.10.1` |
-| `@sanity/vision` | `^6.10.1` |
-| `styled-components` | `^6.1.18` |
-| `react` / `react-dom` | `^19.2.4` |
-
-Utvikling: `typescript`, `eslint`, `prettier`.
-
 ## Kjøre siden lokalt
 
 Krever Node 20.9 eller nyere.
@@ -71,20 +40,22 @@ npm run dev
 
 ## Teknisk stack
 
-| Komponent | Versjon | Beskrivelse |
-|-----------|---------|-------------|
-| Next.js | `^16.0.10` | Rammeverket siden er bygget i |
-| React | `^19.2.4` | UI-bibliotek |
-| TypeScript | `^5.8.3` | Typing i `web/` |
-| Sanity Studio | `^6.10.1` | CMS-et gruppa fyller ut tekst, bilder og medlemmer i |
-| next-sanity | `^13.3.3` | Henter innholdet fra Sanity |
-| @sanity/image-url | `^2.1.1` | Bilde-URL-er i riktig størrelse |
-| Sass (CSS Modules) | `^1.86.3` | Styling, egen stilfil per komponent |
-| Biome | `^1.9.4` | Formatering og linting |
-| Vercel | | Hosting og bygg |
-| Web3Forms | | Sender kontaktskjemaet som e-post |
-| Discord Webhook | | Varsler gruppa om nye meldinger |
-| TeX Gyre Heros | | Husfonten, selvhostet |
+| Komponent | Beskrivelse |
+|-----------|-------------|
+| Next.js | Rammeverket siden er bygget i |
+| React | UI-bibliotek |
+| TypeScript | Typing i `web/` |
+| Sanity Studio | CMS-et gruppa fyller ut tekst, bilder og medlemmer i |
+| next-sanity | Henter innholdet fra Sanity |
+| Sass (CSS Modules) | Styling, egen stilfil per komponent |
+| Biome | Formatering og linting |
+| Vercel | Hosting og bygg |
+| Web3Forms | Sender kontaktskjemaet som e-post |
+| Discord Webhook | Varsler gruppa om nye meldinger |
+| TeX Gyre Heros | Husfonten, selvhostet |
+
+Full oversikt over avhengigheter ligger i `web/package.json` og
+`studio/package.json`.
 
 ### Kontaktskjema
 
