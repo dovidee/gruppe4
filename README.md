@@ -5,19 +5,19 @@
   </picture>
 </p>
 
-## Om prosjektet
+## About the project
 
-resonansIT er en bachelorgruppe ved Universitetet i Agder.
+resonansIT is a bachelor group at the University of Agder.
 
-Nettsiden viser hvem vi er, hva vi har gjort, og lar bedrifter ta kontakt. Alt
-innholdet ligger i Sanity, ikke i koden. Gruppa fyller ut tekst og bilder i
-Sanity Studio, og Next.js bygger sidene. Repoet er delt i `web/` og `studio/`.
+The site shows who we are, what we have done, and lets companies get in touch. All
+the content lives in Sanity, not in the code. The group fills in text and images in
+Sanity Studio, and Next.js builds the pages. The repo is split into `web/` and `studio/`.
 
 [gruppe4.vercel.app](https://gruppe4.vercel.app)
 
-## Kjøre siden lokalt
+## Running the site locally
 
-Krever Node 20.9 eller nyere.
+Requires Node 20.9 or newer.
 
 ```bash
 git clone https://github.com/dovidee/gruppe4.git
@@ -27,10 +27,10 @@ cp .env.example .env.local
 npm run dev
 ```
 
-Siden kjører på <http://localhost:3000>. Verdiene til `.env.local` er beskrevet i
+The site runs on <http://localhost:3000>. The values for `.env.local` are described in
 `.env.example`.
 
-Sanity Studio ligger i `studio/` og startes for seg:
+Sanity Studio lives in `studio/` and is started separately:
 
 ```bash
 cd studio
@@ -38,44 +38,44 @@ npm install
 npm run dev
 ```
 
-## Teknisk stack
+## Tech stack
 
-| Komponent | Beskrivelse |
+| Component | Description |
 |-----------|-------------|
-| Next.js | Rammeverket siden er bygget i |
-| React | UI-bibliotek |
-| TypeScript | Typing i `web/` |
-| Sanity Studio | CMS-et gruppa fyller ut tekst, bilder og medlemmer i |
-| next-sanity | Henter innholdet fra Sanity |
-| Sass (CSS Modules) | Styling, egen stilfil per komponent |
-| Biome | Formatering og linting |
-| Vercel | Hosting og bygg |
-| Web3Forms | Sender kontaktskjemaet som e-post |
-| Discord Webhook | Varsler gruppa om nye meldinger |
-| TeX Gyre Heros | Husfonten, selvhostet |
+| Next.js | The framework the site is built in |
+| React | UI library |
+| TypeScript | Typing in `web/` |
+| Sanity Studio | The CMS the group fills in with text, images and members |
+| next-sanity | Fetches the content from Sanity |
+| Sass (CSS Modules) | Styling, one style file per component |
+| Biome | Formatting and linting |
+| Vercel | Hosting and builds |
+| Web3Forms | Sends the contact form as email |
+| Discord Webhook | Notifies the group about new messages |
+| TeX Gyre Heros | The house font, self hosted |
 
-Full oversikt over avhengigheter ligger i `web/package.json` og
+A full list of dependencies is in `web/package.json` and
 `studio/package.json`.
 
-### Kontaktskjema
+### Contact form
 
-Bedrifter som vil ta kontakt fyller ut skjemaet på `/om-oss#kontakt`. Meldinga
-sendes to steder: som e-post gjennom Web3Forms, og som en melding i
-Discord-kanalen gruppa bruker til daglig.
+Companies that want to get in touch fill in the form at `/om-oss#kontakt`. The message
+is sent to two places: as an email through Web3Forms, and as a message in the
+Discord channel the group uses day to day.
 
-Skjemaet har et ekstra felt som er skjult for folk, men som bots fyller ut.
-Meldinger der det feltet er utfylt går ikke videre, så det er bare ekte
-henvendelser som blir behandlet.
+The form has an extra field that is hidden from people but that bots fill in.
+Messages where that field has been filled in do not go any further, so only genuine
+enquiries are processed.
 
-I tillegg er det en grense på fem meldinger fra samme IP per ti minutter, som
-bremser opp innsendinger som kommer for tett. IP-en leses fra `X-Forwarded-For`.
-Den headeren kan vanligvis settes av avsenderen selv, men Vercel overskriver den
-i sitt eget nettverk, så verdien vi ser kan ikke forfalskes: https://vercel.com/docs/headers/request-headers#x-forwarded-for
+There is also a limit of five messages from the same IP per ten minutes, which
+slows down submissions arriving too close together. The IP is read from `X-Forwarded-For`.
+That header can normally be set by the sender, but Vercel overwrites it
+inside its own network, so the value we see cannot be forged: https://vercel.com/docs/headers/request-headers#x-forwarded-for
 
-## Sidestruktur
+## Site structure
 
-| Rute | Komponent |
-|------|-----------|
+| Route | Component |
+|-------|-----------|
 | `/` | `app/page.tsx` |
 | `/om-oss` | `app/om-oss/page.tsx` |
 | `/prosjekter` | `app/prosjekter/page.tsx` |
@@ -86,13 +86,13 @@ i sitt eget nettverk, så verdien vi ser kan ikke forfalskes: https://vercel.com
 | `/api/contact` | `app/api/contact/route.ts` |
 | `/api/revalidate` | `app/api/revalidate/route.ts` |
 
-## Gruppemedlemmer
+## Group members
 
-| Navn | Rolle | LinkedIn |
-|------|-------|----------|
-| Alex Skar | Prosjektleder | [linkedin.com/in/alex-skar](https://www.linkedin.com/in/alex-skar-54a978433/) |
-| Andre' Abrahamsen | QA- og testansvarlig | [linkedin.com/in/andre-abrahamsen](https://www.linkedin.com/in/andre-abrahamsen-139603432/) |
-| Kevin Bakke | UX / UI-designer | [linkedin.com/in/kevin-bakke](https://www.linkedin.com/in/kevin-bakke-872597306/) |
-| Benjamin Stedal | Frontend-utvikler | [linkedin.com/in/benjamin-stedal](https://www.linkedin.com/in/benjamin-stedal-482975405/) |
+| Name | Role | LinkedIn |
+|------|------|----------|
+| Alex Skar | Project manager | [linkedin.com/in/alex-skar](https://www.linkedin.com/in/alex-skar-54a978433/) |
+| Andre' Abrahamsen | QA and test lead | [linkedin.com/in/andre-abrahamsen](https://www.linkedin.com/in/andre-abrahamsen-139603432/) |
+| Kevin Bakke | UX / UI designer | [linkedin.com/in/kevin-bakke](https://www.linkedin.com/in/kevin-bakke-872597306/) |
+| Benjamin Stedal | Frontend developer | [linkedin.com/in/benjamin-stedal](https://www.linkedin.com/in/benjamin-stedal-482975405/) |
 | Paulius Dovidonis | Security Champion | [linkedin.com/in/pauldovid](https://www.linkedin.com/in/pauldovid/) |
-| Per Rai Braatø | Produkteier | |
+| Per Rai Braatø | Product owner | [linkedin.com/in/per-rai-braatø](https://www.linkedin.com/in/per-rai-braat%C3%B8-404a71435/) |
