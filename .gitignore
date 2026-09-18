@@ -46,3 +46,6 @@ next-env.d.ts
 # Next.js build artifacts
 *.rootowned
 # resonansIT
+
+# Build spec, local only
+BUILD-SPEC.md
