@@ -1,6 +1,6 @@
 .row {
   display: grid;
-  grid-template-columns: 120px 1fr;
+  grid-template-columns: 200px 1fr;
   gap: 24px;
   padding: 22px 0;
   border-bottom: 1px solid var(--rule);
@@ -12,10 +12,23 @@
   border-bottom: none;
 }
 
+.cover {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--royal-soft);
+}
+
+.body {
+  min-width: 0;
+}
+
 .date {
+  display: block;
   font-size: 12px;
   color: var(--muted);
-  padding-top: 3px;
+  margin-bottom: 4px;
 }
 
 .excerpt {
@@ -33,6 +46,6 @@
 @media (max-width: 700px) {
   .row {
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 14px;
   }
 }

@@ -290,7 +290,7 @@ function mapPostListItem(doc: NonNullable<POSTS_QUERY_RESULT[number]>): Post {
     publishedAt: doc.publishedAt ?? "",
     tag: doc.tag ?? "",
     excerpt: doc.excerpt ?? "",
-    cover: null,
+    cover: mapImage(doc.cover, 400),
     body: [],
   };
 }
