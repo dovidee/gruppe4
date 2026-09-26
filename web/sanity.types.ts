@@ -696,7 +696,7 @@ export type PROJECT_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: POSTS_QUERY
-// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){    _id, title, slug, publishedAt, tag, excerpt  }
+// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){    _id, title, slug, publishedAt, tag, excerpt,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }  }
 export type POSTS_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
@@ -704,6 +704,13 @@ export type POSTS_QUERY_RESULT = Array<{
   publishedAt: string | null;
   tag: string | null;
   excerpt: string | null;
+  cover: {
+    asset: SanityImageAssetReference | null;
+    hotspot: SanityImageHotspot | null;
+    alt: string | null;
+    lqip: string | null;
+    aspectRatio: number | null;
+  } | null;
 }>;
 
 // Source: ../web/src/sanity/queries.ts
@@ -775,7 +782,7 @@ declare module "@sanity/client" {
     '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, meta, categories, stack, githubUrl, authors,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    summary\n  }': PROJECTS_QUERY_RESULT;
     '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    summary,\n    sections[]{heading, body}\n  }': PROJECT_QUERY_RESULT;
     '*[_type == "project" && defined(slug.current)].slug.current': PROJECT_SLUGS_QUERY_RESULT;
-    '*[_type == "post" && defined(slug.current)] | order(publishedAt desc){\n    _id, title, slug, publishedAt, tag, excerpt\n  }': POSTS_QUERY_RESULT;
+    '*[_type == "post" && defined(slug.current)] | order(publishedAt desc){\n    _id, title, slug, publishedAt, tag, excerpt,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }\n  }': POSTS_QUERY_RESULT;
     '*[_type == "post" && slug.current == $slug][0]{\n    _id, title, slug, publishedAt, tag, excerpt, body,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }\n  }': POST_QUERY_RESULT;
     '*[_type == "post" && defined(slug.current)].slug.current': POST_SLUGS_QUERY_RESULT;
   }
