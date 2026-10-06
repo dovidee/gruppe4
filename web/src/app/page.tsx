@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Hero, MemberRow, PortableTextBody, SectionBlock } from "@/components";
+import { Hero, MemberRow, PortableTextBody, SectionBlock, VideoPlayer } from "@/components";
 import { contactFormPath } from "@/resources";
 import { getHomeData } from "@/sanity/content";
 import styles from "./page.module.css";
@@ -32,6 +32,7 @@ export default async function Home() {
 
       <SectionBlock eyebrow={home.introEyebrow} heading={home.introHeading}>
         <PortableTextBody value={home.introBody} />
+        {home.introVideo && <VideoPlayer video={home.introVideo} />}
       </SectionBlock>
 
       <SectionBlock heading={home.membersHeading} lede={home.membersLede}>

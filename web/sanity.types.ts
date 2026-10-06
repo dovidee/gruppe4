@@ -22,6 +22,13 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
 export type Post = {
   _id: string;
   _type: "post";
@@ -317,6 +324,24 @@ export type Home = {
         _key: string;
       }
   >;
+  introVideo?: {
+    asset?: SanityFileAssetReference;
+    media?: unknown;
+    title?: string;
+    poster?: {
+      asset?: SanityImageAssetReference;
+      media?: unknown;
+      hotspot?: SanityImageHotspot;
+      crop?: SanityImageCrop;
+      _type: "image";
+    };
+    captions?: {
+      asset?: SanityFileAssetReference;
+      media?: unknown;
+      _type: "file";
+    };
+    _type: "file";
+  };
   membersHeading?: string;
   membersLede?: string;
 };
@@ -469,7 +494,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: HOME_QUERY
-// Query: {  "home": *[_type == "home" && _id == "home"][0]{    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    heroCaption,    eyebrow,    headline,    subline,    ctaPrimary,    ctaSecondary,    introEyebrow,    introHeading,    introBody,    membersHeading,    membersLede  },  "members": *[_type == "member"] | order(order asc){    _id,    name,    order,    role,    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    bio,    skills,    learning,    linkedin,    github,    email  },  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel  }}
+// Query: {  "home": *[_type == "home" && _id == "home"][0]{    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    heroCaption,    eyebrow,    headline,    subline,    ctaPrimary,    ctaSecondary,    introEyebrow,    introHeading,    introBody,    introVideo{ title, "url": asset->url, "mimeType": asset->mimeType, "captionsUrl": captions.asset->url, poster{ asset } },    membersHeading,    membersLede  },  "members": *[_type == "member"] | order(order asc){    _id,    name,    order,    role,    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    bio,    skills,    learning,    linkedin,    github,    email  },  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel  }}
 export type HOME_QUERY_RESULT = {
   home: {
     heroImage: {
@@ -528,6 +553,15 @@ export type HOME_QUERY_RESULT = {
           _key: string;
         }
     > | null;
+    introVideo: {
+      title: string | null;
+      url: string | null;
+      mimeType: string | null;
+      captionsUrl: string | null;
+      poster: {
+        asset: SanityImageAssetReference | null;
+      } | null;
+    } | null;
     membersHeading: string | null;
     membersLede: string | null;
   } | null;
@@ -777,7 +811,7 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     '*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, responsePromise, nav[]{label, href} }': SITE_SETTINGS_QUERY_RESULT;
-    '{\n  "home": *[_type == "home" && _id == "home"][0]{\n    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    heroCaption,\n    eyebrow,\n    headline,\n    subline,\n    ctaPrimary,\n    ctaSecondary,\n    introEyebrow,\n    introHeading,\n    introBody,\n    membersHeading,\n    membersLede\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  },\n  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{\n    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel\n  }\n}': HOME_QUERY_RESULT;
+    '{\n  "home": *[_type == "home" && _id == "home"][0]{\n    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    heroCaption,\n    eyebrow,\n    headline,\n    subline,\n    ctaPrimary,\n    ctaSecondary,\n    introEyebrow,\n    introHeading,\n    introBody,\n    introVideo{ title, "url": asset->url, "mimeType": asset->mimeType, "captionsUrl": captions.asset->url, poster{ asset } },\n    membersHeading,\n    membersLede\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  },\n  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{\n    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel\n  }\n}': HOME_QUERY_RESULT;
     '*[_type == "about" && _id == "about"][0]{ eyebrow, heading, body }': ABOUT_QUERY_RESULT;
     '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, meta, categories, stack, githubUrl, authors,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    summary\n  }': PROJECTS_QUERY_RESULT;
     '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    summary,\n    sections[]{heading, body}\n  }': PROJECT_QUERY_RESULT;

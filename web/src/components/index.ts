@@ -10,3 +10,4 @@ export { Chip } from "./Chip";
 export { ContactForm } from "./ContactForm";
 export { EmptyState } from "./EmptyState";
 export { PortableTextBody, hasBody } from "./PortableTextBody";
+export { VideoPlayer } from "./VideoPlayer";
