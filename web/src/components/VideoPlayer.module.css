@@ -1,0 +1,14 @@
+.player {
+  margin-top: 28px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+}
+
+.video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #000;
+}
