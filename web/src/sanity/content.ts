@@ -130,6 +130,14 @@ export type ForCompanies = {
   ctaLabel: string;
 };
 
+export type SanityVideoData = {
+  src: string;
+  mimeType?: string;
+  title: string;
+  poster?: string;
+  captions?: string;
+} | null;
+
 export type HomeData = {
   heroImage: SanityImageData;
   heroCaption: string;
@@ -141,6 +149,7 @@ export type HomeData = {
   introEyebrow: string;
   introHeading: string;
   introBody: PortableTextBlock[];
+  introVideo: SanityVideoData;
   membersHeading: string;
   membersLede: string;
   members: Member[];
@@ -167,6 +176,15 @@ export async function getHomeData(): Promise<HomeData> {
     introEyebrow: raw.home?.introEyebrow ?? "",
     introHeading: raw.home?.introHeading ?? "",
     introBody: (raw.home?.introBody ?? []) as PortableTextBlock[],
+    introVideo: raw.home?.introVideo?.url
+      ? {
+          src: raw.home.introVideo.url,
+          mimeType: raw.home.introVideo.mimeType ?? undefined,
+          title: raw.home.introVideo.title ?? "",
+          poster: mapImage(raw.home.introVideo.poster, 1600)?.src,
+          captions: raw.home.introVideo.captionsUrl ?? undefined,
+        }
+      : null,
     membersHeading: raw.home?.membersHeading ?? "",
     membersLede: raw.home?.membersLede ?? "",
     members: (raw.members ?? []).map(mapMember),

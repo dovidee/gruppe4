@@ -18,6 +18,7 @@ export const HOME_QUERY = defineQuery(`{
     introEyebrow,
     introHeading,
     introBody,
+    introVideo{ title, "url": asset->url, "mimeType": asset->mimeType, "captionsUrl": captions.asset->url, poster{ asset } },
     membersHeading,
     membersLede
   },
