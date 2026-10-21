@@ -1,14 +1,17 @@
 .button {
   display: inline-flex;
   align-items: center;
-  padding: 12px 22px;
-  background: var(--ink);
-  color: var(--white);
+  min-height: 60px;
+  padding: 0 32px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 1.1rem;
+  font-weight: 700;
   text-decoration: none;
-  font-size: 14px;
-  border-radius: 2px;
+  transition: transform 380ms var(--ease-bounce);
 }
 
 .button:hover {
-  background: var(--royal);
+  transform: translateY(-4px) scale(1.02);
 }

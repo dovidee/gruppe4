@@ -1,13 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionBlock } from "@/components";
+import { getDictionary } from "@/i18n/server";
 import { contactFormPath, paths } from "@/resources";
 import styles from "./page.module.css";
 
-export const metadata: Metadata = {
-  title: "Takk for meldingen",
-  robots: { index: false, follow: true },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { t } = await getDictionary();
+  return {
+    title: t.thanksTitle,
+    robots: { index: false, follow: true },
+  };
+}
 
 export default async function TakkPage({
   searchParams,
@@ -15,16 +19,13 @@ export default async function TakkPage({
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const status = (await searchParams).status;
+  const { t } = await getDictionary();
 
   if (status === "vent") {
     return (
-      <SectionBlock
-        heading="Vent litt før du sender igjen"
-        headingAs="h1"
-        lede="Du har sendt flere meldinger på kort tid. Prøv igjen om ti minutter."
-      >
+      <SectionBlock heading={t.waitHeading} headingAs="h1" lede={t.waitLede}>
         <Link className={styles.button} href={contactFormPath}>
-          Tilbake til skjemaet
+          {t.backToForm}
         </Link>
       </SectionBlock>
     );
@@ -32,26 +33,18 @@ export default async function TakkPage({
 
   if (status === "feil") {
     return (
-      <SectionBlock
-        heading="Meldingen kom ikke fram"
-        headingAs="h1"
-        lede="Noe gikk galt da vi skulle sende meldingen din. Prøv gjerne igjen."
-      >
+      <SectionBlock heading={t.errorHeading} headingAs="h1" lede={t.errorLede}>
         <Link className={styles.button} href={contactFormPath}>
-          Tilbake til skjemaet
+          {t.backToForm}
         </Link>
       </SectionBlock>
     );
   }
 
   return (
-    <SectionBlock
-      heading="Takk for meldingen!"
-      headingAs="h1"
-      lede="Vi har mottatt meldingen din, og svarer så snart vi kan."
-    >
+    <SectionBlock heading={t.thanksHeading} headingAs="h1" lede={t.thanksLede}>
       <Link className={styles.button} href={paths.home}>
-        Tilbake til forsiden
+        {t.thanksBack}
       </Link>
     </SectionBlock>
   );

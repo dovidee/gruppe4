@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { PortableTextBody } from "@/components";
-import { getPost, getPostSlugs } from "@/sanity/content";
+import { dateLocale } from "@/i18n/config";
+import { getDictionary } from "@/i18n/server";
+import { getPost, getPostSlugs, objectPosition } from "@/sanity/content";
 import styles from "./page.module.css";
 
 export async function generateStaticParams() {
@@ -16,7 +18,8 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const { locale } = await getDictionary();
+  const post = await getPost(slug, locale);
   if (!post) return {};
 
   return {
@@ -28,48 +31,47 @@ export async function generateMetadata({
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = await getPost(slug);
+  const { locale } = await getDictionary();
+  const post = await getPost(slug, locale);
 
   if (!post) notFound();
 
   const date = post.publishedAt
-    ? new Date(post.publishedAt).toLocaleDateString("nb-NO", {
+    ? new Date(post.publishedAt).toLocaleDateString(dateLocale[locale], {
         day: "numeric",
-        month: "short",
+        month: "long",
         year: "numeric",
       })
     : "";
 
   return (
-    <article className="section container">
+    <article className={`container ${styles.article}`}>
+      <header className={styles.header}>
+        <div className={styles.meta}>
+          {date && <time dateTime={post.publishedAt}>{date}</time>}
+          {post.tag && <span className={styles.tag}>{post.tag}</span>}
+        </div>
+        <h1 className="h1">{post.title}</h1>
+      </header>
+
       {post.cover && (
         <div className={styles.cover}>
           <Image
             src={post.cover.src}
             alt={post.cover.alt}
             fill
-            sizes="(max-width: 960px) 100vw, 960px"
+            sizes="(max-width: 1240px) 100vw, 1144px"
             placeholder={post.cover.lqip ? "blur" : undefined}
             blurDataURL={post.cover.lqip}
-            style={{
-              objectFit: "cover",
-              objectPosition: post.cover.hotspot
-                ? `${post.cover.hotspot.x * 100}% ${post.cover.hotspot.y * 100}%`
-                : "50% 50%",
-            }}
+            style={{ objectFit: "cover", objectPosition: objectPosition(post.cover) }}
             priority
           />
         </div>
       )}
 
-      <div className={styles.meta}>
-        {date && <time dateTime={post.publishedAt}>{date}</time>}
-        {post.tag && <span className={`eyebrow ${styles.tag}`}>{post.tag}</span>}
+      <div className={styles.body}>
+        <PortableTextBody value={post.body} />
       </div>
-
-      <h1 className={`h1 ${styles.title}`}>{post.title}</h1>
-
-      <PortableTextBody value={post.body} />
     </article>
   );
 }

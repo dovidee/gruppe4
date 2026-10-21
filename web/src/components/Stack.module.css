@@ -1,0 +1,43 @@
+.stack {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 24vh;
+  padding: 0 var(--gutter);
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+.item {
+  position: sticky;
+  /* The header is tucked away while scrolling down, so panels stack from the
+     top edge; each one sits a little lower to leave the previous one peeking. */
+  top: calc(20px + var(--i) * 14px);
+  min-height: min(calc(100svh - 120px), 780px);
+  display: flex;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+}
+
+.item > * {
+  flex: 1;
+  min-width: 0;
+}
+
+/* On small or short screens a panel can be taller than the viewport, and a
+   sticky panel would hide its own bottom under the next one. There they
+   simply follow each other. */
+@media (max-width: 760px), (max-height: 680px) {
+  .stack {
+    gap: 20px;
+  }
+
+  .item {
+    position: relative;
+    top: auto;
+    min-height: 0;
+  }
+}

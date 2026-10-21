@@ -22,13 +22,6 @@ export type SanityImageAssetReference = {
   [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
 };
 
-export type SanityFileAssetReference = {
-  _ref: string;
-  _type: "reference";
-  _weak?: boolean;
-  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
-};
-
 export type Post = {
   _id: string;
   _type: "post";
@@ -36,10 +29,12 @@ export type Post = {
   _updatedAt: string;
   _rev: string;
   title?: string;
+  titleEn?: string;
   slug?: Slug;
   publishedAt?: string;
   tag?: string;
   excerpt?: string;
+  excerptEn?: string;
   cover?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -49,6 +44,41 @@ export type Post = {
     _type: "image";
   };
   body?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }
+    | {
+        code?: string;
+        language?: string;
+        _type: "codeBlock";
+        _key: string;
+      }
+  >;
+  bodyEn?: Array<
     | {
         children?: Array<{
           marks?: Array<string>;
@@ -113,16 +143,26 @@ export type ForCompanies = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  eyebrow?: string;
   heading?: string;
-  lede?: string;
+  headingEn?: string;
   columns?: Array<{
     title?: string;
+    titleEn?: string;
     bullets?: Array<string>;
+    bulletsEn?: Array<string>;
+    ctaLabel?: string;
+    ctaLabelEn?: string;
+    ctaHref?: string;
     _type: "column";
     _key: string;
   }>;
-  ctaLabel?: string;
+};
+
+export type MemberReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "member";
 };
 
 export type Project = {
@@ -134,6 +174,7 @@ export type Project = {
   title?: string;
   slug?: Slug;
   order?: number;
+  personal?: boolean;
   meta?: string;
   categories?: Array<string>;
   cover?: {
@@ -145,13 +186,57 @@ export type Project = {
     _type: "image";
   };
   summary?: string;
+  summaryEn?: string;
   stack?: Array<string>;
+  contributors?: Array<{
+    member?: MemberReference;
+    githubUrl?: string;
+    _type: "contributor";
+    _key: string;
+  }>;
   githubUrl?: string;
   authors?: string;
   roleNote?: string;
+  roleNoteEn?: string;
   sections?: Array<{
     heading?: string;
+    headingEn?: string;
     body?: Array<
+      | {
+          children?: Array<{
+            marks?: Array<string>;
+            text?: string;
+            _type: "span";
+            _key: string;
+          }>;
+          style?: "normal" | "h2" | "h3" | "h4" | "blockquote";
+          listItem?: "bullet" | "number";
+          markDefs?: Array<{
+            href?: string;
+            _type: "link";
+            _key: string;
+          }>;
+          level?: number;
+          _type: "block";
+          _key: string;
+        }
+      | {
+          asset?: SanityImageAssetReference;
+          media?: unknown;
+          hotspot?: SanityImageHotspot;
+          crop?: SanityImageCrop;
+          alt?: string;
+          _type: "image";
+          _key: string;
+        }
+      | {
+          code?: string;
+          language?: string;
+          _type: "codeBlock";
+          _key: string;
+        }
+    >;
+    bodyEn?: Array<
       | {
           children?: Array<{
             marks?: Array<string>;
@@ -200,6 +285,7 @@ export type Member = {
   name?: string;
   order?: number;
   role?: string;
+  roleEn?: string;
   portrait?: {
     asset?: SanityImageAssetReference;
     media?: unknown;
@@ -208,6 +294,8 @@ export type Member = {
     alt?: string;
     _type: "image";
   };
+  tagline?: string;
+  taglineEn?: string;
   bio?: string;
   skills?: Array<string>;
   learning?: Array<string>;
@@ -222,8 +310,8 @@ export type About = {
   _createdAt: string;
   _updatedAt: string;
   _rev: string;
-  eyebrow?: string;
   heading?: string;
+  headingEn?: string;
   body?: Array<
     | {
         children?: Array<{
@@ -259,37 +347,7 @@ export type About = {
         _key: string;
       }
   >;
-};
-
-export type Home = {
-  _id: string;
-  _type: "home";
-  _createdAt: string;
-  _updatedAt: string;
-  _rev: string;
-  heroImage?: {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-  };
-  heroCaption?: string;
-  eyebrow?: string;
-  headline?: string;
-  subline?: string;
-  ctaPrimary?: {
-    label?: string;
-    href?: string;
-  };
-  ctaSecondary?: {
-    label?: string;
-    href?: string;
-  };
-  introEyebrow?: string;
-  introHeading?: string;
-  introBody?: Array<
+  bodyEn?: Array<
     | {
         children?: Array<{
           marks?: Array<string>;
@@ -324,10 +382,30 @@ export type Home = {
         _key: string;
       }
   >;
+};
+
+export type SanityFileAssetReference = {
+  _ref: string;
+  _type: "reference";
+  _weak?: boolean;
+  [internalGroqTypeReferenceTo]?: "sanity.fileAsset";
+};
+
+export type Home = {
+  _id: string;
+  _type: "home";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  headline?: string;
+  headlineEn?: string;
+  subline?: string;
+  sublineEn?: string;
   introVideo?: {
     asset?: SanityFileAssetReference;
     media?: unknown;
     title?: string;
+    titleEn?: string;
     poster?: {
       asset?: SanityImageAssetReference;
       media?: unknown;
@@ -342,8 +420,26 @@ export type Home = {
     };
     _type: "file";
   };
+  heroImage?: {
+    asset?: SanityImageAssetReference;
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    alt?: string;
+    _type: "image";
+  };
+  partnersLead?: string;
+  partnersLeadEn?: string;
+  partners?: Array<{
+    name?: string;
+    nameEn?: string;
+    _type: "partner";
+    _key: string;
+  }>;
   membersHeading?: string;
+  membersHeadingEn?: string;
   membersLede?: string;
+  membersLedeEn?: string;
 };
 
 export type SiteSettings = {
@@ -354,8 +450,10 @@ export type SiteSettings = {
   _rev: string;
   groupName?: string;
   responsePromise?: string;
+  responsePromiseEn?: string;
   nav?: Array<{
     label?: string;
+    labelEn?: string;
     href?: string;
     _type: "navItem";
     _key: string;
@@ -466,9 +564,11 @@ export type AllSanitySchemaTypes =
   | SanityImageHotspot
   | Slug
   | ForCompanies
+  | MemberReference
   | Project
   | Member
   | About
+  | SanityFileAssetReference
   | Home
   | SiteSettings
   | SanityImagePaletteSwatch
@@ -482,7 +582,7 @@ export type AllSanitySchemaTypes =
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: SITE_SETTINGS_QUERY
-// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, responsePromise, nav[]{label, href} }
+// Query: *[_type == "siteSettings" && _id == "siteSettings"][0]{    groupName,    "responsePromise": select($lang == "en" => coalesce(responsePromiseEn, responsePromise), responsePromise),    nav[]{ "label": select($lang == "en" => coalesce(labelEn, label), label), href }  }
 export type SITE_SETTINGS_QUERY_RESULT = {
   groupName: string | null;
   responsePromise: string | null;
@@ -494,7 +594,7 @@ export type SITE_SETTINGS_QUERY_RESULT = {
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: HOME_QUERY
-// Query: {  "home": *[_type == "home" && _id == "home"][0]{    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    heroCaption,    eyebrow,    headline,    subline,    ctaPrimary,    ctaSecondary,    introEyebrow,    introHeading,    introBody,    introVideo{ title, "url": asset->url, "mimeType": asset->mimeType, "captionsUrl": captions.asset->url, poster{ asset } },    membersHeading,    membersLede  },  "members": *[_type == "member"] | order(order asc){    _id,    name,    order,    role,    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    bio,    skills,    learning,    linkedin,    github,    email  },  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel  }}
+// Query: {  "home": *[_type == "home" && _id == "home"][0]{    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    "headline": select($lang == "en" => coalesce(headlineEn, headline), headline),    "subline": select($lang == "en" => coalesce(sublineEn, subline), subline),    introVideo{      "title": select($lang == "en" => coalesce(titleEn, title), title),      "url": asset->url,      "mimeType": asset->mimeType,      "captionsUrl": captions.asset->url,      poster{ asset }    },    "partnersLead": select($lang == "en" => coalesce(partnersLeadEn, partnersLead), partnersLead),    partners[]{ "name": select($lang == "en" => coalesce(nameEn, name), name) },    "membersHeading": select($lang == "en" => coalesce(membersHeadingEn, membersHeading), membersHeading),    "membersLede": select($lang == "en" => coalesce(membersLedeEn, membersLede), membersLede)  },  "members": *[_type == "member"] | order(order asc){    _id,    name,    order,    "role": select($lang == "en" => coalesce(roleEn, role), role),    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    "tagline": select($lang == "en" => coalesce(taglineEn, tagline), tagline),    bio,    skills,    learning,    linkedin,    github,    email,    "projects": *[_type == "project" && personal == true && defined(slug.current) && references(^._id)] | order(order asc){      _id,      title,      slug,      "summary": select($lang == "en" => coalesce(summaryEn, summary), summary),      stack,      cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },      "githubUrl": contributors[member._ref == ^.^._id][0].githubUrl    }  },  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{    "heading": select($lang == "en" => coalesce(headingEn, heading), heading),    columns[]{      "title": select($lang == "en" => coalesce(titleEn, title), title),      "bullets": select($lang == "en" => coalesce(bulletsEn, bullets), bullets),      "ctaLabel": select($lang == "en" => coalesce(ctaLabelEn, ctaLabel), ctaLabel),      ctaHref    }  }}
 export type HOME_QUERY_RESULT = {
   home: {
     heroImage: {
@@ -504,55 +604,8 @@ export type HOME_QUERY_RESULT = {
       lqip: string | null;
       aspectRatio: number | null;
     } | null;
-    heroCaption: string | null;
-    eyebrow: string | null;
     headline: string | null;
     subline: string | null;
-    ctaPrimary: {
-      label?: string;
-      href?: string;
-    } | null;
-    ctaSecondary: {
-      label?: string;
-      href?: string;
-    } | null;
-    introEyebrow: string | null;
-    introHeading: string | null;
-    introBody: Array<
-      | {
-          children?: Array<{
-            marks?: Array<string>;
-            text?: string;
-            _type: "span";
-            _key: string;
-          }>;
-          style?: "blockquote" | "h2" | "h3" | "h4" | "normal";
-          listItem?: "bullet" | "number";
-          markDefs?: Array<{
-            href?: string;
-            _type: "link";
-            _key: string;
-          }>;
-          level?: number;
-          _type: "block";
-          _key: string;
-        }
-      | {
-          code?: string;
-          language?: string;
-          _type: "codeBlock";
-          _key: string;
-        }
-      | {
-          asset?: SanityImageAssetReference;
-          media?: unknown;
-          hotspot?: SanityImageHotspot;
-          crop?: SanityImageCrop;
-          alt?: string;
-          _type: "image";
-          _key: string;
-        }
-    > | null;
     introVideo: {
       title: string | null;
       url: string | null;
@@ -562,6 +615,10 @@ export type HOME_QUERY_RESULT = {
         asset: SanityImageAssetReference | null;
       } | null;
     } | null;
+    partnersLead: string | null;
+    partners: Array<{
+      name: string | null;
+    }> | null;
     membersHeading: string | null;
     membersLede: string | null;
   } | null;
@@ -577,30 +634,44 @@ export type HOME_QUERY_RESULT = {
       lqip: string | null;
       aspectRatio: number | null;
     } | null;
+    tagline: string | null;
     bio: string | null;
     skills: Array<string> | null;
     learning: Array<string> | null;
     linkedin: string | null;
     github: string | null;
     email: string | null;
+    projects: Array<{
+      _id: string;
+      title: string | null;
+      slug: Slug | null;
+      summary: string | null;
+      stack: Array<string> | null;
+      cover: {
+        asset: SanityImageAssetReference | null;
+        hotspot: SanityImageHotspot | null;
+        alt: string | null;
+        lqip: string | null;
+        aspectRatio: number | null;
+      } | null;
+      githubUrl: string | null;
+    }>;
   }>;
   forCompanies: {
-    eyebrow: string | null;
     heading: string | null;
-    lede: string | null;
     columns: Array<{
       title: string | null;
       bullets: Array<string> | null;
+      ctaLabel: string | null;
+      ctaHref: string | null;
     }> | null;
-    ctaLabel: string | null;
   } | null;
 };
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: ABOUT_QUERY
-// Query: *[_type == "about" && _id == "about"][0]{ eyebrow, heading, body }
+// Query: *[_type == "about" && _id == "about"][0]{    "heading": select($lang == "en" => coalesce(headingEn, heading), heading),    "body": select($lang == "en" => coalesce(bodyEn, body), body)  }
 export type ABOUT_QUERY_RESULT = {
-  eyebrow: string | null;
   heading: string | null;
   body: Array<
     | {
@@ -641,12 +712,13 @@ export type ABOUT_QUERY_RESULT = {
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECTS_QUERY
-// Query: *[_type == "project" && defined(slug.current)] | order(order asc){    _id, title, slug, order, meta, categories, stack, githubUrl, authors,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    summary  }
+// Query: *[_type == "project" && defined(slug.current)] | order(order asc){    _id, title, slug, order, personal, meta, categories, stack, githubUrl, authors,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    "summary": select($lang == "en" => coalesce(summaryEn, summary), summary),    contributors[]{    githubUrl,    member->{ _id, name, portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio } }  }  }
 export type PROJECTS_QUERY_RESULT = Array<{
   _id: string;
   title: string | null;
   slug: Slug | null;
   order: number | null;
+  personal: boolean | null;
   meta: string | null;
   categories: Array<string> | null;
   stack: Array<string> | null;
@@ -660,15 +732,30 @@ export type PROJECTS_QUERY_RESULT = Array<{
     aspectRatio: number | null;
   } | null;
   summary: string | null;
+  contributors: Array<{
+    githubUrl: string | null;
+    member: {
+      _id: string;
+      name: string | null;
+      portrait: {
+        asset: SanityImageAssetReference | null;
+        hotspot: SanityImageHotspot | null;
+        alt: string | null;
+        lqip: string | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+  }> | null;
 }>;
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: PROJECT_QUERY
-// Query: *[_type == "project" && slug.current == $slug][0]{    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    summary,    sections[]{heading, body}  }
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id, title, slug, personal, meta, categories, stack, githubUrl, authors,    "roleNote": select($lang == "en" => coalesce(roleNoteEn, roleNote), roleNote),    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },    "summary": select($lang == "en" => coalesce(summaryEn, summary), summary),    contributors[]{    githubUrl,    member->{ _id, name, portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio } }  },    sections[]{      "heading": select($lang == "en" => coalesce(headingEn, heading), heading),      "body": select($lang == "en" => coalesce(bodyEn, body), body)    }  }
 export type PROJECT_QUERY_RESULT = {
   _id: string;
   title: string | null;
   slug: Slug | null;
+  personal: boolean | null;
   meta: string | null;
   categories: Array<string> | null;
   stack: Array<string> | null;
@@ -683,6 +770,20 @@ export type PROJECT_QUERY_RESULT = {
     aspectRatio: number | null;
   } | null;
   summary: string | null;
+  contributors: Array<{
+    githubUrl: string | null;
+    member: {
+      _id: string;
+      name: string | null;
+      portrait: {
+        asset: SanityImageAssetReference | null;
+        hotspot: SanityImageHotspot | null;
+        alt: string | null;
+        lqip: string | null;
+        aspectRatio: number | null;
+      } | null;
+    } | null;
+  }> | null;
   sections: Array<{
     heading: string | null;
     body: Array<
@@ -730,13 +831,13 @@ export type PROJECT_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: POSTS_QUERY
-// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){    _id, title, slug, publishedAt, tag, excerpt,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }  }
+// Query: *[_type == "post" && defined(slug.current)] | order(publishedAt desc){    _id, slug, publishedAt, tag,    "title": select($lang == "en" => coalesce(titleEn, title), title),    "excerpt": select($lang == "en" => coalesce(excerptEn, excerpt), excerpt),    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }  }
 export type POSTS_QUERY_RESULT = Array<{
   _id: string;
-  title: string | null;
   slug: Slug | null;
   publishedAt: string | null;
   tag: string | null;
+  title: string | null;
   excerpt: string | null;
   cover: {
     asset: SanityImageAssetReference | null;
@@ -749,13 +850,13 @@ export type POSTS_QUERY_RESULT = Array<{
 
 // Source: ../web/src/sanity/queries.ts
 // Variable: POST_QUERY
-// Query: *[_type == "post" && slug.current == $slug][0]{    _id, title, slug, publishedAt, tag, excerpt, body,    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }  }
+// Query: *[_type == "post" && slug.current == $slug][0]{    _id, slug, publishedAt, tag,    "title": select($lang == "en" => coalesce(titleEn, title), title),    "excerpt": select($lang == "en" => coalesce(excerptEn, excerpt), excerpt),    "body": select($lang == "en" => coalesce(bodyEn, body), body),    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }  }
 export type POST_QUERY_RESULT = {
   _id: string;
-  title: string | null;
   slug: Slug | null;
   publishedAt: string | null;
   tag: string | null;
+  title: string | null;
   excerpt: string | null;
   body: Array<
     | {
@@ -807,17 +908,20 @@ export type POST_QUERY_RESULT = {
 export type POST_SLUGS_QUERY_RESULT = Array<string | null>;
 
 // Query TypeMap
-import "@sanity/client";
-declare module "@sanity/client" {
+declare global {
   interface SanityQueries {
-    '*[_type == "siteSettings" && _id == "siteSettings"][0]{ groupName, responsePromise, nav[]{label, href} }': SITE_SETTINGS_QUERY_RESULT;
-    '{\n  "home": *[_type == "home" && _id == "home"][0]{\n    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    heroCaption,\n    eyebrow,\n    headline,\n    subline,\n    ctaPrimary,\n    ctaSecondary,\n    introEyebrow,\n    introHeading,\n    introBody,\n    introVideo{ title, "url": asset->url, "mimeType": asset->mimeType, "captionsUrl": captions.asset->url, poster{ asset } },\n    membersHeading,\n    membersLede\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    role,\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email\n  },\n  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{\n    eyebrow, heading, lede, columns[]{title, bullets}, ctaLabel\n  }\n}': HOME_QUERY_RESULT;
-    '*[_type == "about" && _id == "about"][0]{ eyebrow, heading, body }': ABOUT_QUERY_RESULT;
-    '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, meta, categories, stack, githubUrl, authors,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    summary\n  }': PROJECTS_QUERY_RESULT;
-    '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, meta, categories, stack, githubUrl, authors, roleNote,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    summary,\n    sections[]{heading, body}\n  }': PROJECT_QUERY_RESULT;
+    '*[_type == "siteSettings" && _id == "siteSettings"][0]{\n    groupName,\n    "responsePromise": select($lang == "en" => coalesce(responsePromiseEn, responsePromise), responsePromise),\n    nav[]{ "label": select($lang == "en" => coalesce(labelEn, label), label), href }\n  }': SITE_SETTINGS_QUERY_RESULT;
+    '{\n  "home": *[_type == "home" && _id == "home"][0]{\n    heroImage{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    "headline": select($lang == "en" => coalesce(headlineEn, headline), headline),\n    "subline": select($lang == "en" => coalesce(sublineEn, subline), subline),\n    introVideo{\n      "title": select($lang == "en" => coalesce(titleEn, title), title),\n      "url": asset->url,\n      "mimeType": asset->mimeType,\n      "captionsUrl": captions.asset->url,\n      poster{ asset }\n    },\n    "partnersLead": select($lang == "en" => coalesce(partnersLeadEn, partnersLead), partnersLead),\n    partners[]{ "name": select($lang == "en" => coalesce(nameEn, name), name) },\n    "membersHeading": select($lang == "en" => coalesce(membersHeadingEn, membersHeading), membersHeading),\n    "membersLede": select($lang == "en" => coalesce(membersLedeEn, membersLede), membersLede)\n  },\n  "members": *[_type == "member"] | order(order asc){\n    _id,\n    name,\n    order,\n    "role": select($lang == "en" => coalesce(roleEn, role), role),\n    portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    "tagline": select($lang == "en" => coalesce(taglineEn, tagline), tagline),\n    bio,\n    skills,\n    learning,\n    linkedin,\n    github,\n    email,\n    "projects": *[_type == "project" && personal == true && defined(slug.current) && references(^._id)] | order(order asc){\n      _id,\n      title,\n      slug,\n      "summary": select($lang == "en" => coalesce(summaryEn, summary), summary),\n      stack,\n      cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n      "githubUrl": contributors[member._ref == ^.^._id][0].githubUrl\n    }\n  },\n  "forCompanies": *[_type == "forCompanies" && _id == "forCompanies"][0]{\n    "heading": select($lang == "en" => coalesce(headingEn, heading), heading),\n    columns[]{\n      "title": select($lang == "en" => coalesce(titleEn, title), title),\n      "bullets": select($lang == "en" => coalesce(bulletsEn, bullets), bullets),\n      "ctaLabel": select($lang == "en" => coalesce(ctaLabelEn, ctaLabel), ctaLabel),\n      ctaHref\n    }\n  }\n}': HOME_QUERY_RESULT;
+    '*[_type == "about" && _id == "about"][0]{\n    "heading": select($lang == "en" => coalesce(headingEn, heading), heading),\n    "body": select($lang == "en" => coalesce(bodyEn, body), body)\n  }': ABOUT_QUERY_RESULT;
+    '*[_type == "project" && defined(slug.current)] | order(order asc){\n    _id, title, slug, order, personal, meta, categories, stack, githubUrl, authors,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    "summary": select($lang == "en" => coalesce(summaryEn, summary), summary),\n    contributors[]{\n    githubUrl,\n    member->{ _id, name, portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio } }\n  }\n  }': PROJECTS_QUERY_RESULT;
+    '*[_type == "project" && slug.current == $slug][0]{\n    _id, title, slug, personal, meta, categories, stack, githubUrl, authors,\n    "roleNote": select($lang == "en" => coalesce(roleNoteEn, roleNote), roleNote),\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio },\n    "summary": select($lang == "en" => coalesce(summaryEn, summary), summary),\n    contributors[]{\n    githubUrl,\n    member->{ _id, name, portrait{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio } }\n  },\n    sections[]{\n      "heading": select($lang == "en" => coalesce(headingEn, heading), heading),\n      "body": select($lang == "en" => coalesce(bodyEn, body), body)\n    }\n  }': PROJECT_QUERY_RESULT;
     '*[_type == "project" && defined(slug.current)].slug.current': PROJECT_SLUGS_QUERY_RESULT;
-    '*[_type == "post" && defined(slug.current)] | order(publishedAt desc){\n    _id, title, slug, publishedAt, tag, excerpt,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }\n  }': POSTS_QUERY_RESULT;
-    '*[_type == "post" && slug.current == $slug][0]{\n    _id, title, slug, publishedAt, tag, excerpt, body,\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }\n  }': POST_QUERY_RESULT;
+    '*[_type == "post" && defined(slug.current)] | order(publishedAt desc){\n    _id, slug, publishedAt, tag,\n    "title": select($lang == "en" => coalesce(titleEn, title), title),\n    "excerpt": select($lang == "en" => coalesce(excerptEn, excerpt), excerpt),\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }\n  }': POSTS_QUERY_RESULT;
+    '*[_type == "post" && slug.current == $slug][0]{\n    _id, slug, publishedAt, tag,\n    "title": select($lang == "en" => coalesce(titleEn, title), title),\n    "excerpt": select($lang == "en" => coalesce(excerptEn, excerpt), excerpt),\n    "body": select($lang == "en" => coalesce(bodyEn, body), body),\n    cover{ asset, hotspot, alt, "lqip": asset->metadata.lqip, "aspectRatio": asset->metadata.dimensions.aspectRatio }\n  }': POST_QUERY_RESULT;
     '*[_type == "post" && defined(slug.current)].slug.current': POST_SLUGS_QUERY_RESULT;
   }
+}
+// Lets @sanity/client releases that predate the global registry read it too
+declare module "@sanity/client" {
+  interface SanityQueries extends globalThis.SanityQueries {}
 }

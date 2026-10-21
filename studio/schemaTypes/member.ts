@@ -22,6 +22,7 @@ export const member = defineType({
       validation: (r) => r.required(),
       description: 'En ekte rolle, f.eks. «Design og UX». Ikke «Gruppemedlem».',
     }),
+    defineField({name: 'roleEn', title: 'Rolle i gruppa, engelsk', type: 'string'}),
     defineField({
       name: 'portrait',
       title: 'Portrett',
@@ -32,6 +33,15 @@ export const member = defineType({
         defineField({name: 'alt', title: 'Alt-tekst', type: 'string', validation: (r) => r.required()}),
       ],
     }),
+    defineField({
+      name: 'tagline',
+      title: 'Kort intro',
+      type: 'text',
+      rows: 2,
+      description: 'Én eller to setninger som vises på forsiden. Uten denne brukes første setning i bioen.',
+      validation: (r) => r.max(200),
+    }),
+    defineField({name: 'taglineEn', title: 'Kort intro, engelsk', type: 'text', rows: 2}),
     defineField({
       name: 'bio',
       title: 'Bio',

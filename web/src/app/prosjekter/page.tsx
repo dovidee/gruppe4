@@ -1,22 +1,31 @@
 import type { Metadata } from "next";
-import { SectionBlock } from "@/components";
+import { EmptyState, SectionIntro } from "@/components";
+import { getDictionary } from "@/i18n/server";
 import { paths } from "@/resources";
 import { getProjects, getSiteSettings } from "@/sanity/content";
 import { ProjectsBrowser } from "./ProjectsBrowser";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const settings = await getSiteSettings();
+  const { locale } = await getDictionary();
+  const settings = await getSiteSettings(locale);
   const label = settings.nav.find((item) => item.href === paths.prosjekter)?.label;
   return { title: label || undefined };
 }
 
 export default async function ProsjekterPage() {
-  const [projects, settings] = await Promise.all([getProjects(), getSiteSettings()]);
-  const heading = settings.nav.find((item) => item.href === paths.prosjekter)?.label ?? "";
+  const { locale, t } = await getDictionary();
+  const projects = await getProjects(locale);
 
   return (
-    <SectionBlock headingAs="h1" heading={heading}>
-      <ProjectsBrowser projects={projects} />
-    </SectionBlock>
+    <>
+      <SectionIntro as="h1" heading={t.projectsHeading} />
+      {projects.length === 0 ? (
+        <div className="container">
+          <EmptyState title={t.noProjects} />
+        </div>
+      ) : (
+        <ProjectsBrowser projects={projects} locale={locale} />
+      )}
+    </>
   );
 }

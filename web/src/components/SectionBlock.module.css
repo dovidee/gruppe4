@@ -1,17 +1,7 @@
 .head {
-  margin-bottom: 28px;
-}
-
-.head .eyebrow,
-.head p.eyebrow {
-  margin-bottom: 8px;
-}
-
-.head h1,
-.head h2 {
-  margin-bottom: 10px;
-}
-
-.lede {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vw, 22px);
+  max-width: 900px;
+  margin-bottom: clamp(28px, 4vw, 48px);
 }

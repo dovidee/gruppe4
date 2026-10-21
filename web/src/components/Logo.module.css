@@ -1,0 +1,20 @@
+.logo {
+  display: block;
+  height: auto;
+}
+
+.letters {
+  fill: var(--logo-letters);
+}
+
+.it {
+  fill: var(--logo-it);
+}
+
+.arcHigh {
+  fill: var(--logo-arc-high);
+}
+
+.arcLow {
+  fill: var(--logo-arc-low);
+}

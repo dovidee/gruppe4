@@ -1,0 +1,24 @@
+.intro {
+  min-height: 62svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(20px, 2.5vw, 32px);
+  padding: clamp(64px, 10vw, 140px) var(--gutter);
+  text-align: center;
+}
+
+.heading {
+  max-width: 14ch;
+}
+
+.lede {
+  margin: 0 auto;
+}
+
+@media (max-width: 760px) {
+  .intro {
+    min-height: 0;
+  }
+}

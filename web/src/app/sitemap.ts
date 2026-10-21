@@ -1,8 +1,9 @@
 import { baseURL, paths } from "@/resources";
+import { defaultLocale } from "@/i18n/config";
 import { getPosts, getProjects } from "@/sanity/content";
 
 export default async function sitemap() {
-  const [posts, projects] = await Promise.all([getPosts(), getProjects()]);
+  const [posts, projects] = await Promise.all([getPosts(defaultLocale), getProjects(defaultLocale)]);
 
   const routes = Object.values(paths).map((path) => ({
     url: `${baseURL}${path}`,

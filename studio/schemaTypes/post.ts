@@ -9,6 +9,7 @@ export const post = defineType({
   icon: DocumentTextIcon,
   fields: [
     defineField({name: 'title', title: 'Tittel', type: 'string', validation: (r) => r.required()}),
+    defineField({name: 'titleEn', title: 'Tittel, engelsk', type: 'string'}),
     defineField({
       name: 'slug',
       title: 'Slug',
@@ -22,7 +23,12 @@ export const post = defineType({
       type: 'datetime',
       validation: (r) => r.required(),
     }),
-    defineField({name: 'tag', title: 'Tagg', type: 'string'}),
+    defineField({
+      name: 'tag',
+      title: 'Kategori',
+      type: 'string',
+      description: 'F.eks. «Web». Kategoriene vises som filtre på bloggsiden.',
+    }),
     defineField({
       name: 'excerpt',
       title: 'Utdrag',
@@ -30,6 +36,7 @@ export const post = defineType({
       rows: 2,
       validation: (r) => r.required(),
     }),
+    defineField({name: 'excerptEn', title: 'Utdrag, engelsk', type: 'text', rows: 2}),
     defineField({
       name: 'cover',
       title: 'Bilde',
@@ -40,6 +47,12 @@ export const post = defineType({
     defineField({
       name: 'body',
       title: 'Innhold',
+      type: 'array',
+      of: portableTextBody,
+    }),
+    defineField({
+      name: 'bodyEn',
+      title: 'Innhold, engelsk',
       type: 'array',
       of: portableTextBody,
     }),

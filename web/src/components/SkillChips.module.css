@@ -1,0 +1,83 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.chip {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--surface-2);
+  border: 1.5px solid transparent;
+  color: var(--ink-soft);
+  font-size: 23px;
+  transition:
+    color 260ms var(--ease-out),
+    background-color 260ms var(--ease-out),
+    border-color 260ms var(--ease-out);
+}
+
+.chip[data-learning] {
+  background: transparent;
+  border: 1.5px dashed var(--rule);
+}
+
+.chip:hover {
+  color: var(--c);
+  background: color-mix(in oklch, var(--c) 16%, var(--surface));
+  border-color: color-mix(in oklch, var(--c) 45%, transparent);
+}
+
+/* Name tag above the icon. */
+.chip::after {
+  content: attr(data-label);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  z-index: 2;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 260ms var(--ease-out);
+}
+
+.chip:hover::after {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.legendSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1.5px dashed var(--ink-soft);
+}

@@ -1,0 +1,81 @@
+.links {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.link {
+  --c: var(--accent);
+  --on-c: var(--on-accent);
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 26px;
+  box-shadow: 0 2px 4px oklch(23.6% 0.066 260.2 / 0.12);
+  transition:
+    transform 380ms var(--ease-bounce),
+    background-color 280ms var(--ease-out),
+    color 280ms var(--ease-out),
+    box-shadow 380ms var(--ease-out);
+}
+
+.link[data-service="linkedin"] {
+  --c: oklch(51.6% 0.163 254.7);
+  --on-c: oklch(100% 0 0);
+}
+
+.link[data-service="github"] {
+  --c: oklch(30% 0.02 285);
+  --on-c: oklch(100% 0 0);
+}
+
+:root[data-theme="dark"] .link[data-service="github"] {
+  --c: oklch(96% 0.005 285);
+  --on-c: oklch(20% 0.02 285);
+}
+
+/* The sheen: a soft band of light that sweeps across on hover. */
+.link::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    oklch(100% 0 0 / 0.55) 50%,
+    transparent 65%
+  );
+  transform: translateX(-70%);
+  transition: transform 700ms var(--ease-out);
+  pointer-events: none;
+}
+
+.link svg {
+  position: relative;
+}
+
+.link:hover,
+.link:focus-visible {
+  background: var(--c);
+  color: var(--on-c);
+  transform: translateY(-5px);
+  box-shadow:
+    0 14px 28px -10px color-mix(in oklch, var(--c) 70%, transparent),
+    0 4px 10px -4px oklch(23.6% 0.066 260.2 / 0.25);
+}
+
+.link:hover::before,
+.link:focus-visible::before {
+  transform: translateX(70%);
+}
+
+.link:active {
+  transform: translateY(-1px);
+}

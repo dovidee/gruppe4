@@ -8,28 +8,30 @@ type ProjectFiltersProps = {
   categories: Category[];
   active: string | null;
   onChange: (value: string | null) => void;
+  allLabel: string;
+  label: string;
 };
 
-export function ProjectFilters({ categories, active, onChange }: ProjectFiltersProps) {
+export function ProjectFilters({
+  categories,
+  active,
+  onChange,
+  allLabel,
+  label,
+}: ProjectFiltersProps) {
+  const options = [{ value: null, label: allLabel }, ...categories];
+
   return (
-    <div className={styles.filters} role="group" aria-label="Filtrer prosjekter">
-      <button
-        type="button"
-        className={active === null ? styles.active : styles.chip}
-        aria-pressed={active === null}
-        onClick={() => onChange(null)}
-      >
-        Alle
-      </button>
-      {categories.map((category) => (
+    <div className={styles.filters} role="group" aria-label={label}>
+      {options.map((option) => (
         <button
-          key={category.value}
+          key={option.value ?? "alle"}
           type="button"
-          className={active === category.value ? styles.active : styles.chip}
-          aria-pressed={active === category.value}
-          onClick={() => onChange(category.value)}
+          className={styles.chip}
+          aria-pressed={active === option.value}
+          onClick={() => onChange(option.value)}
         >
-          {category.label}
+          {option.label}
         </button>
       ))}
     </div>

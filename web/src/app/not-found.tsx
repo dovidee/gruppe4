@@ -1,11 +1,18 @@
-export default function NotFound() {
+import Link from "next/link";
+import { getDictionary } from "@/i18n/server";
+import styles from "./not-found.module.css";
+
+export default async function NotFound() {
+  const { t } = await getDictionary();
+
   return (
-    <div className="section container" style={{ textAlign: "center", padding: "120px 34px" }}>
-      <p className="eyebrow">404</p>
-      <h1 className="h1" style={{ margin: "12px 0" }}>
-        Siden ble ikke funnet
-      </h1>
-      <p style={{ color: "var(--muted)" }}>Siden du leter etter finnes ikke.</p>
+    <div className={styles.wrap}>
+      <p className={styles.code}>404</p>
+      <h1 className="h1">{t.notFoundHeading}</h1>
+      <p className="lede">{t.notFoundBody}</p>
+      <Link className={styles.button} href="/">
+        {t.notFoundBack}
+      </Link>
     </div>
   );
 }

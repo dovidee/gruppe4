@@ -1,54 +1,85 @@
+.article {
+  padding-top: clamp(40px, 7vw, 96px);
+  padding-bottom: clamp(40px, 7vw, 96px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(14px, 2vw, 24px);
+  max-width: 900px;
+  margin-bottom: clamp(28px, 4vw, 48px);
+}
+
+.meta {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--accent);
+}
+
 .cover {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 9;
-  border-radius: 4px;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  background: var(--royal-soft);
-  margin-bottom: 28px;
+  background: var(--accent-soft);
+  margin-bottom: clamp(28px, 4vw, 48px);
 }
 
-.meta {
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 10px;
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px 48px;
+  margin-bottom: clamp(32px, 5vw, 64px);
 }
 
-.title {
-  margin-bottom: 14px;
-}
-
-.summary {
-  margin-bottom: 20px;
+.legacy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .authors {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 20px;
+  font-weight: 600;
+  color: var(--ink-soft);
 }
 
-.callout {
-  border-left: 2px solid var(--sky);
-  background: var(--royal-soft);
-  padding: 14px 18px;
-  margin-bottom: 20px;
-  font-size: 14px;
+.githubButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 380ms var(--ease-bounce);
+}
+
+.githubButton:hover {
+  transform: translateY(-4px);
+}
+
+.note {
+  max-width: 68ch;
+  padding: 18px 22px;
+  margin-bottom: clamp(32px, 5vw, 64px);
+  border-radius: var(--radius-sm);
+  background: var(--accent-soft);
   color: var(--ink);
-  max-width: 60ch;
-}
-
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 36px;
 }
 
 .section {
-  padding-top: 28px;
+  max-width: 68ch;
+  padding-top: clamp(28px, 4vw, 44px);
+  margin-top: clamp(28px, 4vw, 44px);
   border-top: 1px solid var(--rule);
-  margin-top: 28px;
 }
 
 .section:first-of-type {
@@ -58,17 +89,5 @@
 }
 
 .sectionHeading {
-  margin-bottom: 12px;
-}
-
-.githubLink {
-  display: inline-flex;
-  align-items: center;
-  margin-top: 36px;
-  padding: 12px 22px;
-  background: var(--ink);
-  color: var(--white);
-  text-decoration: none;
-  font-size: 14px;
-  border-radius: 2px;
+  margin-bottom: 16px;
 }

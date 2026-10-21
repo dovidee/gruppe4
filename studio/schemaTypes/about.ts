@@ -9,17 +9,12 @@ export const about = defineType({
   icon: InfoOutlineIcon,
   fields: [
     defineField({
-      name: 'eyebrow',
-      title: 'Overlinje',
-      type: 'string',
-      description: 'F.eks. «Gruppe 4, IS-310, Universitetet i Agder»',
-    }),
-    defineField({
       name: 'heading',
       title: 'Overskrift',
       type: 'string',
       validation: (r) => r.required(),
     }),
+    defineField({name: 'headingEn', title: 'Overskrift, engelsk', type: 'string'}),
     defineField({
       name: 'body',
       title: 'Innhold',
@@ -29,6 +24,7 @@ export const about = defineType({
       of: portableTextBody,
       validation: (r) => r.required(),
     }),
+    defineField({name: 'bodyEn', title: 'Innhold, engelsk', type: 'array', of: portableTextBody}),
   ],
   preview: {
     select: {title: 'heading'},

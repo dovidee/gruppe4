@@ -2,18 +2,22 @@ import styles from "./Footer.module.css";
 
 type FooterProps = {
   groupName: string;
-  responsePromise?: string;
+  university: string;
+  tagline: string;
 };
 
-export function Footer({ groupName, responsePromise }: FooterProps) {
+export function Footer({ groupName, university, tagline }: FooterProps) {
   const year = new Date().getFullYear();
 
   return (
     <footer className={styles.footer}>
-      <span>
-        {groupName}, {year}
-      </span>
-      {responsePromise && <span className={styles.promise}>{responsePromise}</span>}
+      <div className={styles.inner}>
+        <span className={styles.group}>
+          {groupName}, {year}
+        </span>
+        <span className={styles.university}>{university}</span>
+        <span className={styles.tagline}>{tagline}</span>
+      </div>
     </footer>
   );
 }
