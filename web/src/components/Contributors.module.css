@@ -1,0 +1,92 @@
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.person {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 6px 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 600;
+  transition:
+    transform 380ms var(--ease-bounce),
+    background-color 260ms var(--ease-out),
+    border-color 260ms var(--ease-out),
+    box-shadow 380ms var(--ease-out);
+}
+
+/* Linked chips get the same sheen as the social buttons. */
+a.person::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    oklch(100% 0 0 / 0.5) 50%,
+    transparent 65%
+  );
+  transform: translateX(-70%);
+  transition: transform 700ms var(--ease-out);
+  pointer-events: none;
+}
+
+a.person:hover,
+a.person:focus-visible {
+  transform: translateY(-4px);
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+  box-shadow: 0 14px 28px -12px oklch(23.6% 0.066 260.2 / 0.45);
+}
+
+a.person:hover::before,
+a.person:focus-visible::before {
+  transform: translateX(70%);
+}
+
+.face {
+  position: relative;
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 800;
+}
+
+.name {
+  position: relative;
+  white-space: nowrap;
+}
+
+.github {
+  position: relative;
+  font-size: 18px;
+}

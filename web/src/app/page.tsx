@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { Hero, MemberRow, PortableTextBody, SectionBlock, VideoPlayer } from "@/components";
-import { contactFormPath } from "@/resources";
+import {
+  MemberPanel,
+  OfferPanels,
+  Partners,
+  ProjectCarousel,
+  SectionIntro,
+  Stack,
+  StackItem,
+  VideoStage,
+} from "@/components";
+import { getDictionary } from "@/i18n/server";
 import { getHomeData } from "@/sanity/content";
 import styles from "./page.module.css";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const home = await getHomeData();
+  const { locale } = await getDictionary();
+  const home = await getHomeData(locale);
 
   return {
     title: home.headline || undefined,
@@ -16,57 +25,63 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const home = await getHomeData();
+  const { locale, t } = await getDictionary();
+  const home = await getHomeData(locale);
+
+  // Each member gets a panel; a member with their own projects gets a second
+  // panel right after, so their work follows their face.
+  const panels = home.members.flatMap((member) => [
+    { key: member.id, kind: "member" as const, member },
+    ...(member.projects.length > 0
+      ? [{ key: `${member.id}-projects`, kind: "projects" as const, member }]
+      : []),
+  ]);
 
   return (
     <>
-      <Hero
-        image={home.heroImage}
-        caption={home.heroCaption}
-        eyebrow={home.eyebrow}
-        headline={home.headline}
-        subline={home.subline}
-        ctaPrimary={home.ctaPrimary}
-        ctaSecondary={home.ctaSecondary}
+      <h1 className="visually-hidden">{home.headline || "resonansIT"}</h1>
+
+      <div className={styles.videoWrap}>
+        <VideoStage video={home.video} fallbackImage={home.heroImage} locale={locale} />
+      </div>
+
+      <Partners
+        lead={home.partnersLead || t.partnersLead}
+        names={home.partners.length > 0 ? home.partners : t.partnersFallback}
+        locale={locale}
       />
 
-      <SectionBlock eyebrow={home.introEyebrow} heading={home.introHeading}>
-        <PortableTextBody value={home.introBody} />
-        {home.introVideo && <VideoPlayer video={home.introVideo} />}
-      </SectionBlock>
-
-      <SectionBlock heading={home.membersHeading} lede={home.membersLede}>
-        <div>
-          {home.members.map((member) => (
-            <MemberRow key={member.id} member={member} />
-          ))}
-        </div>
-      </SectionBlock>
-
-      {home.forCompanies && (
-        <SectionBlock
-          eyebrow={home.forCompanies.eyebrow}
-          heading={home.forCompanies.heading}
-          lede={home.forCompanies.lede}
-        >
-          <div className={styles.columns}>
-            {home.forCompanies.columns.map((column, i) => (
-              <div key={i} className={styles.column}>
-                <h3 className="h3">{column.title}</h3>
-                <ul className={styles.bullets}>
-                  {column.bullets.map((bullet, j) => (
-                    <li key={j}>{bullet}</li>
-                  ))}
-                </ul>
-              </div>
+      {panels.length > 0 && (
+        <section aria-labelledby="medlemmer">
+          <SectionIntro
+            id="medlemmer"
+            heading={home.membersHeading || t.membersHeading}
+            lede={home.membersLede || t.membersLede}
+          />
+          <Stack>
+            {panels.map((panel, i) => (
+              <StackItem key={panel.key} index={i}>
+                {panel.kind === "member" ? (
+                  <MemberPanel member={panel.member} locale={locale} />
+                ) : (
+                  <ProjectCarousel
+                    projects={panel.member.projects}
+                    memberName={panel.member.name}
+                    memberPortrait={panel.member.portrait}
+                    locale={locale}
+                  />
+                )}
+              </StackItem>
             ))}
-          </div>
-          {home.forCompanies.ctaLabel && (
-            <Link className={styles.contactButton} href={contactFormPath}>
-              {home.forCompanies.ctaLabel}
-            </Link>
-          )}
-        </SectionBlock>
+          </Stack>
+        </section>
+      )}
+
+      {home.forCompanies && home.forCompanies.columns.length > 0 && (
+        <section aria-labelledby="samarbeid" className={styles.offers}>
+          <SectionIntro id="samarbeid" heading={home.forCompanies.heading || t.offerHeading} />
+          <OfferPanels columns={home.forCompanies.columns} locale={locale} />
+        </section>
       )}
     </>
   );

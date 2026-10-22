@@ -2,25 +2,33 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 24px;
 }
 
-.chip,
-.active {
-  font-family: var(--font-utility);
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  padding: 7px 14px;
+.chip {
+  min-height: 44px;
+  padding: 0 20px;
   border-radius: 999px;
   border: 1px solid var(--rule);
-  background: var(--white);
-  color: var(--muted);
+  background: var(--surface-2);
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
   cursor: pointer;
+  transition:
+    transform 320ms var(--ease-bounce),
+    background-color 220ms var(--ease-out),
+    color 220ms var(--ease-out),
+    border-color 220ms var(--ease-out);
 }
 
-.active {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--white);
+.chip:hover {
+  transform: translateY(-2px);
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
 }

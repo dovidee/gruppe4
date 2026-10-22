@@ -1,4 +1,5 @@
 import type { PortableTextBlock } from "next-sanity";
+import type { Locale } from "@/i18n/config";
 import { client } from "./client";
 import { imageUrl } from "./image";
 import {
@@ -22,9 +23,10 @@ import type {
   SITE_SETTINGS_QUERY_RESULT,
 } from "../../sanity.types";
 
-const HOME_TAGS = ["home", "member", "forCompanies", "siteSettings"];
+// "project" is here because members list their personal projects.
+const HOME_TAGS = ["home", "member", "project", "forCompanies", "siteSettings"];
 const ABOUT_TAGS = ["about"];
-const PROJECT_TAGS = ["project"];
+const PROJECT_TAGS = ["project", "member"];
 const POST_TAGS = ["post"];
 
 function sanityFetch<T>(query: string, params: Record<string, unknown>, tags: string[]) {
@@ -68,7 +70,15 @@ function mapImage(image: RawImage, width: number): SanityImageData {
   };
 }
 
-// Site settings (nav, contact)
+export function objectPosition(image: SanityImageData) {
+  return image?.hotspot ? `${image.hotspot.x * 100}% ${image.hotspot.y * 100}%` : "50% 50%";
+}
+
+function strings(values: (string | null)[] | null | undefined): string[] {
+  return (values ?? []).filter((s): s is string => Boolean(s));
+}
+
+// Site settings (nav, footer)
 
 export type SiteSettings = {
   groupName: string;
@@ -76,10 +86,10 @@ export type SiteSettings = {
   nav: { label: string; href: string }[];
 };
 
-export async function getSiteSettings(): Promise<SiteSettings> {
-  const raw = await client.fetch<SITE_SETTINGS_QUERY_RESULT>(SITE_SETTINGS_QUERY, {}, {
-    next: { tags: ["siteSettings"], revalidate: process.env.NODE_ENV === "development" ? 0 : 3600 },
-  });
+export async function getSiteSettings(lang: Locale): Promise<SiteSettings> {
+  const raw = await sanityFetch<SITE_SETTINGS_QUERY_RESULT>(SITE_SETTINGS_QUERY, { lang }, [
+    "siteSettings",
+  ]);
 
   return {
     groupName: raw?.groupName ?? "Gruppe",
@@ -88,7 +98,17 @@ export async function getSiteSettings(): Promise<SiteSettings> {
   };
 }
 
-// Home (hero, intro, members, for bedrifter)
+// Home (video, partners, members, for bedrifter)
+
+export type MemberProject = {
+  id: string;
+  title: string;
+  slug: string;
+  summary: string;
+  stack: string[];
+  cover: SanityImageData;
+  githubUrl?: string;
+};
 
 export type Member = {
   id: string;
@@ -96,15 +116,24 @@ export type Member = {
   order: number;
   role: string;
   portrait: SanityImageData;
-  bio: string;
+  tagline: string;
   skills: string[];
   learning: string[];
   linkedin?: string;
   github?: string;
   email?: string;
+  projects: MemberProject[];
 };
 
 type RawMember = NonNullable<HOME_QUERY_RESULT["members"]>[number];
+
+// The homepage shows one or two sentences. Until an editor writes a tagline,
+// the bio's opening sentence stands in.
+function firstSentence(text: string) {
+  const trimmed = text.trim();
+  const match = trimmed.match(/^[\s\S]+?[.!?](?=\s|$)/);
+  return (match ? match[0] : trimmed).trim();
+}
 
 function mapMember(m: RawMember): Member {
   return {
@@ -112,22 +141,35 @@ function mapMember(m: RawMember): Member {
     name: m.name ?? "",
     order: m.order ?? 0,
     role: m.role ?? "",
-    portrait: mapImage(m.portrait, 400),
-    bio: m.bio ?? "",
-    skills: (m.skills ?? []).filter((s): s is string => Boolean(s)),
-    learning: (m.learning ?? []).filter((s): s is string => Boolean(s)),
+    portrait: mapImage(m.portrait, 1200),
+    tagline: m.tagline?.trim() || firstSentence(m.bio ?? ""),
+    skills: strings(m.skills),
+    learning: strings(m.learning),
     linkedin: m.linkedin ?? undefined,
     github: m.github ?? undefined,
     email: m.email ?? undefined,
+    projects: (m.projects ?? []).map((p) => ({
+      id: p._id,
+      title: p.title ?? "",
+      slug: p.slug?.current ?? "",
+      summary: p.summary ?? "",
+      stack: strings(p.stack),
+      cover: mapImage(p.cover, 900),
+      githubUrl: p.githubUrl ?? undefined,
+    })),
   };
 }
 
-export type ForCompanies = {
-  eyebrow: string;
-  heading: string;
-  lede: string;
-  columns: { title: string; bullets: string[] }[];
+export type OfferColumn = {
+  title: string;
+  bullets: string[];
   ctaLabel: string;
+  ctaHref: string;
+};
+
+export type ForCompanies = {
+  heading: string;
+  columns: OfferColumn[];
 };
 
 export type SanityVideoData = {
@@ -139,65 +181,51 @@ export type SanityVideoData = {
 } | null;
 
 export type HomeData = {
-  heroImage: SanityImageData;
-  heroCaption: string;
-  eyebrow: string;
   headline: string;
   subline: string;
-  ctaPrimary?: { label: string; href: string };
-  ctaSecondary?: { label: string; href: string };
-  introEyebrow: string;
-  introHeading: string;
-  introBody: PortableTextBlock[];
-  introVideo: SanityVideoData;
+  heroImage: SanityImageData;
+  video: SanityVideoData;
+  partnersLead: string;
+  partners: string[];
   membersHeading: string;
   membersLede: string;
   members: Member[];
   forCompanies: ForCompanies | null;
 };
 
-export async function getHomeData(): Promise<HomeData> {
-  const raw = await sanityFetch<HOME_QUERY_RESULT>(HOME_QUERY, {}, HOME_TAGS);
+export async function getHomeData(lang: Locale): Promise<HomeData> {
+  const raw = await sanityFetch<HOME_QUERY_RESULT>(HOME_QUERY, { lang }, HOME_TAGS);
+  const heroImage = mapImage(raw.home?.heroImage, 1920);
+  const video = raw.home?.introVideo;
 
   return {
-    heroImage: mapImage(raw.home?.heroImage, 1600),
-    heroCaption: raw.home?.heroCaption ?? "",
-    eyebrow: raw.home?.eyebrow ?? "",
     headline: raw.home?.headline ?? "",
     subline: raw.home?.subline ?? "",
-    ctaPrimary:
-      raw.home?.ctaPrimary?.label && raw.home?.ctaPrimary?.href
-        ? { label: raw.home.ctaPrimary.label, href: raw.home.ctaPrimary.href }
-        : undefined,
-    ctaSecondary:
-      raw.home?.ctaSecondary?.label && raw.home?.ctaSecondary?.href
-        ? { label: raw.home.ctaSecondary.label, href: raw.home.ctaSecondary.href }
-        : undefined,
-    introEyebrow: raw.home?.introEyebrow ?? "",
-    introHeading: raw.home?.introHeading ?? "",
-    introBody: (raw.home?.introBody ?? []) as PortableTextBlock[],
-    introVideo: raw.home?.introVideo?.url
+    heroImage,
+    video: video?.url
       ? {
-          src: raw.home.introVideo.url,
-          mimeType: raw.home.introVideo.mimeType ?? undefined,
-          title: raw.home.introVideo.title ?? "",
-          poster: mapImage(raw.home.introVideo.poster, 1600)?.src,
-          captions: raw.home.introVideo.captionsUrl ?? undefined,
+          src: video.url,
+          mimeType: video.mimeType ?? undefined,
+          title: video.title ?? "",
+          // Without its own poster the video opens on the group photo.
+          poster: mapImage(video.poster, 1920)?.src ?? heroImage?.src,
+          captions: video.captionsUrl ?? undefined,
         }
       : null,
+    partnersLead: raw.home?.partnersLead ?? "",
+    partners: (raw.home?.partners ?? []).map((p) => p.name ?? "").filter(Boolean),
     membersHeading: raw.home?.membersHeading ?? "",
     membersLede: raw.home?.membersLede ?? "",
     members: (raw.members ?? []).map(mapMember),
     forCompanies: raw.forCompanies
       ? {
-          eyebrow: raw.forCompanies.eyebrow ?? "",
           heading: raw.forCompanies.heading ?? "",
-          lede: raw.forCompanies.lede ?? "",
           columns: (raw.forCompanies.columns ?? []).map((c) => ({
             title: c.title ?? "",
-            bullets: (c.bullets ?? []).filter((b): b is string => Boolean(b)),
+            bullets: strings(c.bullets),
+            ctaLabel: c.ctaLabel ?? "",
+            ctaHref: c.ctaHref ?? "",
           })),
-          ctaLabel: raw.forCompanies.ctaLabel ?? "",
         }
       : null,
   };
@@ -206,16 +234,14 @@ export async function getHomeData(): Promise<HomeData> {
 // About (om oss)
 
 export type AboutData = {
-  eyebrow: string;
   heading: string;
   body: PortableTextBlock[];
 };
 
-export async function getAboutData(): Promise<AboutData> {
-  const raw = await sanityFetch<ABOUT_QUERY_RESULT>(ABOUT_QUERY, {}, ABOUT_TAGS);
+export async function getAboutData(lang: Locale): Promise<AboutData> {
+  const raw = await sanityFetch<ABOUT_QUERY_RESULT>(ABOUT_QUERY, { lang }, ABOUT_TAGS);
 
   return {
-    eyebrow: raw?.eyebrow ?? "",
     heading: raw?.heading ?? "",
     body: (raw?.body ?? []) as PortableTextBlock[],
   };
@@ -223,55 +249,89 @@ export async function getAboutData(): Promise<AboutData> {
 
 // Projects
 
+export type Contributor = {
+  id: string;
+  name: string;
+  portrait: SanityImageData;
+  githubUrl?: string;
+};
+
 export type Project = {
   id: string;
   title: string;
   slug: string;
+  personal: boolean;
   meta: string;
   categories: string[];
   cover: SanityImageData;
   summary: string;
   stack: string[];
+  contributors: Contributor[];
   githubUrl?: string;
   authors?: string;
   roleNote?: string;
   sections: { heading: string; body: PortableTextBlock[] }[];
 };
 
+type RawContributors = NonNullable<PROJECTS_QUERY_RESULT[number]>["contributors"];
+
+function mapContributors(raw: RawContributors): Contributor[] {
+  return (raw ?? []).flatMap((c) =>
+    c.member
+      ? [
+          {
+            id: c.member._id,
+            name: c.member.name ?? "",
+            portrait: mapImage(c.member.portrait, 160),
+            githubUrl: c.githubUrl ?? undefined,
+          },
+        ]
+      : [],
+  );
+}
+
 function mapProjectListItem(doc: NonNullable<PROJECTS_QUERY_RESULT[number]>): Project {
   return {
     id: doc._id,
     title: doc.title ?? "",
     slug: doc.slug?.current ?? "",
+    personal: doc.personal ?? false,
     meta: doc.meta ?? "",
-    categories: (doc.categories ?? []).filter((c): c is string => Boolean(c)),
-    cover: mapImage(doc.cover, 600),
+    categories: strings(doc.categories),
+    cover: mapImage(doc.cover, 1400),
     summary: doc.summary ?? "",
-    stack: (doc.stack ?? []).filter((s): s is string => Boolean(s)),
+    stack: strings(doc.stack),
+    contributors: mapContributors(doc.contributors),
     githubUrl: doc.githubUrl ?? undefined,
     authors: doc.authors ?? undefined,
     sections: [],
   };
 }
 
-export async function getProjects(): Promise<Project[]> {
-  const docs = await sanityFetch<PROJECTS_QUERY_RESULT>(PROJECTS_QUERY, {}, PROJECT_TAGS);
+export async function getProjects(lang: Locale): Promise<Project[]> {
+  const docs = await sanityFetch<PROJECTS_QUERY_RESULT>(PROJECTS_QUERY, { lang }, PROJECT_TAGS);
   return docs.map(mapProjectListItem);
 }
 
-export async function getProject(slug: string): Promise<Project | null> {
-  const doc = await sanityFetch<PROJECT_QUERY_RESULT>(PROJECT_QUERY, { slug }, PROJECT_TAGS);
+export async function getProject(slug: string, lang: Locale): Promise<Project | null> {
+  const doc = await sanityFetch<PROJECT_QUERY_RESULT>(
+    PROJECT_QUERY,
+    { slug, lang },
+    PROJECT_TAGS,
+  );
   if (!doc) return null;
 
   return {
     id: doc._id,
     title: doc.title ?? "",
     slug: doc.slug?.current ?? "",
+    personal: doc.personal ?? false,
     meta: doc.meta ?? "",
-    categories: (doc.categories ?? []).filter((c): c is string => Boolean(c)),
+    categories: strings(doc.categories),
     cover: mapImage(doc.cover, 1600),
     summary: doc.summary ?? "",
-    stack: (doc.stack ?? []).filter((s): s is string => Boolean(s)),
+    stack: strings(doc.stack),
+    contributors: mapContributors(doc.contributors),
     githubUrl: doc.githubUrl ?? undefined,
     authors: doc.authors ?? undefined,
     roleNote: doc.roleNote ?? undefined,
@@ -306,22 +366,22 @@ function mapPostListItem(doc: NonNullable<POSTS_QUERY_RESULT[number]>): Post {
     title: doc.title ?? "",
     slug: doc.slug?.current ?? "",
     publishedAt: doc.publishedAt ?? "",
-    tag: doc.tag ?? "",
+    tag: doc.tag?.trim() ?? "",
     excerpt: doc.excerpt ?? "",
-    cover: mapImage(doc.cover, 400),
+    cover: mapImage(doc.cover, 1400),
     body: [],
   };
 }
 
-export async function getPosts(): Promise<Post[]> {
-  const docs = await sanityFetch<POSTS_QUERY_RESULT>(POSTS_QUERY, {}, POST_TAGS);
+export async function getPosts(lang: Locale): Promise<Post[]> {
+  const docs = await sanityFetch<POSTS_QUERY_RESULT>(POSTS_QUERY, { lang }, POST_TAGS);
   return docs
     .map(mapPostListItem)
     .sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 }
 
-export async function getPost(slug: string): Promise<Post | null> {
-  const doc = await sanityFetch<POST_QUERY_RESULT>(POST_QUERY, { slug }, POST_TAGS);
+export async function getPost(slug: string, lang: Locale): Promise<Post | null> {
+  const doc = await sanityFetch<POST_QUERY_RESULT>(POST_QUERY, { slug, lang }, POST_TAGS);
   if (!doc) return null;
 
   return {
@@ -329,7 +389,7 @@ export async function getPost(slug: string): Promise<Post | null> {
     title: doc.title ?? "",
     slug: doc.slug?.current ?? "",
     publishedAt: doc.publishedAt ?? "",
-    tag: doc.tag ?? "",
+    tag: doc.tag?.trim() ?? "",
     excerpt: doc.excerpt ?? "",
     cover: mapImage(doc.cover, 1600),
     body: (doc.body ?? []) as PortableTextBlock[],

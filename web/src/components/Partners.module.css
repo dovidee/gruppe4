@@ -1,0 +1,78 @@
+.partners {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 3vw, 32px);
+  padding: clamp(72px, 12vw, 160px) var(--gutter);
+  text-align: center;
+  /* The outgoing name zooms past the edges; keep it from widening the page. */
+  overflow-x: clip;
+}
+
+.stage {
+  display: grid;
+  width: 100%;
+  max-width: 1100px;
+}
+
+.name {
+  grid-area: 1 / 1;
+  align-self: center;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 8vw, 6rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+  color: var(--ink);
+  opacity: 0;
+  transform: scale(0.82);
+  filter: blur(10px);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 900ms var(--ease-out),
+    filter 700ms var(--ease-out);
+}
+
+.name[data-state="in"] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.name[data-state="out"] {
+  transform: scale(1.18);
+}
+
+/* Reduced motion: both names, one under the other, nothing moving. */
+.stage[data-static] {
+  gap: 8px;
+}
+
+.stage[data-static] .name {
+  grid-area: auto;
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.pause {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-size: 15px;
+  transition:
+    color 200ms var(--ease-out),
+    border-color 200ms var(--ease-out);
+}
+
+.pause:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}

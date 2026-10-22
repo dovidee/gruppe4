@@ -15,9 +15,14 @@ export const siteSettings = defineType({
     }),
     defineField({
       name: 'responsePromise',
-      title: 'Svarløfte',
+      title: 'Slagord (bunntekst)',
       type: 'string',
-      description: 'F.eks. «Vi svarer innen 24 timer»',
+      description: 'Vises til høyre i bunnteksten.',
+    }),
+    defineField({
+      name: 'responsePromiseEn',
+      title: 'Slagord (bunntekst), engelsk',
+      type: 'string',
     }),
     defineField({
       name: 'nav',
@@ -30,6 +35,7 @@ export const siteSettings = defineType({
           name: 'navItem',
           fields: [
             defineField({name: 'label', title: 'Tekst', type: 'string', validation: (r) => r.required()}),
+            defineField({name: 'labelEn', title: 'Tekst, engelsk', type: 'string'}),
             defineField({name: 'href', title: 'Lenke', type: 'string', validation: (r) => r.required()}),
           ],
           preview: {

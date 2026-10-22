@@ -1,51 +1,93 @@
 .row {
   display: grid;
-  grid-template-columns: 200px 1fr;
+  grid-template-columns: 180px 1fr;
   gap: 24px;
-  padding: 22px 0;
-  border-bottom: 1px solid var(--rule);
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  border: 1px solid var(--rule);
   text-decoration: none;
   color: inherit;
+  transition:
+    transform 380ms var(--ease-bounce),
+    box-shadow 380ms var(--ease-out),
+    border-color 260ms var(--ease-out);
 }
 
-.row:last-child {
-  border-bottom: none;
+.row:hover,
+.row:focus-visible {
+  transform: translateY(-4px);
+  border-color: var(--accent);
+  box-shadow: var(--card-shadow);
 }
 
 .cover {
   position: relative;
-  aspect-ratio: 3 / 2;
-  border-radius: 3px;
+  aspect-ratio: 1;
+  border-radius: 14px;
   overflow: hidden;
-  background: var(--royal-soft);
+  background: var(--accent-soft);
 }
 
 .body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   min-width: 0;
+  padding: 4px 4px 4px 0;
 }
 
-.date {
-  display: block;
-  font-size: 12px;
-  color: var(--muted);
-  margin-bottom: 4px;
-}
-
-.excerpt {
-  margin-top: 6px;
-  color: var(--muted);
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
   font-size: 14px;
-  max-width: 60ch;
+  color: var(--ink-soft);
 }
 
 .tag {
-  display: inline-block;
-  margin-top: 10px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 13px;
 }
 
-@media (max-width: 700px) {
+.excerpt {
+  color: var(--ink-soft);
+  max-width: 60ch;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.read svg {
+  transition: transform 380ms var(--ease-out);
+}
+
+.row:hover .read svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
   .row {
     grid-template-columns: 1fr;
     gap: 14px;
+  }
+
+  .cover {
+    aspect-ratio: 16 / 9;
   }
 }

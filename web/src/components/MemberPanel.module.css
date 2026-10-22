@@ -1,0 +1,79 @@
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: clamp(24px, 3.5vw, 56px);
+  padding: clamp(16px, 1.6vw, 24px);
+}
+
+.portrait {
+  position: relative;
+  min-height: 420px;
+  border-radius: calc(var(--radius-lg) - 10px);
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 8rem;
+  font-weight: 800;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(20px, 2.4vw, 32px);
+  padding: clamp(8px, 2vw, 32px) clamp(4px, 2vw, 32px) clamp(8px, 2vw, 32px) 0;
+}
+
+.who {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.name {
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.role {
+  font-size: clamp(1.1rem, 1.5vw, 1.375rem);
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.tagline {
+  font-size: clamp(1.1rem, 1.45vw, 1.3rem);
+  line-height: 1.45;
+  color: var(--ink-soft);
+  max-width: 40ch;
+  text-wrap: pretty;
+}
+
+@media (max-width: 760px) {
+  .panel {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 12px;
+  }
+
+  .portrait {
+    min-height: 0;
+    aspect-ratio: 4 / 5;
+    max-height: 62svh;
+  }
+
+  .body {
+    padding: 4px 8px 16px;
+  }
+}

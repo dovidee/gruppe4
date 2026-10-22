@@ -1,8 +1,8 @@
 .empty {
   border: 1px dashed var(--rule);
-  background: var(--royal-soft);
-  border-radius: 4px;
-  padding: 40px 24px;
+  background: var(--accent-soft);
+  border-radius: var(--radius-md);
+  padding: 56px 24px;
   text-align: center;
 }
 
@@ -13,6 +13,6 @@
 
 .body {
   margin-top: 6px;
-  color: var(--muted);
+  color: var(--ink-soft);
   font-size: 14px;
 }

@@ -1,0 +1,124 @@
+.panel {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(24px, 3.5vw, 56px);
+  padding: clamp(16px, 1.6vw, 24px);
+}
+
+.cover {
+  position: relative;
+  min-height: 420px;
+  border-radius: calc(var(--radius-lg) - 10px);
+  overflow: hidden;
+  background: var(--accent-soft);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(18px, 2.2vw, 28px);
+  padding: clamp(8px, 2vw, 24px) clamp(4px, 1.6vw, 24px) clamp(8px, 2vw, 24px) 0;
+}
+
+.head {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--ink-soft);
+}
+
+.title {
+  font-weight: 800;
+  font-size: clamp(2.4rem, 5vw, 4.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.summary {
+  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 44ch;
+  text-wrap: pretty;
+}
+
+.legacy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.authors {
+  font-weight: 600;
+  color: var(--ink-soft);
+}
+
+.githubButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 999px;
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 380ms var(--ease-bounce);
+}
+
+.githubButton:hover {
+  transform: translateY(-4px);
+}
+
+.more {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 28px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 380ms var(--ease-bounce);
+}
+
+.more svg {
+  transition: transform 380ms var(--ease-out);
+}
+
+.more:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+.more:hover svg {
+  transform: translateX(4px);
+}
+
+@media (max-width: 760px) {
+  .panel {
+    grid-template-columns: 1fr;
+    padding: 12px;
+  }
+
+  .cover {
+    min-height: 0;
+    aspect-ratio: 16 / 10;
+  }
+
+  .body {
+    padding: 4px 8px 16px;
+  }
+}

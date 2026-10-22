@@ -22,6 +22,7 @@ export const member = defineType({
       validation: (r) => r.required(),
       description: 'En ekte rolle, f.eks. «Design og UX». Ikke «Gruppemedlem».',
     }),
+    defineField({name: 'roleEn', title: 'Rolle i gruppa, engelsk', type: 'string'}),
     defineField({
       name: 'portrait',
       title: 'Portrett',
@@ -40,6 +41,7 @@ export const member = defineType({
       validation: (r) => r.required(),
       description: 'Fire til seks setninger. Nevn noe som faktisk har skjedd: en jobb, et verv, en bug.',
     }),
+    defineField({name: 'bioEn', title: 'Bio, engelsk', type: 'text', rows: 6}),
     defineField({
       name: 'skills',
       title: 'Kan',

@@ -1,5 +1,5 @@
-.grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 24px;
+.filters {
+  display: flex;
+  justify-content: center;
+  padding: 0 var(--gutter) clamp(32px, 5vw, 56px);
 }

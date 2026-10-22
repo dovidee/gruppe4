@@ -1,0 +1,225 @@
+.carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(20px, 3vw, 36px);
+  padding: clamp(24px, 3vw, 44px) clamp(12px, 2vw, 32px);
+  overflow: hidden;
+}
+
+.owner {
+  align-self: flex-start;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.avatar {
+  position: relative;
+  flex: none;
+  width: 56px;
+  height: 56px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: var(--surface-2);
+  box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--accent);
+}
+
+.ownerHeading {
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.track {
+  --card-w: clamp(230px, 24vw, 320px);
+  position: relative;
+  width: 100%;
+  height: calc(var(--card-w) * 7 / 5 + 24px);
+  display: grid;
+  place-items: center;
+  perspective: 1400px;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.track[data-draggable] {
+  cursor: grab;
+}
+
+.track[data-dragging] {
+  cursor: grabbing;
+}
+
+/* Trading-card proportions (5:7), so the side cards read as title cards. */
+.card {
+  grid-area: 1 / 1;
+  width: var(--card-w);
+  aspect-ratio: 5 / 7;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border-radius: 22px;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-shadow);
+  transform: translateX(calc(var(--d) * 62%)) rotateY(calc(var(--d) * -24deg))
+    scale(calc(1 - min(var(--ad), 1.5) * 0.16));
+  opacity: calc(1 - max(var(--ad) - 1, 0) * 1.6);
+  filter: saturate(calc(1 - min(var(--ad), 1) * 0.5));
+  transition:
+    transform 760ms var(--ease-out),
+    opacity 500ms var(--ease-out),
+    filter 500ms var(--ease-out);
+}
+
+.track[data-dragging] .card {
+  transition: none;
+}
+
+.card[data-far] {
+  visibility: hidden;
+}
+
+.cover {
+  position: relative;
+  flex: 0 0 52%;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--accent-soft);
+}
+
+.cardBody {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px 8px 6px;
+  min-height: 0;
+}
+
+.title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.summary {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.card:not([data-active]) .summary,
+.card:not([data-active]) .actions {
+  opacity: 0;
+}
+
+.actions {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: opacity 400ms var(--ease-out);
+}
+
+.github {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--bg);
+  font-size: 20px;
+  transition: transform 320ms var(--ease-bounce);
+}
+
+.more {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: transform 320ms var(--ease-bounce);
+}
+
+.github:hover,
+.more:hover {
+  transform: translateY(-3px);
+}
+
+.sideHit {
+  position: absolute;
+  top: 10%;
+  bottom: 10%;
+  width: calc(50% - var(--card-w) / 2);
+  min-width: 56px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 22px;
+  z-index: 20;
+}
+
+.sideHit[data-side="left"] {
+  left: 0;
+}
+
+.sideHit[data-side="right"] {
+  right: 0;
+}
+
+.track[data-dragging] .sideHit {
+  cursor: grabbing;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 999px;
+  border: 1px solid var(--rule);
+  background: var(--surface-2);
+  color: var(--ink);
+  font-size: 22px;
+  cursor: pointer;
+  transition:
+    transform 320ms var(--ease-bounce),
+    border-color 200ms var(--ease-out);
+}
+
+.arrow:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+}
+
+.hint {
+  min-width: 4ch;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  color: var(--ink-soft);
+}

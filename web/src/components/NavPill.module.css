@@ -1,0 +1,59 @@
+.pill {
+  position: relative;
+  display: flex;
+  list-style: none;
+  padding: 5px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--rule);
+}
+
+.indicator {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  left: 0;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  opacity: 0;
+  transition:
+    transform 380ms var(--ease-out),
+    width 380ms var(--ease-out),
+    opacity 200ms var(--ease-out);
+}
+
+.indicator[data-visible] {
+  opacity: 1;
+}
+
+.link {
+  position: relative;
+  display: block;
+  padding: 11px 20px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-decoration: none;
+  color: var(--accent);
+  transition:
+    color 220ms var(--ease-out),
+    opacity 220ms var(--ease-out),
+    transform 320ms var(--ease-bounce);
+}
+
+.link[data-active] {
+  color: var(--ink);
+}
+
+/* The highlighted link pops up a little, the way Jitter's buttons do. */
+.link[data-target]:not([data-active]) {
+  color: var(--ink);
+  transform: translateY(-2px);
+}
+
+/* While another link holds the highlight, the current page steps back. */
+.pill[data-hovering] .link[data-active] {
+  color: var(--ink-soft);
+  opacity: 0.6;
+}

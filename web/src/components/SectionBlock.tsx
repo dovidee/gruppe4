@@ -3,36 +3,25 @@ import styles from "./SectionBlock.module.css";
 
 type SectionBlockProps = {
   id?: string;
-  eyebrow?: string;
   heading?: string;
   lede?: string;
   children?: ReactNode;
   headingAs?: "h1" | "h2";
 };
 
-export function SectionBlock({
-  id,
-  eyebrow,
-  heading,
-  lede,
-  children,
-  headingAs = "h2",
-}: SectionBlockProps) {
+export function SectionBlock({ id, heading, lede, children, headingAs = "h2" }: SectionBlockProps) {
   const Heading = headingAs;
   // A page's <h1> must exist in the DOM even before Sanity content is filled
-  // in, the same way Hero always emits its <h1> tag regardless of content.
+  // in.
   const isH1 = headingAs === "h1";
 
   return (
     <section id={id} className="section">
       <div className="container">
-        {(eyebrow || heading || lede || isH1) && (
+        {(heading || lede || isH1) && (
           <div className={styles.head}>
-            {eyebrow && <p className="eyebrow">{eyebrow}</p>}
-            {(heading || isH1) && (
-              <Heading className={isH1 ? "h1" : "h2"}>{heading}</Heading>
-            )}
-            {lede && <p className={`lede ${styles.lede}`}>{lede}</p>}
+            {(heading || isH1) && <Heading className={isH1 ? "h1" : "h2"}>{heading}</Heading>}
+            {lede && <p className="lede">{lede}</p>}
           </div>
         )}
         {children}
