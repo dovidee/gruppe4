@@ -1929,21 +1929,14 @@
         },
         "optional": true
       },
-      "tagline": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "taglineEn": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
       "bio": {
+        "type": "objectAttribute",
+        "value": {
+          "type": "string"
+        },
+        "optional": true
+      },
+      "bioEn": {
         "type": "objectAttribute",
         "value": {
           "type": "string"
@@ -2909,20 +2902,6 @@
               }
             }
           }
-        },
-        "optional": true
-      },
-      "membersHeading": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
-        },
-        "optional": true
-      },
-      "membersHeadingEn": {
-        "type": "objectAttribute",
-        "value": {
-          "type": "string"
         },
         "optional": true
       },

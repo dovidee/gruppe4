@@ -2,6 +2,11 @@
  * Fills in the English fields and the new homepage headings in one transaction.
  * It only sets the fields listed below; everything else in each document is left
  * as it is.
+ * It also removes the subheading line from each Norwegian box text under
+ * "For bedrifter", so each box keeps only its title as a heading.
+ * The three Kartverket projects become one: "kartverket" gets every team's
+ * repository under "Laget av", and the other two are unpublished. They stay in
+ * the Studio as drafts, so either can be published again from there.
  *
  * Dry run (prints the patches, writes nothing):
  *   npx sanity exec scripts/i18n-patch.ts --with-user-token
@@ -9,6 +14,9 @@
  *   npx sanity exec scripts/i18n-patch.ts --with-user-token -- --commit
  */
 import {getCliClient} from 'sanity/cli'
+
+// `sanity exec` runs under Node; the Studio's tsconfig has no Node types.
+declare const process: {argv: string[]; exit(code: number): never}
 
 type Fields = Record<string, unknown>
 
@@ -36,10 +44,29 @@ function blocks(prefix: string, paragraphs: string[]) {
   })
 }
 
+// kartverket-3's cover (the NaviSafe logo), used on the combined Kartverket project.
+const KARTVERKET_COVER = {
+  _type: 'image',
+  asset: {_type: 'reference', _ref: 'image-2436c9552a1c0485a8c1db93bbf37675a1453919-701x851-png'},
+}
+
+// One row per person; people on the same team share a repository link.
+function contributor(key: string, memberId: string, githubUrl: string) {
+  return {
+    _key: key,
+    _type: 'contributor',
+    member: {_type: 'reference', _ref: memberId},
+    githubUrl,
+  }
+}
+
+// Duplicates of "kartverket", replaced by its contributor list.
+const unpublish = ['caeb0e58-a31d-494e-9b95-4097aa6aacce', '807a9417-e476-4c5c-b8ac-1a071934093d']
+
 const patches: Record<string, Fields> = {
   siteSettings: {
-    responsePromise: 'Hver detalj, vurdert to ganger.',
-    responsePromiseEn: 'Every detail, questioned twice.',
+    responsePromise: 'Det som ikke knekker koden, gjør den sterkere.',
+    responsePromiseEn: "What doesn't break the code makes it stronger.",
     'nav[_key=="nav1"].labelEn': 'Home',
     'nav[_key=="nav2"].labelEn': 'Projects',
     'nav[_key=="nav3"].labelEn': 'Blog',
@@ -55,33 +82,38 @@ const patches: Record<string, Fields> = {
       {_key: 'uia', _type: 'partner', name: 'Universitetet i Agder', nameEn: 'University of Agder'},
       {_key: 'sor-tre', _type: 'partner', name: 'Sør-Tre'},
     ],
-    membersHeading: 'Fem ulike styrker. Ett felles prosjekt.',
-    membersHeadingEn: 'Five different strengths. One shared project.',
-    membersLede: 'Vi utfordrer hverandres ideer, så prosjektet aldri går i blinde.',
-    membersLedeEn: "We challenge each other's ideas, so the project never moves forward blindly.",
+    membersLede: 'Vi utfordrer hverandres ideer for å komme frem til de beste løsningene.',
+    membersLedeEn: "We challenge each other's ideas to arrive at the best solutions.",
   },
 
   forCompanies: {
     headingEn: 'Do you have a challenge we can solve together?',
+    'columns[_key=="c1"].bullets': [
+      'Vi har opparbeidet oss bred faglig kompetanse innen IT, systemutvikling, informasjonssystemer og prosjektarbeid gjennom bachelorstudiet ved Universitetet i Agder.',
+    ],
     'columns[_key=="c1"].titleEn': 'Academic expertise',
     'columns[_key=="c1"].bulletsEn': [
-      'IT and information systems',
       'Through our bachelor programme at the University of Agder we have built broad expertise in IT, systems development, information systems and project work.',
     ],
     'columns[_key=="c1"].ctaLabel': 'Se prosjekter',
     'columns[_key=="c1"].ctaLabelEn': 'See projects',
     'columns[_key=="c1"].ctaHref': '/prosjekter',
+    'columns[_key=="c2"].bullets': [
+      'Som studenter kan vi bidra med nye perspektiver, kreative ideer og oppdatert kunnskap. Vi er motiverte for å sette teori ut i praksis og finne løsninger på reelle problemstillinger.',
+    ],
     'columns[_key=="c2"].titleEn': 'New perspectives',
     'columns[_key=="c2"].bulletsEn': [
-      'Fresh eyes on existing challenges',
       'As students we bring new perspectives, creative ideas and up-to-date knowledge. We are motivated to put theory into practice and find solutions to real problems.',
     ],
     'columns[_key=="c2"].ctaLabel': 'Les bloggen vår',
     'columns[_key=="c2"].ctaLabelEn': 'Read our blog',
     'columns[_key=="c2"].ctaHref': '/blogg',
-    'columns[_key=="c3"].titleEn': 'Collaboration',
+    'columns[_key=="c3"].title': 'En fleksibel samarbeidspartner',
+    'columns[_key=="c3"].bullets': [
+      'Vi ønsker å ha tett dialog med samarbeidspartnere gjennom prosjektet. Sammen kan vi utforske problemstillinger, utvikle løsninger og skape verdi for begge parter.',
+    ],
+    'columns[_key=="c3"].titleEn': 'A flexible partner',
     'columns[_key=="c3"].bulletsEn': [
-      'A flexible partner',
       'We want close dialogue with our partners throughout the project. Together we can explore problems, develop solutions and create value for both sides.',
     ],
     'columns[_key=="c3"].ctaLabel': 'Ta kontakt!',
@@ -89,41 +121,72 @@ const patches: Record<string, Fields> = {
     'columns[_key=="c3"].ctaHref': '/om-oss#kontakt',
   },
 
-  // The Norwegian tagline is left empty on purpose: the site falls back to the
-  // first sentence of the bio until someone writes one in the Studio.
   'member-1': {
     roleEn: 'Product owner',
-    taglineEn:
-      'I am 23, born and raised in Kristiansand, with more than four years at Coop stores and plenty of customer service behind me.',
+    bioEn: [
+      "I am 23 years old, born and raised in Kristiansand, and I have more than four years of experience working in Coop stores, so I have dealt with a lot of customer service. I am a student of IT and information systems, and I have a general interest in all things technology and computers. I also have a one-year programme in history from UiA. I have been involved with all kinds of technology since I was little and keep an eye out for anything new and interesting coming to the market. My experience from retail means I know how to talk to people, how not to talk to people, and everything from discipline, patience, efficiency and professionalism to simply showing up well on time. In a group I tend to be good at researching topics in depth, reading a lot and doing my assigned task to the best of my ability.",
+    ].join('\n\n'),
   },
   'member-2': {
+    name: 'Benjamin Holsen Fidjeland',
     roleEn: 'Frontend developer',
-    taglineEn: 'I am Benjamin Stedal, a student of IT and information systems at UiA.',
+    bioEn: [
+      "My name is Benjamin Stedal and I study IT and information systems at UiA. I also have work experience in social work as a support contact and health worker at Strømmeveien 69. I also have experience with digital applications and solutions in more physical work, as a factory worker at Gyli Plast AS. In these roles I have also helped the municipal workplaces with IT support, such as setting up user accounts and installing new applications and systems. I understand this well, since for most of my life I have been into computers and programming, using computers I built myself at a young age. My practical IT knowledge from work and personal life, combined with a good understanding of the social and political sides of digital systems, makes me a good colleague when it comes to developing systems that are easy to use for people who do not necessarily know much about IT.",
+    ].join('\n\n'),
   },
   'member-3': {
     roleEn: 'UX / UI designer',
-    taglineEn: 'I am 22 and studying for a bachelor in IT and information systems.',
+    bioEn: [
+      "I am 22 and a bachelor student in IT and information systems. I am especially interested in technology, design, sports and gaming.",
+      "Outside my studies I have gained relevant work experience by building and running a Shopify web shop, where among other things I worked with products, design and various Shopify apps and features. I also have customer service experience from working in both a grocery store and a restaurant. This has given me experience communicating with different people, solving problems and working efficiently in different situations.",
+      "In our group I want to contribute engagement, creativity and good collaboration. At the same time I want to keep developing within IT, learn new things and gain new perspectives by working with and learning from the others in the group.",
+    ].join('\n\n'),
   },
   'member-4': {
     roleEn: 'Security Champion',
-    taglineEn: 'I am 23, from Lithuania, and grew up in Forsand.',
+    bioEn: [
+      "I am 23, from Lithuania, and grew up in Forsand. In upper secondary school I took sales, service and security, where I sharpened an interest in cybersecurity I have had since childhood. There I learned how companies carry out risk assessments according to context, and how to prevent unwanted incidents. During my work placement I worked as a security guard at Stavanger University Hospital during the coronavirus pandemic, to see how the public sector secures physical areas.",
+      "Before I got a place as a student, I spent my time on hands-on IT security labs on platforms like HackTheBox and TryHackMe. During my studies I gained experience with Python, C# and SQL. By combining the theoretical foundation with the practical experience, I was able to identify and report vulnerabilities in external systems through responsible vulnerability disclosure (VDP). I enjoy examining logs, integrating and securing role-based access control, implementing virtualisation with Docker and VirtualBox, and uncovering forgotten and unknown data paths (shadow IT). In my free time I switch between competitive gaming (esports), CTF labs, coding and football. I would describe myself as competitive, persistent, proactive and a clear communicator.",
+    ].join('\n\n'),
   },
   'member-5': {
     roleEn: 'Project manager',
-    taglineEn: 'I am 21 and lived in Kragerø, Telemark, for 18 years.',
+    bioEn: [
+      "I am 21 and lived in Kragerø, Telemark, for 18 years. I am a student on the IT and information systems programme at the University of Agder. Over the summers I have built up a lot of work experience in service and sales, which has given me insight into how to behave professionally. I believe communication is the most important thing for a group, and I will work to make sure everyone is heard.",
+    ].join('\n\n'),
   },
 
   'project-kartverket': {
-    summaryEn:
-      'Reporting and updating aviation obstacles for pilots and case handlers at the Norwegian Mapping Authority. Map data is available offline.',
-  },
-  'caeb0e58-a31d-494e-9b95-4097aa6aacce': {
-    summaryEn:
-      'Reporting and updating aviation obstacles for pilots and case handlers at the Norwegian Mapping Authority.',
-  },
-  '807a9417-e476-4c5c-b8ac-1a071934093d': {
+    cover: KARTVERKET_COVER,
+    summary:
+      'Registering og oppdatering av luftfartshindre rapporter for piloter og saksbehandlere i Kartverket.',
     summaryEn:
       'Reporting and updating aviation obstacles for pilots and case handlers at the Norwegian Mapping Authority.',
+    sections: [
+      {
+        _key: 'om',
+        _type: 'projectSection',
+        body: blocks('kvno', [
+          'Hovedmålet med prosjektet var å lage en webapplikasjon der piloter kan rapportere hindringer til Nasjonalt register over luftfartshindre. Løsningen skal kunne brukes av piloter og flybesetninger i Norsk Luftambulanse, Luftforsvaret og Politiets helikoptertjeneste.',
+          'Bare i juni 2025 fløy 1 227 553 passasjerer innenlands, omtrent en femtedel av hele befolkningen i Norge. Studenter som reiser hjem til familien, arbeidere på vei til jobb og familier som skal gjenforenes, vil alle komme seg på tvers av landet på rimelig tid. At et relativt lite land har så stort behov for flytrafikk, skyldes først og fremst geografien. Fjell, dype fjorder og krevende terreng gjør reiser på land vanskelige og tidkrevende, og en togtur innenlands kan sjelden måle seg med et fly i reisetid.',
+          'Befolkningen er dessuten spredt over hele landet, i motsetning til i mange andre moderne land. Det gjør viktige tjenester som nødberedskap i distriktene til en krevende utfordring. Store infrastrukturprosjekter som bruer, motorveier og tunneler har bidratt, men de kan bare løse en del av problemet.',
+          'Pilotene må også forholde seg til hindringer som antenner, kraner, tårn, trær, strømstolper og annen infrastruktur, i tillegg til terreng, dårlig sikt og vær. Slike hindringer kan gjøre det umulig å lande trygt og i verste fall føre til dødsulykker. I områder uten nettdekning bruker pilotene i dag fysiske kart, og en digital applikasjon kan erstatte dem.',
+        ]),
+        bodyEn: blocks('kven', [
+          'The main goal of this project was to build a web application that lets pilots report obstacles to the national register of aviation obstacles. The application is meant for pilots and flight crews in the Norwegian Air Ambulance, the Air Force and the Police Helicopter Service.',
+          "In June 2025 alone, 1,227,553 passengers flew domestically, roughly one fifth of Norway's entire population. Students travelling home to their families, workers on their way to their jobs and families reuniting all want to cross the country in a reasonable amount of time. Norway is a relatively small nation, and its strong need for air travel comes mainly from its geography. Mountains, deep fjords and harsh terrain make travel on land difficult and time-consuming, and a domestic train ride rarely matches a flight for travel time.",
+          'The population is also spread across the country, unlike in many other modern nations, which makes important services such as emergency response in rural areas a difficult challenge. Major infrastructure projects such as bridges, highways and tunnels have tried to remedy this, but they can only go so far.',
+          'Pilots also face obstacles such as antennas, cranes, towers, trees, utility poles and other infrastructure, as well as terrain, poor visibility and weather. These can stop pilots from landing safely or even cause fatal accidents. In areas without a connection, pilots rely on physical maps, and a digital application could replace them.',
+        ]),
+      },
+    ],
+    contributors: [
+      contributor('paulius', 'member-4', 'https://github.com/letsgorm/KartverketProject'),
+      contributor('kevin', 'member-3', 'https://github.com/letsgorm/KartverketProject'),
+      contributor('benjamin', 'member-2', 'https://github.com/FalckM/Kartverket-Kodeprosjekt'),
+      contributor('per-rai', 'member-5', 'https://github.com/asklootz/NaviSafe'),
+      contributor('andre', 'member-1', 'https://github.com/asklootz/NaviSafe'),
+    ],
   },
 
   about: {
@@ -165,6 +228,7 @@ const patches: Record<string, Fields> = {
 }
 
 async function main() {
+  // Already unpublished duplicates are skipped below, so only patched documents must exist.
   const ids = Object.keys(patches)
   const existing: string[] = await client.fetch('*[_id in $ids]._id', {ids})
   const missing = ids.filter((id) => !existing.includes(id))
@@ -176,6 +240,16 @@ async function main() {
   for (const [id, fields] of Object.entries(patches)) {
     tx.patch(id, (p) => p.set(fields))
     console.log(`${id}: ${Object.keys(fields).join(', ')}`)
+  }
+
+  // Unpublishing: keep the content as a draft, then remove the published copy.
+  // An existing draft is newer than the published copy, so it is left alone.
+  const published: Fields[] = await client.fetch('*[_id in $unpublish]', {unpublish})
+  for (const doc of published) {
+    const {_id, _rev, _createdAt, _updatedAt, _system, ...content} = doc
+    tx.createIfNotExists({...content, _id: `drafts.${_id}`, _type: content._type as string})
+    tx.delete(_id as string)
+    console.log(`${_id}: unpublished (kept as drafts.${_id})`)
   }
 
   if (!commit) {

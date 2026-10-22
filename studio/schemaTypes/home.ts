@@ -88,10 +88,8 @@ export const home = defineType({
         }),
       ],
     }),
-    defineField({name: 'membersHeading', title: 'Overskrift (medlemmer)', type: 'string'}),
-    defineField({name: 'membersHeadingEn', title: 'Overskrift (medlemmer), engelsk', type: 'string'}),
-    defineField({name: 'membersLede', title: 'Ingress (medlemmer)', type: 'text', rows: 2}),
-    defineField({name: 'membersLedeEn', title: 'Ingress (medlemmer), engelsk', type: 'text', rows: 2}),
+    defineField({name: 'membersLede', title: 'Overskrift (medlemmer)', type: 'text', rows: 2}),
+    defineField({name: 'membersLedeEn', title: 'Overskrift (medlemmer), engelsk', type: 'text', rows: 2}),
   ],
   preview: {
     select: {title: 'headline'},

@@ -34,15 +34,6 @@ export const member = defineType({
       ],
     }),
     defineField({
-      name: 'tagline',
-      title: 'Kort intro',
-      type: 'text',
-      rows: 2,
-      description: 'Én eller to setninger som vises på forsiden. Uten denne brukes første setning i bioen.',
-      validation: (r) => r.max(200),
-    }),
-    defineField({name: 'taglineEn', title: 'Kort intro, engelsk', type: 'text', rows: 2}),
-    defineField({
       name: 'bio',
       title: 'Bio',
       type: 'text',
@@ -50,6 +41,7 @@ export const member = defineType({
       validation: (r) => r.required(),
       description: 'Fire til seks setninger. Nevn noe som faktisk har skjedd: en jobb, et verv, en bug.',
     }),
+    defineField({name: 'bioEn', title: 'Bio, engelsk', type: 'text', rows: 6}),
     defineField({
       name: 'skills',
       title: 'Kan',
