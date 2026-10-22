@@ -1,6 +1,6 @@
 .panel {
   display: grid;
-  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
   gap: clamp(24px, 3.5vw, 56px);
   padding: clamp(16px, 1.6vw, 24px);
 }
@@ -52,11 +52,14 @@
   color: var(--accent);
 }
 
-.tagline {
-  font-size: clamp(1.1rem, 1.45vw, 1.3rem);
-  line-height: 1.45;
+.bio {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8em;
+  font-size: clamp(1rem, 1.1vw, 1.0625rem);
+  line-height: 1.6;
   color: var(--ink-soft);
-  max-width: 40ch;
+  max-width: 80ch;
   text-wrap: pretty;
 }
 

@@ -13,7 +13,7 @@ type SkillChipsProps = {
 };
 
 // Skills as icons instead of words. Solid chips are things the member knows,
-// dashed chips things they are learning. The name appears on hover and is
+// dashed chips things they want to learn. The name appears on hover and is
 // always available to screen readers. Not interactive, so no lift and no
 // pointer cursor; only the colour wakes up.
 export function SkillChips({ skills, learning = [], locale, variant = "member" }: SkillChipsProps) {

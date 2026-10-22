@@ -20,14 +20,11 @@ const no = {
 
   partnersLead: "I samarbeid med",
   partnersFallback: ["Universitetet i Agder", "Sør-Tre"],
-  pausePartners: "Pause vekslingen",
-  playPartners: "Fortsett vekslingen",
 
-  membersHeading: "Fem ulike styrker. Ett felles prosjekt.",
-  membersLede: "Vi utfordrer hverandres ideer, så prosjektet aldri går i blinde.",
+  membersLede: "Vi utfordrer hverandres ideer for å komme frem til de beste løsningene.",
   skillCan: "Kan",
   skillLearning: "Lærer",
-  learningLegend: "Stiplet: lærer nå",
+  learningLegend: "Stiplet: vil lære",
   onLinkedIn: (name: string) => `${name} på LinkedIn`,
   onGitHub: (name: string) => `${name} på GitHub`,
   emailTo: (name: string) => `Send e-post til ${name}`,
@@ -41,13 +38,14 @@ const no = {
   offerCtas: ["Se prosjekter", "Les bloggen vår", "Ta kontakt!"],
 
   university: "Universitetet i Agder",
-  footerTagline: "Hver detalj, vurdert to ganger.",
+  footerTagline: "Det som ikke knekker koden, gjør den sterkere.",
 
   projectsHeading: "Fra oppgave til ferdig kode.",
   filterProjects: "Filtrer prosjekter",
   allCategories: "Alle",
   categories: { web: "Web", data: "Data", sikkerhet: "Sikkerhet" } as Record<string, string>,
   madeBy: "Laget av",
+  and: "og",
   codeBy: (name: string) => `${name} sin kode på GitHub`,
   viewOnGitHub: "Se på GitHub",
   moreInfo: "Mer info",
@@ -61,6 +59,7 @@ const no = {
   noPostsInCategory: "Ingen innlegg i denne kategorien",
 
   contactHeading: "Ta kontakt",
+  contactJump: "Til kontaktskjemaet",
   contactLede: "Send oss en melding, så hører du fra oss.",
   formName: "Navn",
   formEmail: "E-post",
@@ -101,14 +100,11 @@ const en: Dictionary = {
 
   partnersLead: "In partnership with",
   partnersFallback: ["University of Agder", "Sør-Tre"],
-  pausePartners: "Pause rotation",
-  playPartners: "Resume rotation",
 
-  membersHeading: "Five different strengths. One shared project.",
-  membersLede: "We challenge each other's ideas, so the project never moves forward blindly.",
+  membersLede: "We challenge each other's ideas to arrive at the best solutions.",
   skillCan: "Knows",
   skillLearning: "Learning",
-  learningLegend: "Dashed: learning now",
+  learningLegend: "Dashed: want to learn",
   onLinkedIn: (name) => `${name} on LinkedIn`,
   onGitHub: (name) => `${name} on GitHub`,
   emailTo: (name) => `Email ${name}`,
@@ -122,13 +118,14 @@ const en: Dictionary = {
   offerCtas: ["See projects", "Read our blog", "Get in touch!"],
 
   university: "University of Agder",
-  footerTagline: "Every detail, questioned twice.",
+  footerTagline: "What doesn't break the code makes it stronger.",
 
   projectsHeading: "From assignment to working code.",
   filterProjects: "Filter projects",
   allCategories: "All",
   categories: { web: "Web", data: "Data", sikkerhet: "Security" },
   madeBy: "Made by",
+  and: "and",
   codeBy: (name) => `${name}'s code on GitHub`,
   viewOnGitHub: "View on GitHub",
   moreInfo: "Details",
@@ -142,6 +139,7 @@ const en: Dictionary = {
   noPostsInCategory: "No posts in this category",
 
   contactHeading: "Get in touch",
+  contactJump: "Go to the contact form",
   contactLede: "Send us a message and we will get back to you.",
   formName: "Name",
   formEmail: "Email",

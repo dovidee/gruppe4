@@ -31,7 +31,15 @@ export function MemberPanel({ member, locale }: { member: Member; locale: Locale
           <h3 className={styles.name}>{member.name}</h3>
           {member.role && <p className={styles.role}>{member.role}</p>}
         </div>
-        {member.tagline && <p className={styles.tagline}>{member.tagline}</p>}
+        {member.bio && (
+          <div className={styles.bio}>
+            {member.bio.split(/\n\s*\n/).map((paragraph, i) => (
+              // Paragraphs come from one text field and never reorder.
+              // biome-ignore lint/suspicious/noArrayIndexKey: static split of one string
+              <p key={i}>{paragraph.trim()}</p>
+            ))}
+          </div>
+        )}
         <SkillChips skills={member.skills} learning={member.learning} locale={locale} />
         <SocialLinks
           name={member.name}

@@ -30,11 +30,8 @@
   color: var(--ink);
   text-decoration: none;
   font-weight: 600;
-  transition:
-    transform 380ms var(--ease-bounce),
-    background-color 260ms var(--ease-out),
-    border-color 260ms var(--ease-out),
-    box-shadow 380ms var(--ease-out);
+  transition: transform 380ms var(--ease-bounce), background-color 260ms var(--ease-out),
+    border-color 260ms var(--ease-out), box-shadow 380ms var(--ease-out);
 }
 
 /* Linked chips get the same sheen as the social buttons. */
@@ -42,12 +39,7 @@ a.person::before {
   content: "";
   position: absolute;
   inset: -40%;
-  background: linear-gradient(
-    115deg,
-    transparent 35%,
-    oklch(100% 0 0 / 0.5) 50%,
-    transparent 65%
-  );
+  background: linear-gradient(115deg, transparent 35%, oklch(100% 0 0 / 0.5) 50%, transparent 65%);
   transform: translateX(-70%);
   transition: transform 700ms var(--ease-out);
   pointer-events: none;
@@ -67,18 +59,36 @@ a.person:focus-visible::before {
   transform: translateX(70%);
 }
 
+.faces {
+  position: relative;
+  display: flex;
+}
+
 .face {
   position: relative;
   flex: none;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   border-radius: 999px;
   overflow: hidden;
   background: var(--accent-soft);
   color: var(--accent);
   font-weight: 800;
+  font-size: 14px;
+  /* A ring in the button colour separates overlapping faces. */
+  box-shadow: 0 0 0 2px var(--surface-2);
+  transition: box-shadow 260ms var(--ease-out);
+}
+
+.face + .face {
+  margin-left: -10px;
+}
+
+a.person:hover .face,
+a.person:focus-visible .face {
+  box-shadow: 0 0 0 2px var(--ink);
 }
 
 .name {

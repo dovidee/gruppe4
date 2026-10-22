@@ -48,15 +48,14 @@ export default async function Home() {
       <Partners
         lead={home.partnersLead || t.partnersLead}
         names={home.partners.length > 0 ? home.partners : t.partnersFallback}
-        locale={locale}
       />
 
       {panels.length > 0 && (
         <section aria-labelledby="medlemmer">
           <SectionIntro
             id="medlemmer"
-            heading={home.membersHeading || t.membersHeading}
-            lede={home.membersLede || t.membersLede}
+            heading={home.membersLede || t.membersLede}
+            accent
           />
           <Stack>
             {panels.map((panel, i) => (
@@ -79,7 +78,11 @@ export default async function Home() {
 
       {home.forCompanies && home.forCompanies.columns.length > 0 && (
         <section aria-labelledby="samarbeid" className={styles.offers}>
-          <SectionIntro id="samarbeid" heading={home.forCompanies.heading || t.offerHeading} />
+          <SectionIntro
+            id="samarbeid"
+            heading={home.forCompanies.heading || t.offerHeading}
+            accent
+          />
           <OfferPanels columns={home.forCompanies.columns} locale={locale} />
         </section>
       )}

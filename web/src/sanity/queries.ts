@@ -32,7 +32,6 @@ export const HOME_QUERY = defineQuery(`{
     },
     "partnersLead": select($lang == "en" => coalesce(partnersLeadEn, partnersLead), partnersLead),
     partners[]{ "name": select($lang == "en" => coalesce(nameEn, name), name) },
-    "membersHeading": select($lang == "en" => coalesce(membersHeadingEn, membersHeading), membersHeading),
     "membersLede": select($lang == "en" => coalesce(membersLedeEn, membersLede), membersLede)
   },
   "members": *[_type == "member"] | order(order asc){
@@ -41,8 +40,7 @@ export const HOME_QUERY = defineQuery(`{
     order,
     "role": select($lang == "en" => coalesce(roleEn, role), role),
     portrait${IMAGE},
-    "tagline": select($lang == "en" => coalesce(taglineEn, tagline), tagline),
-    bio,
+    "bio": select($lang == "en" => coalesce(bioEn, bio), bio),
     skills,
     learning,
     linkedin,

@@ -1,78 +1,55 @@
 .partners {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(20px, 3vw, 32px);
-  padding: clamp(72px, 12vw, 160px) var(--gutter);
-  text-align: center;
-  /* The outgoing name zooms past the edges; keep it from widening the page. */
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: clamp(40px, 6vw, 80px) var(--gutter);
+  /* The names shrink and grow in place; keep that from widening the page. */
   overflow-x: clip;
 }
 
-.stage {
+/* A short caption sitting on a thin rule. */
+.lead {
   display: grid;
-  width: 100%;
-  max-width: 1100px;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.lead::before,
+.lead::after {
+  content: "";
+  height: 1px;
+  background: var(--rule);
+}
+
+.row {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px clamp(32px, 8vw, 120px);
+  margin-top: clamp(20px, 3vw, 32px);
 }
 
 .name {
-  grid-area: 1 / 1;
-  align-self: center;
   font-weight: 800;
-  font-size: clamp(2.6rem, 8vw, 6rem);
+  font-size: clamp(1.25rem, 2.4vw, 1.875rem);
   line-height: 1;
-  letter-spacing: -0.04em;
-  text-wrap: balance;
-  color: var(--ink);
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: var(--brand);
+  transition:
+    transform 450ms var(--ease-out),
+    opacity 450ms var(--ease-out),
+    filter 450ms var(--ease-out);
+}
+
+.row[data-phase="out"] .name {
+  transform: scale(0.55);
   opacity: 0;
-  transform: scale(0.82);
-  filter: blur(10px);
-  transition:
-    opacity 700ms var(--ease-out),
-    transform 900ms var(--ease-out),
-    filter 700ms var(--ease-out);
-}
-
-.name[data-state="in"] {
-  opacity: 1;
-  transform: none;
-  filter: none;
-}
-
-.name[data-state="out"] {
-  transform: scale(1.18);
-}
-
-/* Reduced motion: both names, one under the other, nothing moving. */
-.stage[data-static] {
-  gap: 8px;
-}
-
-.stage[data-static] .name {
-  grid-area: auto;
-  opacity: 1;
-  transform: none;
-  filter: none;
-}
-
-.pause {
-  display: grid;
-  place-items: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border-radius: 999px;
-  border: 1px solid var(--rule);
-  background: transparent;
-  color: var(--ink-soft);
-  cursor: pointer;
-  font-size: 15px;
-  transition:
-    color 200ms var(--ease-out),
-    border-color 200ms var(--ease-out);
-}
-
-.pause:hover {
-  color: var(--accent);
-  border-color: var(--accent);
+  filter: blur(6px);
 }

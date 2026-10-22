@@ -1,0 +1,66 @@
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(340px, 1fr);
+  gap: clamp(32px, 5vw, 80px);
+  align-items: start;
+  padding-top: clamp(40px, 6vw, 88px);
+  padding-bottom: clamp(56px, 9vw, 120px);
+}
+
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(28px, 4vw, 48px);
+  min-width: 0;
+}
+
+/* Only needed when the form drops below the text. */
+.jump {
+  display: none;
+  align-self: flex-start;
+  align-items: center;
+  min-height: 52px;
+  padding: 0 24px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 380ms var(--ease-bounce);
+}
+
+.jump:hover {
+  transform: translateY(-3px);
+}
+
+.contact {
+  position: sticky;
+  top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(24px, 3vw, 40px);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  box-shadow: var(--card-shadow);
+}
+
+.lede {
+  color: var(--ink-soft);
+  text-wrap: pretty;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .jump {
+    display: inline-flex;
+  }
+
+  .contact {
+    position: static;
+  }
+}

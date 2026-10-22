@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 24vh;
   padding: 0 var(--gutter);
-  max-width: var(--content-max);
+  max-width: 1600px;
   margin: 0 auto;
 }
 
@@ -12,7 +12,7 @@
   position: sticky;
   /* The header is tucked away while scrolling down, so panels stack from the
      top edge; each one sits a little lower to leave the previous one peeking. */
-  top: calc(20px + var(--i) * 14px);
+  top: calc(20px + var(--i) * 14px + var(--fit, 0px));
   min-height: min(calc(100svh - 120px), 780px);
   display: flex;
   border-radius: var(--radius-lg);
