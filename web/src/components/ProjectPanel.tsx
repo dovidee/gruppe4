@@ -23,7 +23,7 @@ export function ProjectPanel({ project, locale }: { project: Project; locale: Lo
             src={project.cover.src}
             alt={project.cover.alt}
             fill
-            sizes="(max-width: 760px) 100vw, 680px"
+            sizes="(max-width: 760px) 100vw, 420px"
             placeholder={project.cover.lqip ? "blur" : undefined}
             blurDataURL={project.cover.lqip}
             style={{ objectFit: "cover", objectPosition: objectPosition(project.cover) }}

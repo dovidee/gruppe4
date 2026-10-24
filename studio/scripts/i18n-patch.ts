@@ -128,7 +128,7 @@ const patches: Record<string, Fields> = {
     ].join('\n\n'),
   },
   'member-2': {
-    name: 'Benjamin Holsen Fidjeland',
+    name: 'Benjamin Stedal',
     roleEn: 'Frontend developer',
     bioEn: [
       "My name is Benjamin Stedal and I study IT and information systems at UiA. I also have work experience in social work as a support contact and health worker at Strømmeveien 69. I also have experience with digital applications and solutions in more physical work, as a factory worker at Gyli Plast AS. In these roles I have also helped the municipal workplaces with IT support, such as setting up user accounts and installing new applications and systems. I understand this well, since for most of my life I have been into computers and programming, using computers I built myself at a young age. My practical IT knowledge from work and personal life, combined with a good understanding of the social and political sides of digital systems, makes me a good colleague when it comes to developing systems that are easy to use for people who do not necessarily know much about IT.",

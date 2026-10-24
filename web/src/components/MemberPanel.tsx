@@ -1,11 +1,15 @@
 import Image from "next/image";
+import Link from "next/link";
 import type { Locale } from "@/i18n/config";
+import { dictionaries } from "@/i18n/dictionary";
 import { objectPosition, type Member } from "@/sanity/content";
 import { SkillChips } from "./SkillChips";
 import { SocialLinks } from "./SocialLinks";
 import styles from "./MemberPanel.module.css";
 
 export function MemberPanel({ member, locale }: { member: Member; locale: Locale }) {
+  const t = dictionaries[locale];
+
   return (
     <article className={styles.panel}>
       <div className={styles.portrait}>
@@ -48,6 +52,38 @@ export function MemberPanel({ member, locale }: { member: Member; locale: Locale
           email={member.email}
           locale={locale}
         />
+
+        {/* A member's own projects, as small link boxes under their links. */}
+        {member.projects.length > 0 && (
+          <div className={styles.projects}>
+            <p className={styles.projectsLabel}>{t.projectsBy(member.name)}</p>
+            <ul className={styles.projectList}>
+              {member.projects.map((project) => (
+                <li key={project.id}>
+                  <Link className={styles.project} href={`/prosjekter/${project.slug}`}>
+                    <span className={styles.projectCover}>
+                      {project.cover && (
+                        <Image
+                          src={project.cover.src}
+                          alt=""
+                          fill
+                          sizes="56px"
+                          style={{ objectFit: "cover", objectPosition: objectPosition(project.cover) }}
+                        />
+                      )}
+                    </span>
+                    <span className={styles.projectText}>
+                      <span className={styles.projectTitle}>{project.title}</span>
+                      {project.summary && (
+                        <span className={styles.projectSummary}>{project.summary}</span>
+                      )}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
     </article>
   );
