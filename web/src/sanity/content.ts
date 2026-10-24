@@ -116,7 +116,7 @@ export type Member = {
   order: number;
   role: string;
   portrait: SanityImageData;
-  tagline: string;
+  bio: string;
   skills: string[];
   learning: string[];
   linkedin?: string;
@@ -127,14 +127,6 @@ export type Member = {
 
 type RawMember = NonNullable<HOME_QUERY_RESULT["members"]>[number];
 
-// The homepage shows one or two sentences. Until an editor writes a tagline,
-// the bio's opening sentence stands in.
-function firstSentence(text: string) {
-  const trimmed = text.trim();
-  const match = trimmed.match(/^[\s\S]+?[.!?](?=\s|$)/);
-  return (match ? match[0] : trimmed).trim();
-}
-
 function mapMember(m: RawMember): Member {
   return {
     id: m._id,
@@ -142,7 +134,7 @@ function mapMember(m: RawMember): Member {
     order: m.order ?? 0,
     role: m.role ?? "",
     portrait: mapImage(m.portrait, 1200),
-    tagline: m.tagline?.trim() || firstSentence(m.bio ?? ""),
+    bio: m.bio?.trim() ?? "",
     skills: strings(m.skills),
     learning: strings(m.learning),
     linkedin: m.linkedin ?? undefined,
@@ -187,7 +179,6 @@ export type HomeData = {
   video: SanityVideoData;
   partnersLead: string;
   partners: string[];
-  membersHeading: string;
   membersLede: string;
   members: Member[];
   forCompanies: ForCompanies | null;
@@ -214,7 +205,6 @@ export async function getHomeData(lang: Locale): Promise<HomeData> {
       : null,
     partnersLead: raw.home?.partnersLead ?? "",
     partners: (raw.home?.partners ?? []).map((p) => p.name ?? "").filter(Boolean),
-    membersHeading: raw.home?.membersHeading ?? "",
     membersLede: raw.home?.membersLede ?? "",
     members: (raw.members ?? []).map(mapMember),
     forCompanies: raw.forCompanies

@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { EmptyState, ProjectFilters, ProjectPanel, Stack, StackItem } from "@/components";
+import { EmptyState, ProjectFilters, ProjectPanel } from "@/components";
 import type { Category } from "@/components/ProjectFilters";
 import type { Locale } from "@/i18n/config";
 import { dictionaries } from "@/i18n/dictionary";
@@ -44,13 +44,13 @@ export function ProjectsBrowser({ projects, locale }: { projects: Project[]; loc
           <EmptyState title={t.noProjects} />
         </div>
       ) : (
-        <Stack>
-          {visible.map((project, i) => (
-            <StackItem key={project.id} index={i}>
+        <ul className={`container ${styles.grid}`}>
+          {visible.map((project) => (
+            <li key={project.id}>
               <ProjectPanel project={project} locale={locale} />
-            </StackItem>
+            </li>
           ))}
-        </Stack>
+        </ul>
       )}
     </>
   );

@@ -1,0 +1,40 @@
+.story {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 6vw, 72px);
+}
+
+.opening {
+  font-weight: 800;
+  font-size: clamp(1.8rem, 3.2vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.035em;
+  color: var(--accent);
+  text-wrap: balance;
+}
+
+.chunk {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: clamp(16px, 2vw, 24px);
+  border-left: 3px solid var(--accent-soft);
+}
+
+.statement {
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.2vw, 2rem);
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  text-wrap: balance;
+  max-width: 30ch;
+}
+
+.detail {
+  font-size: clamp(1.05rem, 1.25vw, 1.175rem);
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 62ch;
+  text-wrap: pretty;
+}

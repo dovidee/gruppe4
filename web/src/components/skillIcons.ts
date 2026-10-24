@@ -1,4 +1,4 @@
-import type { IconType } from "react-icons";
+import { GenIcon, type IconType } from "react-icons";
 import { FaAws } from "react-icons/fa";
 import { GiSpikedDragonHead } from "react-icons/gi";
 import {
@@ -13,6 +13,7 @@ import {
   LuNetwork,
   LuPenTool,
   LuPuzzle,
+  LuServer,
   LuShieldCheck,
   LuSparkles,
   LuUsers,
@@ -31,6 +32,7 @@ import {
   SiMariadb,
   SiMysql,
   SiNextdotjs,
+  SiPfsense,
   SiPhp,
   SiPostgresql,
   SiPython,
@@ -38,6 +40,7 @@ import {
   SiRust,
   SiSanity,
   SiShopify,
+  SiSplunk,
   SiTailwindcss,
   SiTypescript,
   SiWebassembly,
@@ -54,6 +57,39 @@ export type SkillIcon = {
 };
 
 const ROYAL = "oklch(60% 0.19 265.4)";
+
+// Logos react-icons lacks (PowerShell only as an outline), drawn as
+// single-colour icons like the rest.
+// Pico CSS: its sparkle mark (svg-logos, CC0). PowerShell: Devicon (MIT).
+// Active Directory: the Entra ID (formerly Azure AD) mark, with its facets
+// as opacity steps instead of shades of blue.
+const PicoCss = GenIcon({
+  tag: "svg",
+  attr: { viewBox: "382 -5 131 131" },
+  child: [
+    { tag: "path", attr: { d: "M482.7 73.402a2.7 2.7 0 0 0-1.558 1.558l-10.6 27.561c-.893 2.32-4.173 2.32-5.066 0l-10.6-27.56a2.7 2.7 0 0 0-1.559-1.559l-27.56-10.6c-2.319-.892-2.319-4.173 0-5.065l27.56-10.6a2.7 2.7 0 0 0 1.56-1.558l10.6-27.561c.892-2.32 4.172-2.32 5.065 0l10.6 27.56a2.7 2.7 0 0 0 1.558 1.559l27.561 10.6c2.319.892 2.319 4.173 0 5.065z" }, child: [] },
+    { tag: "path", attr: { d: "M405.427 37.407c-.892 2.319-4.172 2.319-5.065 0l-3.817-9.926a2.7 2.7 0 0 0-1.56-1.558l-9.925-3.818c-2.318-.892-2.318-4.172 0-5.064l9.926-3.818a2.7 2.7 0 0 0 1.559-1.558l3.817-9.926c.893-2.319 4.173-2.319 5.065 0l3.818 9.926a2.7 2.7 0 0 0 1.558 1.558l9.926 3.818c2.318.892 2.318 4.172 0 5.064l-9.926 3.818a2.7 2.7 0 0 0-1.558 1.558zm21.655 69.909a2.7 2.7 0 0 0-1.559 1.558l-3.817 9.926c-.893 2.319-4.173 2.319-5.066 0l-3.817-9.926a2.7 2.7 0 0 0-1.559-1.558l-9.925-3.818c-2.319-.892-2.319-4.172 0-5.064l9.925-3.818a2.7 2.7 0 0 0 1.56-1.558l3.816-9.926c.893-2.319 4.173-2.319 5.066 0l3.817 9.926a2.7 2.7 0 0 0 1.559 1.558l9.926 3.818c2.318.892 2.318 4.172 0 5.064z" }, child: [] },
+  ],
+});
+const PowerShell = GenIcon({
+  tag: "svg",
+  attr: { viewBox: "0 0 128 128" },
+  child: [
+    { tag: "path", attr: { fillRule: "evenodd", d: "M124.912 19.358c-.962-1.199-2.422-1.858-4.111-1.858h-92.61c-3.397 0-6.665 2.642-7.444 6.015L2.162 104.022c-.396 1.711-.058 3.394.926 4.619c.963 1.199 2.423 1.858 4.111 1.858v.001H99.81c3.396 0 6.665-2.643 7.443-6.016l18.586-80.508c.395-1.711.057-3.395-.927-4.618m-98.589 77.17c-1.743-2.397-1.323-5.673.94-7.318l37.379-27.067v-.556L41.157 36.603c-1.916-2.038-1.716-5.333.445-7.361s5.466-2.019 7.382.019l28.18 29.979c1.6 1.702 1.718 4.279.457 6.264c-.384.774-1.182 1.628-2.593 2.618l-41.45 29.769c-2.263 1.644-5.512 1.034-7.255-1.363m59.543.538H63.532c-2.597 0-4.702-2.082-4.702-4.65s2.105-4.65 4.702-4.65h22.333c2.597 0 4.702 2.082 4.702 4.65s-2.104 4.65-4.701 4.65" }, child: [] },
+  ],
+});
+const ActiveDirectory = GenIcon({
+  tag: "svg",
+  attr: { viewBox: "0 0 512 512" },
+  child: [
+    { tag: "path", attr: { fillOpacity: "0.75", d: "M108.1 399.1c11 6.9 29.4 14.5 48.8 14.5c17.7 0 34.1-5.1 47.7-13.9h.1l51.3-32.1v115.9c-8.1 0-16.3-2.2-23.4-6.7c0 .1-124.5-77.7-124.5-77.7" }, child: [] },
+    { tag: "path", attr: { fillOpacity: "0.55", d: "M223.4 42.9L10 283.5c-16.5 18.6-12.2 46.7 9.2 60c0 0 79 49.4 88.9 55.6c11 6.9 29.4 14.5 48.8 14.5c17.7 0 34.1-5.1 47.7-13.9h.1l51.3-32.1L131.9 290L256 150V28.4c-12 0-24.1 4.9-32.6 14.5" }, child: [] },
+    { tag: "path", attr: { fillOpacity: "0.3", d: "m131.9 290.1l1.4.9L256 367.7V150z" }, child: [] },
+    { tag: "path", attr: { d: "M492.8 343.6c21.4-13.3 25.7-41.4 9.2-60l-140-158c-11.3-5.3-24-8.3-37.3-8.3c-26.3 0-49.8 11.3-65.5 29.2l-3.1 3.5l124.1 140.1L256 367.7v115.9c8.2 0 16.3-2.2 23.4-6.7z" }, child: [] },
+    { tag: "path", attr: { fillOpacity: "0.8", d: "M256 28.4V150l3.1-3.5c15.6-17.8 39.2-29.2 65.5-29.2c13.4 0 26.1 3 37.3 8.3l-73.4-82.7c-8.4-9.6-20.5-14.4-32.5-14.5" }, child: [] },
+    { tag: "path", attr: { fillOpacity: "0.45", d: "M380.2 290.1L256 150.1v217.6z" }, child: [] },
+  ],
+});
 
 // Keys are lower-cased skill names as editors type them in Sanity. Skills
 // without a recognisable logo get the closest everyday symbol.
@@ -185,6 +221,20 @@ const ICONS: Record<string, SkillIcon> = {
   react: { Icon: SiReact, color: "oklch(80% 0.12 215)", label: { no: "React", en: "React" } },
   "next.js": { Icon: SiNextdotjs, color: "oklch(55% 0 0)", label: { no: "Next.js", en: "Next.js" } },
   sanity: { Icon: SiSanity, color: "oklch(60% 0.2 25)", label: { no: "Sanity", en: "Sanity" } },
+  "active directory": {
+    Icon: ActiveDirectory,
+    color: "oklch(56.8% 0.167 251.3)",
+    label: { no: "Active Directory", en: "Active Directory" },
+  },
+  iis: { Icon: LuServer, color: ROYAL, label: { no: "IIS", en: "IIS" } },
+  picocss: { Icon: PicoCss, color: "oklch(76.5% 0.175 62.6)", label: { no: "PicoCSS", en: "PicoCSS" } },
+  powershell: {
+    Icon: PowerShell,
+    color: "oklch(66.8% 0.174 260.8)",
+    label: { no: "PowerShell", en: "PowerShell" },
+  },
+  pfsense: { Icon: SiPfsense, color: "oklch(55% 0 0)", label: { no: "pfSense", en: "pfSense" } },
+  splunk: { Icon: SiSplunk, color: "oklch(55% 0 0)", label: { no: "Splunk", en: "Splunk" } },
 };
 
 const FALLBACK = { Icon: LuSparkles, color: ROYAL };

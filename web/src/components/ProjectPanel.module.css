@@ -1,24 +1,31 @@
+/* A card in the projects grid: cover on top, text below. The "more" button
+   sits at the bottom so the buttons line up across a row. */
 .panel {
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: clamp(24px, 3.5vw, 56px);
-  padding: clamp(16px, 1.6vw, 24px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 10px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  box-shadow: var(--card-shadow);
 }
 
 .cover {
   position: relative;
-  min-height: 420px;
+  aspect-ratio: 16 / 10;
   border-radius: calc(var(--radius-lg) - 10px);
   overflow: hidden;
   background: var(--accent-soft);
 }
 
 .body {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: clamp(18px, 2.2vw, 28px);
-  padding: clamp(8px, 2vw, 24px) clamp(4px, 1.6vw, 24px) clamp(8px, 2vw, 24px) 0;
+  gap: 18px;
+  padding: 0 10px 10px;
 }
 
 .head {
@@ -28,24 +35,23 @@
 }
 
 .meta {
-  font-size: 1.05rem;
+  font-size: 15px;
   font-weight: 500;
   color: var(--ink-soft);
 }
 
 .title {
-  font-weight: 800;
-  font-size: clamp(2.4rem, 5vw, 4.5rem);
-  line-height: 0.98;
-  letter-spacing: -0.04em;
+  font-weight: 700;
+  font-size: clamp(1.35rem, 2.1vw, 1.875rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 
 .summary {
-  font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+  font-size: 1rem;
   line-height: 1.5;
   color: var(--ink-soft);
-  max-width: 44ch;
   text-wrap: pretty;
 }
 
@@ -81,6 +87,7 @@
 
 .more {
   align-self: flex-start;
+  margin-top: auto;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -105,20 +112,4 @@
 
 .more:hover svg {
   transform: translateX(4px);
-}
-
-@media (max-width: 760px) {
-  .panel {
-    grid-template-columns: 1fr;
-    padding: 12px;
-  }
-
-  .cover {
-    min-height: 0;
-    aspect-ratio: 16 / 10;
-  }
-
-  .body {
-    padding: 4px 8px 16px;
-  }
 }

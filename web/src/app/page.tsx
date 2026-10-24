@@ -3,7 +3,6 @@ import {
   MemberPanel,
   OfferPanels,
   Partners,
-  ProjectCarousel,
   SectionIntro,
   Stack,
   StackItem,
@@ -28,15 +27,6 @@ export default async function Home() {
   const { locale, t } = await getDictionary();
   const home = await getHomeData(locale);
 
-  // Each member gets a panel; a member with their own projects gets a second
-  // panel right after, so their work follows their face.
-  const panels = home.members.flatMap((member) => [
-    { key: member.id, kind: "member" as const, member },
-    ...(member.projects.length > 0
-      ? [{ key: `${member.id}-projects`, kind: "projects" as const, member }]
-      : []),
-  ]);
-
   return (
     <>
       <h1 className="visually-hidden">{home.headline || "resonansIT"}</h1>
@@ -48,29 +38,19 @@ export default async function Home() {
       <Partners
         lead={home.partnersLead || t.partnersLead}
         names={home.partners.length > 0 ? home.partners : t.partnersFallback}
-        locale={locale}
       />
 
-      {panels.length > 0 && (
+      {home.members.length > 0 && (
         <section aria-labelledby="medlemmer">
           <SectionIntro
             id="medlemmer"
-            heading={home.membersHeading || t.membersHeading}
-            lede={home.membersLede || t.membersLede}
+            heading={home.membersLede || t.membersLede}
+            accent
           />
           <Stack>
-            {panels.map((panel, i) => (
-              <StackItem key={panel.key} index={i}>
-                {panel.kind === "member" ? (
-                  <MemberPanel member={panel.member} locale={locale} />
-                ) : (
-                  <ProjectCarousel
-                    projects={panel.member.projects}
-                    memberName={panel.member.name}
-                    memberPortrait={panel.member.portrait}
-                    locale={locale}
-                  />
-                )}
+            {home.members.map((member, i) => (
+              <StackItem key={member.id} index={i}>
+                <MemberPanel member={member} locale={locale} />
               </StackItem>
             ))}
           </Stack>
@@ -79,7 +59,11 @@ export default async function Home() {
 
       {home.forCompanies && home.forCompanies.columns.length > 0 && (
         <section aria-labelledby="samarbeid" className={styles.offers}>
-          <SectionIntro id="samarbeid" heading={home.forCompanies.heading || t.offerHeading} />
+          <SectionIntro
+            id="samarbeid"
+            heading={home.forCompanies.heading || t.offerHeading}
+            accent
+          />
           <OfferPanels columns={home.forCompanies.columns} locale={locale} />
         </section>
       )}

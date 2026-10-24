@@ -1,30 +1,32 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { LuPause, LuPlay } from "react-icons/lu";
-import type { Locale } from "@/i18n/config";
-import { dictionaries } from "@/i18n/dictionary";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import styles from "./Partners.module.css";
 
 const INTERVAL_MS = 4000;
+const SWAP_MS = 450;
+
+// Brand colours, matched on the partner's name. Anything else uses the ink colour.
+const BRAND_COLOURS: Record<string, string> = {
+  "universitetet i agder": "oklch(53% 0.207 22.3)", // #C8102E
+  "university of agder": "oklch(53% 0.207 22.3)",
+  "sør-tre": "oklch(62.1% 0.22 25.5)", // #EE3539
+};
 
 type PartnersProps = {
   lead: string;
   names: string[];
-  locale: Locale;
 };
 
-// Partner names, as text only (the logos are trademarks). They take turns
-// every four seconds with a zoom: the outgoing name grows away, the next one
-// settles in. Rotation runs only while the section is on screen, stops for
-// reduced motion, and can be paused.
-export function Partners({ lead, names, locale }: PartnersProps) {
-  const t = dictionaries[locale];
+// Partner names as text set like logos (the real logos are trademarks), side by
+// side under a thin rule. Every four seconds they shrink away, trade places and
+// grow back. Motion runs only while the row is on screen and never under
+// reduced motion.
+export function Partners({ lead, names }: PartnersProps) {
   const rootRef = useRef<HTMLElement>(null);
-  const [index, setIndex] = useState(0);
+  const [offset, setOffset] = useState(0);
+  const [phase, setPhase] = useState<"in" | "out">("in");
   const [visible, setVisible] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const [hovered, setHovered] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -45,54 +47,50 @@ export function Partners({ lead, names, locale }: PartnersProps) {
     return () => observer.disconnect();
   }, []);
 
-  const rotating = names.length > 1 && visible && !paused && !hovered && !reducedMotion;
+  const animating = names.length > 1 && visible && !reducedMotion;
 
   useEffect(() => {
-    if (!rotating) return;
-    const timer = window.setInterval(
-      () => setIndex((i) => (i + 1) % names.length),
-      INTERVAL_MS,
-    );
-    return () => window.clearInterval(timer);
-  }, [rotating, names.length]);
+    if (!animating) {
+      setPhase("in");
+      return;
+    }
+    let swap: number | undefined;
+    const timer = window.setInterval(() => {
+      setPhase("out");
+      swap = window.setTimeout(() => {
+        setOffset((o) => (o + 1) % names.length);
+        setPhase("in");
+      }, SWAP_MS);
+    }, INTERVAL_MS);
+    return () => {
+      window.clearInterval(timer);
+      window.clearTimeout(swap);
+    };
+  }, [animating, names.length]);
 
   if (names.length === 0) return null;
 
   return (
-    <section
-      ref={rootRef}
-      className={styles.partners}
-      onPointerEnter={() => setHovered(true)}
-      onPointerLeave={() => setHovered(false)}
-    >
-      <h2 className="visually-hidden">
+    <section ref={rootRef} className={styles.partners} aria-labelledby="partnere">
+      <h2 id="partnere" className={styles.lead}>
         {lead}
-        <span className="visually-hidden">: {names.join(", ")}</span>
       </h2>
-
-      <div className={styles.stage} aria-hidden="true" data-static={reducedMotion || undefined}>
+      <ul className={styles.row} data-phase={phase}>
         {names.map((name, i) => (
-          <p
+          <li
             key={name}
             className={styles.name}
-            data-state={i === index ? "in" : i === (index - 1 + names.length) % names.length ? "out" : "idle"}
+            style={
+              {
+                order: (i - offset + names.length) % names.length,
+                "--brand": BRAND_COLOURS[name.trim().toLowerCase()] ?? "var(--ink)",
+              } as CSSProperties
+            }
           >
             {name}
-          </p>
+          </li>
         ))}
-      </div>
-
-      {names.length > 1 && !reducedMotion && (
-        <button
-          type="button"
-          className={styles.pause}
-          onClick={() => setPaused((p) => !p)}
-          aria-label={paused ? t.playPartners : t.pausePartners}
-          title={paused ? t.playPartners : t.pausePartners}
-        >
-          {paused ? <LuPlay aria-hidden /> : <LuPause aria-hidden />}
-        </button>
-      )}
+      </ul>
     </section>
   );
 }

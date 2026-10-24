@@ -3,3 +3,17 @@
   justify-content: center;
   padding: 0 var(--gutter) clamp(32px, 5vw, 56px);
 }
+
+/* Projects as a grid of cards, so many of them can be scanned and compared at
+   once. As many 340px-plus columns as fit; one column on phones. */
+.grid {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: clamp(16px, 2vw, 28px);
+  padding-bottom: clamp(56px, 9vw, 120px);
+}
+
+.grid > li {
+  display: flex;
+}

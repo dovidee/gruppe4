@@ -10,7 +10,11 @@
 }
 
 .heading {
-  max-width: 14ch;
+  max-width: 18ch;
+}
+
+.accent {
+  color: var(--accent);
 }
 
 .lede {
