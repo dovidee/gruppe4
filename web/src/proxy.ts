@@ -1,8 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 
 // Sets a per-request Content-Security-Policy with a fresh nonce. Next.js reads the
-// nonce from the request's CSP header and attaches it to its own scripts; the
-// root layout reads x-nonce for the inline theme script.
+// nonce from the request's CSP header and attaches it to its own scripts.
 export function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
   const isDev = process.env.NODE_ENV === "development";
@@ -25,7 +24,6 @@ export function proxy(request: NextRequest) {
   ].join("; ");
 
   const requestHeaders = new Headers(request.headers);
-  requestHeaders.set("x-nonce", nonce);
   requestHeaders.set("Content-Security-Policy", csp);
 
   const response = NextResponse.next({ request: { headers: requestHeaders } });

@@ -4,43 +4,32 @@ import { useLayoutEffect, useState } from "react";
 import { LuMoon, LuSun } from "react-icons/lu";
 import type { Locale } from "@/i18n/config";
 import { dictionaries } from "@/i18n/dictionary";
+import { THEME_COOKIE, type Theme } from "@/theme";
 import styles from "./Toggle.module.css";
 
-type Theme = "light" | "dark";
-
-export const THEME_STORAGE_KEY = "theme";
-
+// The layout renders data-theme from the cookie. Without it the page follows the
+// OS through CSS, so the effective theme is whatever the media query says.
 function currentTheme(): Theme {
-  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
-}
-
-function storedTheme(): Theme | null {
-  try {
-    const value = localStorage.getItem(THEME_STORAGE_KEY);
-    return value === "dark" || value === "light" ? value : null;
-  } catch {
-    return null;
+  const set = document.documentElement.getAttribute("data-theme");
+  if (set === "dark" || set === "light") {
+    return set;
   }
+  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
 export function ThemeToggle({ locale }: { locale: Locale }) {
   const t = dictionaries[locale];
   const [theme, setTheme] = useState<Theme | null>(null);
 
-  // The inline script in the layout set data-theme before paint. Read it back,
-  // and restore it if React's development remount cleared it.
   useLayoutEffect(() => {
-    const root = document.documentElement;
-    if (!root.hasAttribute("data-theme")) {
-      const fallback =
-        storedTheme() ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
-      root.setAttribute("data-theme", fallback);
-    }
     setTheme(currentTheme());
 
     // Two toggles exist (desktop and mobile panel); keep them in step.
     const observer = new MutationObserver(() => setTheme(currentTheme()));
-    observer.observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"],
+    });
     return () => observer.disconnect();
   }, []);
 
@@ -49,11 +38,8 @@ export function ThemeToggle({ locale }: { locale: Locale }) {
     const root = document.documentElement;
     root.setAttribute("data-theme-switching", "");
     root.setAttribute("data-theme", next);
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, next);
-    } catch {
-      // Private mode or blocked storage: the switch still applies to this visit.
-    }
+    // Read by the layout on the next request, so the page renders in this theme.
+    document.cookie = `${THEME_COOKIE}=${next}; path=/; max-age=31536000; SameSite=Lax`;
     window.setTimeout(() => root.removeAttribute("data-theme-switching"), 500);
   };
 

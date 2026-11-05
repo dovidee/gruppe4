@@ -41,6 +41,14 @@
   --on-c: oklch(20% 0.02 285);
 }
 
+/* No theme chosen: follow the OS, like globals.css does. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .link[data-service="github"] {
+    --c: oklch(96% 0.005 285);
+    --on-c: oklch(20% 0.02 285);
+  }
+}
+
 /* The sheen: a soft band of light that sweeps across on hover. */
 .link::before {
   content: "";
