@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import "./globals.css";
 
 import { Footer, Header } from "@/components";
@@ -25,12 +26,14 @@ export default async function RootLayout({
 }>) {
   const { locale, t } = await getDictionary();
   const settings = await getSiteSettings(locale);
+  // Set by src/proxy.ts; the CSP only lets inline scripts with this nonce run.
+  const nonce = (await headers()).get("x-nonce") ?? undefined;
 
   return (
     <html lang={htmlLang[locale]} className={inter.variable} suppressHydrationWarning>
       <head>
         {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static theme bootstrap, no user input */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+        <script nonce={nonce} dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
         <Header nav={settings.nav} locale={locale} />

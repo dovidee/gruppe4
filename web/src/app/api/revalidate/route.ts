@@ -22,6 +22,8 @@ export async function POST(req: NextRequest) {
     revalidateTag(body._type, { expire: 60 });
     return NextResponse.json({ revalidated: true, type: body._type, now: Date.now() });
   } catch (err) {
-    return new Response((err as Error).message, { status: 500 });
+    // Details go to the server log only; the response stays generic.
+    console.error("Revalidate:", err);
+    return new Response("Internal error", { status: 500 });
   }
 }
