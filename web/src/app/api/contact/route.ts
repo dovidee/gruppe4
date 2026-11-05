@@ -19,12 +19,20 @@ const RATE_WINDOW_MS = 10 * 60 * 1000;
 // serverless instances, so treat it as a brake on floods rather than a quota.
 const recentPosts = new Map<string, number[]>();
 
-// NextRequest.ip was removed in Next 15. On Vercel x-forwarded-for is set by the
-// proxy; anywhere it is missing, callers share one bucket rather than none.
+// Mirrors the maxLength attributes in ContactForm.tsx.
+const MAX_LENGTH = { name: 100, email: 200, message: 1000 } as const;
+// Generous for three short fields; anything bigger is not a real submission.
+const MAX_BODY_BYTES = 16 * 1024;
+
+// NextRequest.ip was removed in Next 15. The last x-forwarded-for entry is the one
+// added by the proxy nearest us; earlier entries come from the client and can be
+// forged to dodge the rate limit. Vercel overwrites the header with a single IP.
+// Anywhere it is missing, callers share one bucket rather than none.
 function clientIp(req: NextRequest) {
   const forwarded = req.headers.get("x-forwarded-for");
   if (forwarded) {
-    return forwarded.split(",")[0].trim();
+    const hops = forwarded.split(",");
+    return hops[hops.length - 1].trim();
   }
   return req.headers.get("x-real-ip") ?? "ukjent";
 }
@@ -150,6 +158,11 @@ export async function POST(req: NextRequest) {
     return respond(req, wantsJson, "vent");
   }
 
+  const declaredLength = Number(req.headers.get("content-length") ?? 0);
+  if (declaredLength > MAX_BODY_BYTES) {
+    return respond(req, wantsJson, "feil");
+  }
+
   let submission: Submission;
   try {
     submission = toSubmission(
@@ -168,6 +181,14 @@ export async function POST(req: NextRequest) {
   }
 
   if (!submission.name || !submission.email || !submission.message) {
+    return respond(req, wantsJson, "feil");
+  }
+
+  if (
+    submission.name.length > MAX_LENGTH.name ||
+    submission.email.length > MAX_LENGTH.email ||
+    submission.message.length > MAX_LENGTH.message
+  ) {
     return respond(req, wantsJson, "feil");
   }
 

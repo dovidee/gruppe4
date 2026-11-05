@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import "./globals.css";
 
 import { Footer, Header } from "@/components";
@@ -6,6 +7,7 @@ import { htmlLang } from "@/i18n/config";
 import { getDictionary } from "@/i18n/server";
 import { inter } from "@/resources";
 import { getSiteSettings } from "@/sanity/content";
+import { isTheme, THEME_COOKIE } from "@/theme";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { locale } = await getDictionary();
@@ -15,9 +17,6 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-// Runs before first paint so the stored (or system) theme never flashes.
-const THEME_SCRIPT = `(function(){try{var t=localStorage.getItem("theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.setAttribute("data-theme",t)}catch(e){}})()`;
-
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -25,13 +24,18 @@ export default async function RootLayout({
 }>) {
   const { locale, t } = await getDictionary();
   const settings = await getSiteSettings(locale);
+  // The visitor's chosen theme is rendered straight into the HTML, so there is no
+  // flash. Without a choice, data-theme is left off and the CSS follows the OS.
+  const storedTheme = (await cookies()).get(THEME_COOKIE)?.value;
+  const theme = isTheme(storedTheme) ? storedTheme : undefined;
 
   return (
-    <html lang={htmlLang[locale]} className={inter.variable} suppressHydrationWarning>
-      <head>
-        {/* biome-ignore lint/security/noDangerouslySetInnerHtml: static theme bootstrap, no user input */}
-        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
-      </head>
+    <html
+      lang={htmlLang[locale]}
+      className={inter.variable}
+      data-theme={theme}
+      suppressHydrationWarning
+    >
       <body>
         <Header nav={settings.nav} locale={locale} />
         <main id="innhold" tabIndex={-1}>
